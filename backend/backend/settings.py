@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
 
+load_dotenv()
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,13 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g$^*nvhps06h@gu1*=sdf0q@js)1z#0x+02czd1++4$z83_bpi'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -40,11 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'rest_framework_simplejwt',
-     'corsheaders',
+    'rest_framework_simplejwt',
+    'corsheaders',
     'rest_framework',
-    'account'
+    'account',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        #jwt
+        'rest_framework_simplejwt.authentication.JWTAuthentication'    
+    ],
+}
 
 # JWT AUTHENTICATION SETTINGS
 SIMPLE_JWT = {
@@ -114,13 +121,7 @@ TEMPLATES = [
         },
     },
 ]
-REST_FRAMEWORK = {
 
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-
-}
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
@@ -166,6 +167,17 @@ USE_I18N = True
 USE_TZ = True
 
 
+# for sending email
+#SMTP CONFIGURATION
+EMAIL_HOST= os.getenv('EMAIL_HOST')
+EMAIL_PORT=os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER= os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD= os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS= os.getenv('EMAIL_USE_TLS', '').lower() == 'true'
+EMAIL_USE_SSL= os.getenv('EMAIL_USE_SSL', '').lower() == 'true'
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -176,6 +188,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+AUTH_USER_MODEL = 'account.CustomUser'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
