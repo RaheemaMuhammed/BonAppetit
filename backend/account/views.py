@@ -17,17 +17,22 @@ class Register(APIView):
     def post(self,request):
         try:
             data=request.data
+
             serializer=RegisterSerializer(data=data)
 
             if serializer.is_valid():
+
                 serializer.save()
                 send_otp_via_email(data['email'])
                 return Response({'status':200,
                                  'message':'Successfully Registered.Please Check your email',
+             
                                  'data':serializer.data})
+            print(serializer.errors)
             return Response({'status':400,
-                             'message':'something went wrong',
-                             'data':serializer.errors
+                             'message':'User With this email or mobile number already exists',
+                             'error':serializer.errors
+                             
                              })
 
         except Exception as e:
@@ -35,7 +40,7 @@ class Register(APIView):
                 {
                     'status': 500,
                     'message': 'An error occurred during registration.',
-                    'data': str(e)
+                    'error': str(e)
                 })
 
 class VerifyOTP(APIView):
@@ -47,6 +52,7 @@ class VerifyOTP(APIView):
             if serializer.is_valid():
                 email=serializer.data['email']
                 otp=serializer.data['otp']
+
                 user=CustomUser.objects.filter(email=email)
                 if not user.exists():
                     return Response({'status':400,
@@ -59,13 +65,16 @@ class VerifyOTP(APIView):
                                     'data':'Wrong OTP'
                                     })
                 user=user.first()
-                user.is_active=True
+               
+                user.is_active = True
+                user.is_user= True
+                user.otp=""        
+                
+                print(user.otp)
                 user.save()
                 return Response({'status':200,
                                  'message':'Email Verification Done',
                                  'data':''})
-            
-
         except Exception as e:
             return Response(
                 {
@@ -76,43 +85,45 @@ class VerifyOTP(APIView):
 
 class Login(APIView):
     def post(self,request):
-       
+        print('#######################3')
         try:
             data=request.data
-            serializer=LoginSerializer(data=data)
-            if serializer.is_valid():
+            email=data['email']
+            password=data['password']
+            user=authenticate(email=email,password=password)
+            if user is not None:
+                obj = CustomUser.objects.get(email=email)
+                if obj.is_user == True:
+                    person = 'user'
+                if obj.is_superuser == True:
+                    person = 'admin'
+                if user.is_active == True and user.is_block == False:
+                    username=user.username
+                    login(request,user)
+                    refresh=RefreshToken.for_user(user)
+                    return Response({'message':'you are successfully logged in',
+                                    'status':200,
+                                    'refresh':str(refresh),
+                                    'access':str(refresh.access_token),
+                                    'username':username,
+                                    'person':person
 
-                email=serializer.data['email']
-                password=serializer.data['password']
-                user=authenticate(email=email,password=password)
-                print('userrrrrrrrr',user)
-                if user is not None:
-                    if user.is_active == True and user.is_block == False:
-                        username=user.username
-                        login(request,user)
-                        refresh=RefreshToken.for_user(user=user.id)
-                        return Response({'message':'you are successfully logged in',
-                                        'status':200,
-                                        'refresh':str(refresh),
-                                        'access':str(refresh.access_token),
-                                        'username':username
-
-                        })
-                    elif user.is_block == True:
-                        return Response({
-                            'status':700,
-                            'message':'you are blocked'
-                        })
-                    else:
-                        return Response({
-                            'status':800,
-                            'message':'something happened'
-                        })
-                    
+                    })
+                elif user.is_block == True:
+                    return Response({
+                        'status':700,
+                        'message':'you are blocked'
+                    })
                 else:
                     return Response({
-                        'status':404,
-                        'message':'invalid email or password'
+                        'status':800,
+                        'message':'something happened'
                     })
+                
+            else:
+                return Response({
+                    'status':404,
+                    'message':'invalid email or password'
+                })
         except Exception as e:
             return Response({'error':e})

@@ -46,6 +46,7 @@ class CustomUser(AbstractUser,PermissionsMixin):
     wallet=models.IntegerField(default=0,null=True)
     profile_pic=models.ImageField(null=True,upload_to='userprofile/')
     is_active=models.BooleanField(default=False)
+    is_user=models.BooleanField(default=False)
     otp=models.CharField(max_length=6,null=True,blank=True)
 
     USERNAME_FIELD = 'email'

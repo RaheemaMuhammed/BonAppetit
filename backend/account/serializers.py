@@ -26,7 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user=CustomUser.objects.create(email=validated_data['email'])
         user.username=validated_data['username']
         user.phone=validated_data['phone']
-        user.set_password=(validated_data['password'])
+        user.set_password(validated_data['password'])
         user.save()
         return user 
     
@@ -35,6 +35,3 @@ class VerifyEmailSerializer(serializers.Serializer):
     email=serializers.EmailField()
     otp=serializers.CharField()
 
-class LoginSerializer(serializers.Serializer):
-    email=serializers.EmailField()
-    password=serializers.CharField()
