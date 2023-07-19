@@ -17,6 +17,7 @@ const UserTable = () => {
 
 
     useEffect(() =>{
+      console.log(token);
       try{
         const fetchUsers= async () =>{
           const response = await getUsersList(token)
@@ -46,9 +47,8 @@ const UserTable = () => {
 
   return (
 <div className='h-full px-20 py-20'>
-
 {BUModal ? <BlockUnblock setBUModal={setBUModal} username={username} status={status} id={id} setRefresh={setRefresh} Refresh={Refresh} /> : ''}
-<p className='text-center font-serif font-semibold text-xl text-white'>Users</p>
+<p className='text-center font-serif font-semibold text-2xl text-black'>Users</p>
       {/* {allData?.length !== 0 ?
         <div className='mb-3'>
           <SearchBar search={searchClients} />
@@ -64,7 +64,7 @@ const UserTable = () => {
       <div className="sm:-mx-6 lg:-mx-8 ">
     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
       <div className="overflow-x-auto">
-        <table className="min-w-full text-left text-sm font-light">
+        <table className="min-w-full text-left text-sm font-light border rounded border-black-300">
           <thead className="border-b font-medium dark:border-neutral-500">
             <tr>
               <th scope="col" className="text-btnColor px-6 py-4">Id</th>

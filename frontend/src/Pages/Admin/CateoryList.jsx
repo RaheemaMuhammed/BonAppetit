@@ -2,27 +2,32 @@ import React,{useEffect} from 'react'
 import Header from '../../Components/Header'
 import Footer from '../../Components/Footer'
 import Sidebar from '../../Components/Admin/Sidebar'
-import Graphs from '../../Components/Admin/Dashboard/Graphs'
 import Loader from '../../Components/Loader'
 import { useState } from 'react'
+import Category from '../../Components/Admin/Categories/Category'
+import AddCategory from '../../Components/Admin/Categories/AddCategory'
+const CateoryList = () => {
 
-const Dashboard = () => {
-  const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(true)
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoader(false)
-    }, 500);
-  }, [])
+    useEffect(() => {
+      setTimeout(() => {
+        setLoader(false)
+      }, 500);
+    }, [])
+
   return (
     <div>
       { loader ? <Loader/> : 
       <><Header/>
       <div className='block  md:flex'>
       <Sidebar/>
-      <Graphs/>
+      <div className='justify-center '>
+      <Category/>
       </div>
       
+
+      </div>
       <Footer/></>
       }
 
@@ -32,4 +37,7 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default CateoryList
+
+
+

@@ -1,10 +1,24 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { AdminLogout } from '../Redux/AdminSlice';
 const Header = () => {
+    const dispatch =useDispatch()
+    const navigate = useNavigate()
     const [navbar, setNavbar] = React.useState(false);
     const user = useSelector(state => state.UserReducer.user)
+    const admin = useSelector(state => state.AdminReducer.admin)
+    const admin_token=useSelector(state=>state.AdminReducer.accessToken)
+    const handleAdminLogout =() => {
+        if (admin_token){
+            
+            dispatch(AdminLogout())
+            localStorage.setItem('Component','dashboard')
+            
+        }navigate('/')
+    }
+
+
 
     return (
         <nav className="w-full bg-primary shadow">
@@ -65,8 +79,10 @@ const Header = () => {
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
 
 
-                            { user ? <>
-                                <li className="text-gray-800  hover:underline hover:decoration-btnColor p-1 ">
+                            { user || admin ? <>
+                              {
+                                user ? <>
+                                 <li className="text-gray-800  hover:underline hover:decoration-btnColor p-1 ">
                                     <Link to={'/register'}>About Us</Link>
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
@@ -74,8 +90,14 @@ const Header = () => {
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
                                 <Link to={'/profile'}>Account</Link>
-                            </li>
-                            </> : <>
+                            </li></> :
+                              
+                              <li onClick={handleAdminLogout} className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
+                             Logout
+                          </li>
+                         }
+                         </>
+                         : <>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor  p-1 ">
                                     <Link to={'/register'}>SignUp</Link>
                             </li>

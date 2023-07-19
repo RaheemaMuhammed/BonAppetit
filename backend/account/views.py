@@ -28,7 +28,6 @@ class Register(APIView):
                                  'message':'Successfully Registered.Please Check your email',
              
                                  'data':serializer.data})
-            print(serializer.errors)
             return Response({'status':400,
                              'message':'User With this email or mobile number already exists',
                              'error':serializer.errors
@@ -70,7 +69,6 @@ class VerifyOTP(APIView):
                 user.is_user= True
                 user.otp=""        
                 
-                print(user.otp)
                 user.save()
                 return Response({'status':200,
                                  'message':'Email Verification Done',
@@ -85,7 +83,6 @@ class VerifyOTP(APIView):
 
 class Login(APIView):
     def post(self,request):
-        print('#######################3')
         try:
             data=request.data
             email=data['email']

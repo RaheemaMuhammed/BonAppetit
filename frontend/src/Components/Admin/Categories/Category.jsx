@@ -1,0 +1,106 @@
+import React,{useEffect,useState} from 'react'
+import { useSelector } from 'react-redux'
+import { getCategories } from '../../../Axios/Services/AdminServices'
+import DeleteCat from './DeleteCat'
+import AddCategory from './AddCategory'
+const Category = () => {
+    const token=useSelector(state=>state.AdminReducer.accessToken)
+    const [data,setData]=useState([])
+    const [BUModal,setBUModal] = useState(false)
+    const [Refresh,setRefresh]=useState(false)
+    const [AddModal, setAddModal] = useState(false)
+
+
+    const [name,setName] = useState('')
+    const [id,setId]=useState('')
+    
+
+     useEffect(()=>{
+        console.log(token);
+        try{
+            const fetchCategories=async () =>{
+                const response= await getCategories(token)
+                if(response){
+                    setData(response?.payload)
+                }
+            }
+            fetchCategories()
+        }catch(error){
+            console.log(error);
+        }
+     },[Refresh])
+  return (
+    <div className='h-full px-20 py-20'>
+    {AddModal ? <AddCategory setAddModal={setAddModal} Refresh={Refresh} setRefresh={setRefresh} /> : ''}
+
+    {BUModal ? <DeleteCat setBUModal={setBUModal} name={name}  id={id}  setRefresh={setRefresh} Refresh={Refresh} /> : ''}
+    <p className='text-center font-serif font-semibold text-2xl text-black'>Categories</p>
+    <div className='w-full flex justify-end'>
+        <button 
+        onClick={() => { setAddModal(!AddModal) }}  
+        className='bg-btnColor hover:bg-newCoral hover:text-black text-white font-bold py-1 px-1 mb-1 mt-2 rounded'>
+            Add Category
+            </button>
+            </div>
+    
+    
+    <div className="flex justify-center">
+      
+      {data?.length === 0 ? <div className='w-full  text-center font-extrabold'><p className='text-black'>No Records</p></div> :
+      
+          <div className="sm:-mx-6 lg:-mx-8 ">
+        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-sm font-light border rounded border-black-300 ">
+              <thead className="border-b font-medium dark:border-neutral-500">
+                <tr>
+                  <th scope="col" className="text-btnColor px-6 py-4">Id</th>
+                  <th scope="col" className="text-btnColor px-6 py-4">Category</th>
+                  <th scope="col" className="text-btnColor px-6 py-4">  </th>
+    
+                </tr>
+              </thead>
+              <tbody>{data.map((item,index)=>{
+             
+        
+        
+        return(
+    <tr className="border-b dark:border-neutral-500">
+                      <td className="text-black whitespace-nowrap px-6 py-4 font-medium">{ index+1 }</td>
+                      <td className="text-black whitespace-nowrap px-6 py-4">{item.name}</td>
+
+                      <td className="text-white whitespace-nowrap px-6 py-4">
+                            <button onClick={() => {
+                              setBUModal(!BUModal)
+                              setId(item.id)
+
+                            }} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
+                          </td>
+
+                      
+                          
+    
+    
+    
+    
+    
+                    </tr>            )
+              })}
+    
+                    
+       
+    
+              </tbody>
+            </table>
+          </div>
+       
+        </div>
+      </div>
+    }
+      </div>
+     
+      </div>
+  )
+}
+
+export default Category

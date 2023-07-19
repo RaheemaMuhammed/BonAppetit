@@ -33,7 +33,8 @@ const LoginForm = () => {
                             accessToken: response.access,
                             admin: { username: response.username, person: response.person } }))
                         navigate('/admin/dashboard')
-                    }else if (response.status === 700) {
+                    }
+                  }else if (response.status === 700) {
                         toast.error(response.message)
                       } else if (response.status === 800) {
                         toast.error(response.message)
@@ -42,8 +43,7 @@ const LoginForm = () => {
                       } else {
                         toast.error('something went wrong')
                       }
-                  }
-             }catch (error) {
+                  }catch (error) {
                 console.log(error)
           
               }
