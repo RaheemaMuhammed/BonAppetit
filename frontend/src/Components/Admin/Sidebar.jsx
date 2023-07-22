@@ -1,10 +1,26 @@
 import React from 'react'
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux';
+import { AdminLogout } from '../../Redux/AdminSlice';
 const Sidebar = () => {
+
+    const dispatch =useDispatch()
+    const navigate = useNavigate()
     const [isToggled, setIsToggled] = useState(false);
+    const admin_token=useSelector(state=>state.AdminReducer.accessToken)
+    const handleAdminLogout =() => {
+        if (admin_token){
+            
+            dispatch(AdminLogout())
+            localStorage.setItem('Component','dashboard')
+            
+        }navigate('/')
+    }
+
 
   const handleToggle = () => {
+    
     setIsToggled(!isToggled);
   };
   return (
@@ -90,8 +106,8 @@ const Sidebar = () => {
     <svg className="flex-shrink-0 w-5 h-4 mr-1 mt-1 text-btnColor transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                </svg>
-               <NavLink to={'/'} className={({ isActive, isPending }) =>
-    isPending ? ' bg-newCoral ' : isActive ? 'bg-btnColor rounded p-1 ' : ''}>Logout</NavLink>
+               <p onClick={handleAdminLogout}>Logout</p>
+              
         
     </li>
 </ul>

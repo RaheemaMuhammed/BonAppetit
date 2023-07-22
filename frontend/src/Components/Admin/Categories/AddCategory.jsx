@@ -14,7 +14,7 @@ const AddCategory = ({setAddModal,Refresh,setRefresh}) => {
     const onSubmit = async() =>{
         const form =new FormData()
         form.append('name',values.name)
-
+        
         try{
             const response =await addCategories(token,form)
             if(response.status === 200){

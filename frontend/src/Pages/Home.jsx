@@ -5,9 +5,10 @@ import Loader from '../Components/Loader'
 import Banner from '../Components/Banner'
 import { useSelector } from 'react-redux'
 import Search from '../Components/User/Search'
-
+import RecipeCards from '../Components/User/Recipe/RecipeCards'
 const Home = () => {
   const [loader, setLoader] = useState(true)
+  
   const user = useSelector(state => state.UserReducer.user)
   useEffect(() => {
     setTimeout(() => {
@@ -19,6 +20,7 @@ const Home = () => {
    {loader ? <Loader/> : <>
    <Header/>
    { user ? <Search/> :  <Banner/>}
+   <RecipeCards/>
    <Footer/>
    </> }
    

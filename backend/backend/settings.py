@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'account',
     'adminpanel',
-    'recipe'
+    'recipe',
+    'user',
+    'common'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -192,8 +194,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'account.CustomUser'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+MEDIA_ROOT=os.path.join(BASE_DIR, "media")
 CORS_ORIGIN_ALLOW_ALL = True

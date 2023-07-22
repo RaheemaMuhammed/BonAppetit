@@ -54,3 +54,21 @@ export const VerifyEmail = async (values) =>{
     }
 
 }
+// Get recipes
+
+export const getRecipes = async ()=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json"
+            }
+        }
+        const response = await axiosUserInstance.get('common/recipes/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}

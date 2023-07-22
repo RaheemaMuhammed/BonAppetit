@@ -17,7 +17,6 @@ const UserTable = () => {
 
 
     useEffect(() =>{
-      console.log(token);
       try{
         const fetchUsers= async () =>{
           const response = await getUsersList(token)

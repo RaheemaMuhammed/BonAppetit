@@ -16,7 +16,6 @@ const Category = () => {
     
 
      useEffect(()=>{
-        console.log(token);
         try{
             const fetchCategories=async () =>{
                 const response= await getCategories(token)
@@ -30,28 +29,24 @@ const Category = () => {
         }
      },[Refresh])
   return (
-    <div className='h-full px-20 py-20'>
+    <div className='lg:mx-80 mx-0'>
+ <div className='h-full px-20 pt-20 '>
     {AddModal ? <AddCategory setAddModal={setAddModal} Refresh={Refresh} setRefresh={setRefresh} /> : ''}
 
     {BUModal ? <DeleteCat setBUModal={setBUModal} name={name}  id={id}  setRefresh={setRefresh} Refresh={Refresh} /> : ''}
-    <p className='text-center font-serif font-semibold text-2xl text-black'>Categories</p>
-    <div className='w-full flex justify-end'>
-        <button 
-        onClick={() => { setAddModal(!AddModal) }}  
-        className='bg-btnColor hover:bg-newCoral hover:text-black text-white font-bold py-1 px-1 mb-1 mt-2 rounded'>
-            Add Category
-            </button>
-            </div>
+    <p className='text-center font-serif font-semibold sm:text:2xl text-3xl text-black'>Categories</p>
+ 
     
     
     <div className="flex justify-center">
       
-      {data?.length === 0 ? <div className='w-full  text-center font-extrabold'><p className='text-black'>No Records</p></div> :
+      {data?.length === 0 ? <div className='w-full  text-center font-extrabold'>
+        <p className='text-black'>No Records</p></div> :
       
           <div className="sm:-mx-6 lg:-mx-8 ">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div className="overflow-x-auto">
-            <table className="min-w-full text-left text-sm font-light border rounded border-black-300 ">
+            <table className="min-w-full mt-2 text-left text-sm font-light border rounded border-black-300 ">
               <thead className="border-b font-medium dark:border-neutral-500">
                 <tr>
                   <th scope="col" className="text-btnColor px-6 py-4">Id</th>
@@ -61,9 +56,6 @@ const Category = () => {
                 </tr>
               </thead>
               <tbody>{data.map((item,index)=>{
-             
-        
-        
         return(
     <tr className="border-b dark:border-neutral-500">
                       <td className="text-black whitespace-nowrap px-6 py-4 font-medium">{ index+1 }</td>
@@ -74,16 +66,8 @@ const Category = () => {
                               setBUModal(!BUModal)
                               setId(item.id)
 
-                            }} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
-                          </td>
-
-                      
-                          
-    
-    
-    
-    
-    
+                            }} className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded'>Delete</button>
+                          </td>    
                     </tr>            )
               })}
     
@@ -93,13 +77,25 @@ const Category = () => {
               </tbody>
             </table>
           </div>
+          
        
         </div>
       </div>
+      
     }
+    
       </div>
      
       </div>
+      <div className='w-full flex justify-center'>
+    <button 
+        onClick={() => { setAddModal(!AddModal) }}  
+        className='bg-btnColor hover:bg-newCoral hover:text-black text-white font-bold py-1 px-1 mb-1 mt-2 rounded'>
+            Add Category
+            </button>
+            </div>
+    </div>
+   
   )
 }
 

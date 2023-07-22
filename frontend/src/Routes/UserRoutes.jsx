@@ -7,7 +7,7 @@ import Signup from '../Pages/SignUp';
 import VerifyOTP from '../Pages/VerifyOTP';
 import Profile from '../Pages/User/Profile';
 import Dashboard from '../Pages/Admin/Dashboard';
-
+import SingleRecipe  from '../Pages/User/SingleRecipe';
 
 
 
@@ -19,6 +19,7 @@ const UserRoutes = () => {
             <>
             <Routes>
             <Route path="/" element={ isAuth ? <Dashboard/> : <Home/>}/>
+            <Route path="/singleRecipe" element={ isAuth ? <Dashboard/> : <SingleRecipe/>}/>
             <Route path='/login' element={ isAuth ? <Dashboard/> : <LogIn/> } />
             <Route path='/register' element={ isUAuth ? <Home/> : ( isAuth ? <Dashboard/> :<Signup/>  )  } />
             <Route path='/verify' element={ isUAuth ? <Home/>:<VerifyOTP/> } />

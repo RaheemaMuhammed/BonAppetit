@@ -17,13 +17,15 @@ const LoginForm = () => {
         const onSubmit = async () =>{
             try{
                 const response= await Login(values)
+                console.log(response);
                 if (response.status == 200){
                     toast.success(response.message)
                     if (response.person == 'user'){
                         dispatch(UserLogin({
                             refreshToken : response.refresh,
                             accessToken : response.access,
-                            user:{ username : response.username ,person:response.person}
+                            user:{ username : response.username ,person:response.person},
+                            premium:response.premium
                         }))
                         localStorage.setItem('Component','dashboard')
                         navigate('/')

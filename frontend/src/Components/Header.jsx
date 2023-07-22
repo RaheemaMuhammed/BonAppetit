@@ -1,34 +1,31 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { AdminLogout } from '../Redux/AdminSlice';
+import React, { useState } from 'react'
+import {  useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import AddRecipeModal from './User/Recipe/AddRecipeModal';
 const Header = () => {
-    const dispatch =useDispatch()
-    const navigate = useNavigate()
-    const [navbar, setNavbar] = React.useState(false);
+   
+    const [navbar, setNavbar] = useState(false);
     const user = useSelector(state => state.UserReducer.user)
     const admin = useSelector(state => state.AdminReducer.admin)
-    const admin_token=useSelector(state=>state.AdminReducer.accessToken)
-    const handleAdminLogout =() => {
-        if (admin_token){
-            
-            dispatch(AdminLogout())
-            localStorage.setItem('Component','dashboard')
-            
-        }navigate('/')
-    }
 
+    const [addModal,setAddmodal] = useState(false)
+   
+    const [Refresh, setRefresh] = useState(false)
 
 
     return (
         <nav className="w-full bg-primary shadow">
+                        {addModal ? <AddRecipeModal setAddModal={setAddmodal} Refresh={Refresh} setRefresh={setRefresh} /> : ''}
+
             <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
                         <div className='flex'>
                        
                            
-                            <h2 className="text-3xl font-bold text-btnColor cursor-pointer ">Bon Appetite</h2>
+                            <h2 className="text-3xl font-bold text-btnColor cursor-pointer ">
+                                
+                                Bon Appetite</h2>
                         
                         </div>
                    
@@ -85,16 +82,14 @@ const Header = () => {
                                  <li className="text-gray-800  hover:underline hover:decoration-btnColor p-1 ">
                                     <Link to={'/register'}>About Us</Link>
                             </li>
-                            <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
-                                <Link to={'/login'}>Add Recipe</Link>
+                            <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 cursor-pointer" onClick={()=>setAddmodal(!addModal)}>
+                               Add Recipe
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
                                 <Link to={'/profile'}>Account</Link>
                             </li></> :
                               
-                              <li onClick={handleAdminLogout} className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
-                             Logout
-                          </li>
+                              <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1">Welcome {admin.username}!!</li>
                          }
                          </>
                          : <>

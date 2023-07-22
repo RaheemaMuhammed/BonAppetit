@@ -96,6 +96,8 @@ class Login(APIView):
                     person = 'admin'
                 if user.is_active == True and user.is_block == False:
                     username=user.username
+                    premium=user.has_premium
+                    
                     login(request,user)
                     refresh=RefreshToken.for_user(user)
                     return Response({'message':'you are successfully logged in',
@@ -103,7 +105,8 @@ class Login(APIView):
                                     'refresh':str(refresh),
                                     'access':str(refresh.access_token),
                                     'username':username,
-                                    'person':person
+                                    'person':person,
+                                    'premium':premium
 
                     })
                 elif user.is_block == True:

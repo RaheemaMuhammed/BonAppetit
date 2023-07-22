@@ -6,32 +6,24 @@ const UserSlice= createSlice({
         refreshToken:null,
         accessToken:null,
         user:null,
-        recipes:null
+        premium:null,
     },
     reducers:{
         UserLogin:(state,action)=>{
             state.refreshToken=action.payload.refreshToken
             state.accessToken=action.payload.accessToken
             state.user=action.payload.user
-            state.recipes=action.payload.recipes
-        },
-        RecipeAdd:(state,action)=>{
-            if (state.recipes){
-                state.recipes.push(action.payload.recipes)
-            }else{
-                state.recipes=[action.payload.recipes]
-            }
-
+            state.premium=action.payload.premium           
         },
         UserLogout:(state,action)=>{
             state.refreshToken=null
             state.accessToken=null
             state.user=null
-            state.recipes=null
+            
 
         }
     }
 })
 
-export const { UserLogin,UserLogout ,RecipeAdd }= UserSlice.actions
+export const { UserLogin,UserLogout  }= UserSlice.actions
 export default UserSlice.reducer

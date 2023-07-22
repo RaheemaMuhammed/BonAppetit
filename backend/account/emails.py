@@ -13,7 +13,6 @@ def send_otp_via_email(email):
     # saving this otp to the corresponding user in the database
     user_obj = CustomUser.objects.get(email=email)
     user_obj.otp=otp
-    
     user_obj.save()
 
 

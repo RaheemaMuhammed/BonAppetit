@@ -52,7 +52,7 @@ class UserList(APIView):
 
 
 class CategoryList(APIView):
-       # verifies authenticated using jwt
+    # verifies authenticated using jwt
     authentication_classes = [JWTAuthentication]
     # verifies user is adminuser
     permission_classes = [IsAdminUser] 
