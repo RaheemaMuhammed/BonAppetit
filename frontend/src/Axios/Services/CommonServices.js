@@ -72,3 +72,22 @@ export const getRecipes = async ()=>{
     }
 
 }
+export const getSingleRecipes = async (recipe_name)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json"
+            },
+            params:{
+                recipe_name:recipe_name
+            },
+        }
+        const response = await axiosUserInstance.get('common/single_recipe/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}

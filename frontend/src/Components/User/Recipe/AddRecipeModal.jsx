@@ -41,13 +41,11 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
         form.append('ingredients',values.ingredients)
         form.append('author',username)
         form.append('category',values.category)
-        form.append('is_private',values.is_private)
+        form.append('is_private',isPrivate)
         form.append('picture',values.picture)
-        for (var key of form.entries()) {
-            console.log('ooooooooooooooo',key[0] + ', ' + key[1]);
-        }
-
+       
         try{
+            console.log(isPrivate);
             const response = await addRecipe(token,form)
             if(response.status===200){
                 setAddModal(false)
@@ -80,7 +78,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
         onSubmit,
     })
 
-
+console.log(isPrivate);
 
   return (
     <>
@@ -140,21 +138,25 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
 
                                             </div>
                                             <div>
-                                                <label htmlFor="category">Category:</label>
+                                                <label htmlFor="category"className='mr-2 mb-2 text-sm font-medium text-gray-90'>Category:</label>
                                                 <select
                                                     id="category"
                                                     name="category"
                                                     value={values.category}
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
+                                                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1'
                                                 >
-                                                    <option value="">Select a category</option>
+                                                    <option >Select a category</option>
                                                     {cat.map((category) => (
                                                     <option key={category.id} value={category.id}>
                                                         {category.name}
                                                     </option>
                                                     ))}
-                                                </select>
+                                                     {errors.category && touched.category && (
+                                                    <p className="text-red-600">{errors.category}</p>
+                                                  )}
+                                                </select >
                                                 </div>
                                       
                                             <div>
@@ -192,7 +194,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
                                                 id="is_private"
                                                 name="is_private"
                                                 checked={isPrivate}
-                                                onChange={handleCheckboxChange}
+                                                onClick={handleCheckboxChange}
                                             />
                                             Private
                                             </label>
@@ -212,7 +214,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
                                             </div>
                                         
 
-                                            <button onClick={()=>console.log(values.recipe_name,values.author,values.category)} type="submit" className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Add</button>
+                                            <button onClick={()=>console.log(values.recipe_name,values.author,values.category)} type="submit" className="w-full text-black bg-btnColor hover:bg-newCoral focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Add</button>
 
                                             <div className="flex items-center justify-between">
 

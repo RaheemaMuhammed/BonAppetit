@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {  useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link,NavLink } from 'react-router-dom';
 import AddRecipeModal from './User/Recipe/AddRecipeModal';
 const Header = () => {
    
@@ -22,10 +22,10 @@ const Header = () => {
                     <div className="flex items-center justify-between py-3 md:py-5 md:block">
                         <div className='flex'>
                        
-                           
-                            <h2 className="text-3xl font-bold text-btnColor cursor-pointer ">
+                           <Link to={'/'}>  <h2 className="text-3xl font-bold text-btnColor cursor-pointer ">
                                 
-                                Bon Appetite</h2>
+                                Bon Appetite</h2></Link>
+                          
                         
                         </div>
                    
@@ -80,13 +80,16 @@ const Header = () => {
                               {
                                 user ? <>
                                  <li className="text-gray-800  hover:underline hover:decoration-btnColor p-1 ">
-                                    <Link to={'/register'}>About Us</Link>
+                                 <NavLink to={'/register'}className={({ isActive, isPending }) =>
+    isPending ? ' bg-newCoral ' : isActive ? 'decoration-btnColor ' : ''}>About Us</NavLink>
+                                    {/* <Link to={'/register'}>About Us</Link> */}
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 cursor-pointer" onClick={()=>setAddmodal(!addModal)}>
                                Add Recipe
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 ">
-                                <Link to={'/profile'}>Account</Link>
+                            <NavLink to={'/profile'}className={({ isActive, isPending }) =>
+    isPending ? ' bg-newCoral ' : isActive ? 'underline decoration-btnColor ' : ''}>Account</NavLink>
                             </li></> :
                               
                               <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1">Welcome {admin.username}!!</li>

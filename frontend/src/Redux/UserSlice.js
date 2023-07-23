@@ -19,6 +19,7 @@ const UserSlice= createSlice({
             state.refreshToken=null
             state.accessToken=null
             state.user=null
+            state.premium=false
             
 
         }

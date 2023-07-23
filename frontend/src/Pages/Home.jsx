@@ -5,7 +5,7 @@ import Loader from '../Components/Loader'
 import Banner from '../Components/Banner'
 import { useSelector } from 'react-redux'
 import Search from '../Components/User/Search'
-import RecipeCards from '../Components/User/Recipe/RecipeCards'
+import RecipeCards from '../Components/RecipeCards'
 const Home = () => {
   const [loader, setLoader] = useState(true)
   

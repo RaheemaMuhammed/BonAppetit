@@ -45,9 +45,9 @@ const Category = () => {
       
           <div className="sm:-mx-6 lg:-mx-8 ">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-          <div className="overflow-x-auto">
-            <table className="min-w-full mt-2 text-left text-sm font-light border rounded border-black-300 ">
-              <thead className="border-b font-medium dark:border-neutral-500">
+          <div className="overflow-x-auto max-h-screen">
+            <table className=" min-w-full mt-2 text-left text-sm font-light border rounded border-black-300 ">
+              <thead className="border-b font-medium bg-primary sticky top-0">
                 <tr>
                   <th scope="col" className="text-btnColor px-6 py-4">Id</th>
                   <th scope="col" className="text-btnColor px-6 py-4">Category</th>

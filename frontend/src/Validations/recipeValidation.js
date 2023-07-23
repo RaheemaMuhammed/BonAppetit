@@ -26,5 +26,4 @@ export const AddRecipeSchema = yup.object().shape({
     recipe_name : yup.string().required(`Enter your Recipe's Name`),
     instructions:yup.string().required('Please write down instructions for your recipe'),
     ingredients:yup.string().required('PLease Write down the ingredients and quantity')
-    // .validate(validateIngredient)
 })

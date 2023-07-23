@@ -5,14 +5,14 @@ from adminpanel.serializers import CategorySerializer
 class RecipeSerializer(serializers.ModelSerializer):
     author_id = serializers.CharField(source='author.id')
     author = serializers.CharField(source='author.username')
-
+    author_profile= serializers.ImageField(source='author.profile_pic')
     category_name = serializers.CharField(source='category.name')
 
     category = CategorySerializer()
 
     class Meta:
         model = Recipe
-        fields = ('id','category', 'category_name', 'picture', 'recipe_name', 'instructions','is_private',
+        fields = ('id','author_profile','category', 'category_name', 'picture', 'recipe_name', 'instructions','is_private',
                   'ingredients','created_at','updated_at','author_id','author')
         
 

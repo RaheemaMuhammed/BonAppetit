@@ -4,27 +4,28 @@ from recipe.serializers import *
 from recipe.models import *
 from rest_framework.response import Response
 
-# Create your views here.
 
 class RecipeList(APIView):
-          # Listing all the recipes
+    # Listing all the recipes
     def get(self,request):
             try:
-                recipes=Recipe.objects.filter(is_private=False).order_by('-id')
+                recipes=Recipe.objects.all().order_by('-id')
                 serializer=RecipeSerializer(recipes,many=True)
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:
                 return Response({'error':str(e)})
             
-    # Get single recipe
+  # Get single recipe
 
 class SingleRecipe(APIView):
  
         def get(self,request):
             try:
                 recipe_name = request.GET.get('recipe_name')
+                print(recipe_name)
                 recipe = Recipe.objects.get(recipe_name=recipe_name)
                 serializer = RecipeSerializer(recipe)
+                print(serializer)
                 return Response({'status':200,'payload':serializer.data})
             except Exception as e:
                 return Response({'error':str(e)})

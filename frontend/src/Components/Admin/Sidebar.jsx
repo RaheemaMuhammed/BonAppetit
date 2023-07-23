@@ -25,7 +25,7 @@ const Sidebar = () => {
   };
   return (
 
-    <aside className='  left-0  md:w-64 h-fit md:h-screen sm:w-full  bg-newPeach  '>
+    <aside className='left-0  md:w-64 h-fit md:h-screen sm:w-full  bg-newPeach'>
 
 <div className="md:hidden">
                             <button
