@@ -47,3 +47,40 @@ export const getCategories=async (token)=>{
         console.log(error);
     }
 }
+
+// Liking and disliking
+
+export const handleLikeStatus=async (token,values)=>{
+    try {
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.patch('user/like/',values,config)
+        return response.data
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+// get liked recipes
+
+export const getLikedRecipes = async (token)=>{
+    try{
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.get('user/like/',config)
+        return response.data
+    }catch(error){
+        console.log(error);
+    }
+    
+}

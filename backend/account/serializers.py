@@ -5,6 +5,7 @@ from .models import *
 # for signing up
 
 class RegisterSerializer(serializers.ModelSerializer):
+
     class Meta:
             model = CustomUser
             fields=['username','email','phone','password']

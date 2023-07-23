@@ -22,10 +22,18 @@ class SingleRecipe(APIView):
         def get(self,request):
             try:
                 recipe_name = request.GET.get('recipe_name')
-                print(recipe_name)
                 recipe = Recipe.objects.get(recipe_name=recipe_name)
                 serializer = RecipeSerializer(recipe)
-                print(serializer)
                 return Response({'status':200,'payload':serializer.data})
             except Exception as e:
                 return Response({'error':str(e)})
+            
+class AuthorProfile(APIView):
+     def get(self,request):
+            pass
+
+
+
+class GetLikes(APIView):
+     def get(self,request):
+          pass

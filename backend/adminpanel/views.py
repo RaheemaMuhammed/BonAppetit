@@ -35,7 +35,6 @@ class UserList(APIView):
     def patch(self,request):
         data=request.data
         try:
-       
             user=CustomUser.objects.get(id=data['id'])
             username=user.username
             if data['status'] == True:
@@ -45,8 +44,7 @@ class UserList(APIView):
             if data['status'] == False:
                 user.is_block = True
                 user.save()
-                return Response({'message':f'{username} is Blocked'})
-            
+                return Response({'message':f'{username} is Blocked'})    
         except Exception as e:
             return Response({'error':e})
 

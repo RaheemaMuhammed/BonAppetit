@@ -23,13 +23,14 @@ const UserTable = () => {
           if (response){ 
             setData(response?.payload)
             setAllData(response?.payload)
+            console.log(Data);
+            console.log(allData);
 
           }
         }
         fetchUsers()
       }catch(error){
         if (error.response && error.response.status === 401){
-          console.log('pinjallaahhh');
         }
         console.log(error);
       }

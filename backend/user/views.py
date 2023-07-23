@@ -81,6 +81,7 @@ class SingleRecipe(APIView):
         authentication_classes = [JWTAuthentication]
         permission_classes = [IsAuthenticated]
         def get(self,request):
+            
             try:
                 recipe_name = request.GET.get('recipe_name')
                 recipe = Recipe.objects.get(recipe_name=recipe_name)
@@ -99,3 +100,36 @@ class CategoryListing(APIView):
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:
                 return Response({'error':str(e)})
+            
+# For Liking and removing like
+class LikeRecipe(APIView):
+      authentication_classes = [JWTAuthentication]
+      permission_classes = [IsAuthenticated]
+
+      def get(self,request):
+           try:
+                user=request.user.id
+                liked_recipes=Recipe.objects.filter(like__user_id=user)
+                serializer=RecipeSerializer(liked_recipes,many=True)
+                return Response({'payload':serializer.data,'status':200})
+           except Exception as e:
+                return Response({'error':str(e)})
+
+      def patch(self,request):
+            data=request.data
+            recipe_id=data['recipe_id']
+            recipe = Recipe.objects.get(pk=recipe_id)
+            user=request.user
+
+            try:
+                like= Like.objects.get(user_id=user,recipe_id=recipe)
+                like.delete()
+                recipe.total_likes-=1
+            except Like.DoesNotExist:
+                    Like.objects.create(user_id=user,recipe_id=recipe)
+                    recipe.total_likes+=1
+
+            recipe.save()
+            serializer=RecipeSerializer(recipe,partial=True)
+            return Response(serializer.data)
+
