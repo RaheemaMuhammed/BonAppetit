@@ -27,3 +27,8 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = '__all__'
+
+class SavedRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedRecipes
+        fields = '__all__'

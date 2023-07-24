@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Recipe)
 admin.site.register(Like)
 admin.site.register(Comment)
+admin.site.register(SavedRecipes)

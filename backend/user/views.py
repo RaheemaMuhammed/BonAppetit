@@ -116,20 +116,67 @@ class LikeRecipe(APIView):
                 return Response({'error':str(e)})
 
       def patch(self,request):
-            data=request.data
-            recipe_id=data['recipe_id']
-            recipe = Recipe.objects.get(pk=recipe_id)
-            user=request.user
-
             try:
-                like= Like.objects.get(user_id=user,recipe_id=recipe)
-                like.delete()
-                recipe.total_likes-=1
-            except Like.DoesNotExist:
-                    Like.objects.create(user_id=user,recipe_id=recipe)
-                    recipe.total_likes+=1
+                data=request.data
+                recipe_id=data['recipe_id']
+                recipe = Recipe.objects.get(pk=recipe_id)
+                user=request.user
 
-            recipe.save()
-            serializer=RecipeSerializer(recipe,partial=True)
-            return Response(serializer.data)
+                try:
+                    like= Like.objects.get(user_id=user,recipe_id=recipe)
+                    like.delete()
+                    recipe.total_likes-=1
+                except Like.DoesNotExist:
+                        Like.objects.create(user_id=user,recipe_id=recipe)
+                        recipe.total_likes+=1
 
+                recipe.save()
+                serializer=RecipeSerializer(recipe,partial=True)
+                return Response(serializer.data)
+
+                 
+            except Exception as e:
+                 return Response({'error':str(e)})
+            
+# For recipe saving
+class SavedRecipe(APIView):
+      authentication_classes = [JWTAuthentication]
+      permission_classes = [IsAuthenticated]
+
+      def get(self,request):
+           try:
+                user=request.user.id
+                saved_recipes=SavedRecipes.objects.filter(user_id=user)
+                recipe_ids=saved_recipes.values_list('recipe_id',flat=True)
+                recipes=Recipe.objects.filter(pk__in=recipe_ids)
+                serializer=RecipeSerializer(recipes,many=True)
+                return Response({'payload':serializer.data,'status':200})
+           except Exception as e:
+                return Response({'error':str(e)})
+           
+
+      def patch(self,request):
+            try:
+                data=request.data
+                recipe_id=data['recipe_id']
+                recipe=Recipe.objects.get( pk=recipe_id)
+
+                if recipe_id is not None:
+                        user=request.user
+                        try:
+                            saved_recipe=SavedRecipes.objects.get(user_id=user,recipe_id=recipe_id)
+                            saved_recipe.delete()
+                            return Response({'status':200,'message':'Recipe Removed Successfully'})
+                        except SavedRecipes.DoesNotExist:
+                            
+                            SavedRecipes.objects.create(user_id=user,recipe_id=recipe)
+                            print('heloooo')
+                            return Response({'status':200,'message':'Recipe Added to Saved List Successfully'})
+            except Exception as e:
+                return Response({'error':str(e)})
+
+
+
+
+
+     

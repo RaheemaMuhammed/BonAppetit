@@ -84,3 +84,37 @@ export const getLikedRecipes = async (token)=>{
     }
     
 }
+// saving and unsaving
+export const handleSaveStatus=async (token,values)=>{
+    try {
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.patch('user/saved_recipe/',values,config)
+        return response.data
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+// get saved recipes
+export const getSavedRecipes = async (token)=>{
+    try{
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.get('user/saved_recipe/',config)
+        return response.data
+    }catch(error){
+        console.log(error);
+    }
+    
+}
