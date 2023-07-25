@@ -14,9 +14,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    status=serializers.BooleanField(source='is_disabled')
     class Meta:
         model = Categories
-        fields = ['name','id']
+        fields = ['name','id','is_disabled','status']
     def validate(self, data):
         if data['name']:
             if any(char.isdigit() for char in data):

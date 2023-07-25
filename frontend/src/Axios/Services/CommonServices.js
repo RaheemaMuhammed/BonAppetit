@@ -91,3 +91,38 @@ export const getSingleRecipes = async (recipe_name)=>{
     }
 
 }
+
+// Trending recipes
+export const getTrending = async ()=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json"
+            }
+        }
+        const response = await axiosUserInstance.get('common/trending/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}
+// Trending recipes
+export const getLatest= async ()=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json"
+            }
+        }
+        const response = await axiosUserInstance.get('common/latest/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}

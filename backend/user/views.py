@@ -96,7 +96,7 @@ class CategoryListing(APIView):
         permission_classes = [IsAuthenticated]
         def get(self,request):
             try:
-                categories=Categories.objects.all().order_by('-id')
+                categories=Categories.objects.filter(is_disabled=False).order_by('-id')
                 serializer=CategorySerializer(categories,many=True)
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:

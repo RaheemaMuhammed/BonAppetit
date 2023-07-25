@@ -10,7 +10,7 @@ const BlockUnblock = ({setBUModal,username,status,id,setRefresh,Refresh}) => {
     const [open,setOpen] = useState(true)
 
     const token = useSelector(state=>state.AdminReducer.accessToken)
-    console.log(status);
+   
     const BlockAndUnblock = async(id,status)=>{
         try{
             const data = {

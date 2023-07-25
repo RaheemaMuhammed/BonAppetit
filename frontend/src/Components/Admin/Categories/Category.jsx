@@ -12,6 +12,7 @@ const Category = () => {
 
 
     const [name,setName] = useState('')
+    const [status,setStatus] = useState('')
     const [id,setId]=useState('')
     
 
@@ -21,6 +22,7 @@ const Category = () => {
                 const response= await getCategories(token)
                 if(response){
                     setData(response?.payload)
+                    console.log(data);
                 }
             }
             fetchCategories()
@@ -28,12 +30,18 @@ const Category = () => {
             console.log(error);
         }
      },[Refresh])
+     function StatusChange(id,name,status){
+      setId(id)
+      setName(name)
+      setStatus(status)
+      
+    }
   return (
     <div className='lg:mx-80 mx-0'>
  <div className='h-full px-20 pt-20 '>
     {AddModal ? <AddCategory setAddModal={setAddModal} Refresh={Refresh} setRefresh={setRefresh} /> : ''}
 
-    {BUModal ? <DeleteCat setBUModal={setBUModal} name={name}  id={id}  setRefresh={setRefresh} Refresh={Refresh} /> : ''}
+    {BUModal ? <DeleteCat setBUModal={setBUModal} name={name}  id={id} status={status}  setRefresh={setRefresh} Refresh={Refresh} /> : ''}
     <p className='text-center font-serif font-semibold sm:text:2xl text-3xl text-black'>Categories</p>
  
     
@@ -60,14 +68,22 @@ const Category = () => {
     <tr className="border-b dark:border-neutral-500">
                       <td className="text-black whitespace-nowrap px-6 py-4 font-medium">{ index+1 }</td>
                       <td className="text-black whitespace-nowrap px-6 py-4">{item.name}</td>
-
-                      <td className="text-white whitespace-nowrap px-6 py-4">
+                      { item?.status ? <td className="text-white whitespace-nowrap px-6 py-4">
                             <button onClick={() => {
                               setBUModal(!BUModal)
-                              setId(item.id)
+                              StatusChange(item.id,item.name,item.status)
 
-                            }} className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded'>Delete</button>
-                          </td>    
+                            }} className='bg-yellow-500 hover:bg-yellow-700  text-white font-bold py-1 px-3 rounded'>Enable</button>
+                          </td>  :
+                           <td className="text-white whitespace-nowrap px-6 py-4">
+                           <button onClick={() => {
+                             setBUModal(!BUModal)
+                             StatusChange(item.id,item.name,item.status)
+
+                           }} className='bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded'>Disable</button>
+                         </td>
+                          }
+                        
                     </tr>            )
               })}
     

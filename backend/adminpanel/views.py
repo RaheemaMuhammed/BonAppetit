@@ -83,13 +83,24 @@ class CategoryList(APIView):
         except Exception as e:
             return Response({'error':e})
 
-    def delete(self,request):
-        id = request.GET.get('id')
+    def patch(self,request):
+        print('pofkkkkkkk')
+        data=request.data
+        print(data)
         try:
-            category=Categories.objects.get(id=id)
-            category.delete()
+            category=Categories.objects.get(id=data['id'])
+            cat_name=category.name
+            if data['status'] == True:
+                print('enablee')
+                category.is_disabled=False
+                category.save()
+                return Response({'message':f'{cat_name} is added back'})
+            if data['status'] == False:
+                print('disableee')
+                category.is_disabled = True
+                category.save()
             return Response({'status':200,
-                                    'message':'Category deleted successfully',
+                                    'message':'Category disabled successfully',
 
             })
         except Exception as e:

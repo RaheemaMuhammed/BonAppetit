@@ -6,6 +6,8 @@ import Banner from '../Components/Banner'
 import { useSelector } from 'react-redux'
 import Search from '../Components/User/Search'
 import RecipeCards from '../Components/RecipeCards'
+import Latest from '../Components/Latest'
+import Trending from '../Components/Trending'
 const Home = () => {
   const [loader, setLoader] = useState(true)
   
@@ -20,7 +22,9 @@ const Home = () => {
    {loader ? <Loader/> : <>
    <Header/>
    { user ? <Search/> :  <Banner/>}
-   <RecipeCards/>
+   <Trending/>
+   <Latest/>
+   {/* <RecipeCards/> */}
    <Footer/>
    </> }
    

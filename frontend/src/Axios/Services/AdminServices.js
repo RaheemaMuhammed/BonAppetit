@@ -54,17 +54,15 @@ export const getCategories = async (token) =>{
 }
 
 // Deleting categories
-export const delCategories = async (token,id) =>{
+export const delCategories = async (token,values) =>{
     try {
         const config = {
             headers:{
                 "Content-type": "application/json",
                  Authorization: `Bearer ${token}`,
-            },params: {
-                id: id,
-            },
+            }
         }
-        const response = await axiosAdminInstance.delete('categories/',config)
+        const response = await axiosAdminInstance.patch('categories/',values,config)
         return response.data
     }catch(error){
         console.log(error);

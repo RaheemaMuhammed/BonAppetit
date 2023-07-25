@@ -33,9 +33,22 @@ class SingleRecipe(APIView):
 class AuthorProfile(APIView):
      def get(self,request):
             pass
-
-
-
-class GetLikes(APIView):
+# Trending recipes
+class Trending(APIView):
      def get(self,request):
-          pass
+            try:
+                recipes=Recipe.objects.order_by('-total_likes')[:8]
+                serializer=RecipeSerializer(recipes,many=True)
+                return Response({'payload':serializer.data,'message':'success'})
+            except Exception as e:
+                return Response({'error':str(e)})
+            
+# latest recipes
+class Latest(APIView):
+     def get(self,request):
+            try:
+                recipes=Recipe.objects.order_by('-created_at')[:8]
+                serializer=RecipeSerializer(recipes,many=True)
+                return Response({'payload':serializer.data,'message':'success'})
+            except Exception as e:
+                return Response({'error':str(e)})
