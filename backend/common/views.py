@@ -23,6 +23,8 @@ class SingleRecipe(APIView):
             try:
                 recipe_name = request.GET.get('recipe_name')
                 recipe = Recipe.objects.get(recipe_name=recipe_name)
+                recipe.views+=1
+                recipe.save()   
                 serializer = RecipeSerializer(recipe)
                 return Response({'status':200,'payload':serializer.data})
             except Exception as e:

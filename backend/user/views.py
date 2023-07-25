@@ -71,7 +71,7 @@ class RecipeList(APIView):
                  print(id)
                  recipe=Recipe.objects.get(id=id)
                  recipe.delete()
-                 return Response({'status':200,'message':f'Tutorial {recipe} deleted successfully'})
+                 return Response({'status':200,'message':f'Recipe {recipe} deleted successfully'})
             except Exception as e:
                  return Response({'error':str(e)})
 
@@ -85,6 +85,7 @@ class SingleRecipe(APIView):
             try:
                 recipe_name = request.GET.get('recipe_name')
                 recipe = Recipe.objects.get(recipe_name=recipe_name)
+               
                 serializer = RecipeSerializer(recipe)
                 return Response({'status':200,'payload':serializer.data})
             except Exception as e:
@@ -170,13 +171,52 @@ class SavedRecipe(APIView):
                         except SavedRecipes.DoesNotExist:
                             
                             SavedRecipes.objects.create(user_id=user,recipe_id=recipe)
-                            print('heloooo')
                             return Response({'status':200,'message':'Recipe Added to Saved List Successfully'})
             except Exception as e:
                 return Response({'error':str(e)})
 
+# List recipes of current user
+class UserRecipe(APIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated]
+   
+        # list current user's recipes
+        def get(self,request):
+             try:
+                user=request.user
+                print(user)
+                recipes=Recipe.objects.filter(author=user)
+                serializer=RecipeSerializer(recipes,many=True)
+                return Response({'payload':serializer.data,'status':200})
+             except Exception as e:
+                  return Response({'error':str(e)})
+                  
+        # editing recipe
 
+        def patch(self,request):
+            data=request.data
+            try:
+                    recipe=Recipe.objects.get(id=data['recipe_id'])
+                    print(recipe)
+                    serializer=PostRecipeSerializer(instance=recipe,data=data,partial=True)
+                    print(data)
+                    if not serializer.is_valid():
+                        return Response({'status':300,'error':serializer.errors,'message':'somthing for serializer'})   
+                    serializer.save()
+                    return Response({'status':200,'message': f'{recipe} updated successfully'})
 
+            except Exception as e:
+                return Response({'error':str(e)})
+            
 
+        # deleting a recipe
+        def delete(self,request):
+                try:
+                    id=request.GET.get('id')
+                    recipe=Recipe.objects.get(id=id)
+                    recipe.delete()
+                    return Response({'status':200,'message':f'Recipe {recipe} deleted successfully'})
+                except Exception as e:
+                    return Response({'error':str(e)})
 
      

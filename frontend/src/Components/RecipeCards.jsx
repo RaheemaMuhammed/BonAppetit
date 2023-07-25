@@ -3,13 +3,9 @@ import { getRecipes } from '../Axios/Services/CommonServices'
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { CiBookmark } from "react-icons/ci";
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
-import {BiLike} from 'react-icons/bi'
 import { axiosInstance } from '../Axios/Instances/Instance';
 import { handleLikeStatus,getLikedRecipes } from '../Axios/Services/UserServices'
-import Loader from './Loader';
-import SessionExpired from './User/SessionExpired';
 import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices';
  const RecipeCards = () => {
     const [recipes,setRecipes] = useState([])

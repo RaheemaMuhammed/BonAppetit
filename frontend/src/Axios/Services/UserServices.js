@@ -1,6 +1,6 @@
 import { axiosUserInstance } from '../Instances/Instance';
 
-
+// getting recipes
 export const getRecipes = async (token) =>{
     try{
         const config = {
@@ -16,6 +16,7 @@ export const getRecipes = async (token) =>{
     }
 }
 
+// add a recipe
 export const addRecipe = async (token,values) =>{
     try{
         const config = {
@@ -31,7 +32,7 @@ export const addRecipe = async (token,values) =>{
         console.log(error);
     }
 }
-
+// get categories while upoading a recipe
 export const getCategories=async (token)=>{
 
     try{
@@ -117,4 +118,56 @@ export const getSavedRecipes = async (token)=>{
         console.log(error);
     }
     
+}
+// get current user's recipes
+
+export const getCurrentUserRecipes = async (token)=>{
+    try{
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.get('user/user_recipe/',config)
+        return response.data
+    }catch(error){
+        console.log(error);
+    }
+    
+}
+// editing a recipe 
+export const handleRecipeStatus=async (token,values)=>{
+    try {
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.patch('user/user_recipe/',values,config)
+        return response.data
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+//Deleting a recipe
+export const deleteRecipe = async (token,id) =>{
+    try {
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },params: {
+                id: id,
+            },
+        }
+        const response = await axiosUserInstance.delete('user/user_recipe/',config)
+        return response.data
+    }catch(error){
+        console.log(error);
+    }
 }
