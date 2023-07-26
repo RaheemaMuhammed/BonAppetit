@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'adminpanel',
     'recipe',
     'user',
-    'common'
+    'common',
+    'payment'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -180,6 +181,12 @@ EMAIL_HOST_PASSWORD= os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS= os.getenv('EMAIL_USE_TLS', '').lower() == 'true'
 EMAIL_USE_SSL= os.getenv('EMAIL_USE_SSL', '').lower() == 'true'
 
+
+
+#razorpay details
+RAZOR_KEY_ID = os.getenv('RAZOR_KEY_ID')
+
+RAZOR_KEY_SECRET = os.getenv('RAZOR_KEY_SECRET')
 
 
 # Static files (CSS, JavaScript, Images)

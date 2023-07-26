@@ -14,16 +14,21 @@ import { getSavedRecipes,handleSaveStatus } from '../../../Axios/Services/UserSe
     
     // to show saved recipes
     useEffect(()=>{
-        try{
+      
             const userSavedRecipes= async()=>{
+                try{
                 const response = await getSavedRecipes(token)
                 setSavedRecipes(response?.payload)
 
-            }
-            userSavedRecipes()
+            
+           
         }catch(error){
-            console.log(error);
+            
+            navigate('/expired/')
         }
+    }
+    userSavedRecipes()
+
     },[refresh])
    
     // for save and unsave
@@ -43,7 +48,7 @@ import { getSavedRecipes,handleSaveStatus } from '../../../Axios/Services/UserSe
             
         }
         catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
 
     }

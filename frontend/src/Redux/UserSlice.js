@@ -20,11 +20,12 @@ const UserSlice= createSlice({
             state.accessToken=null
             state.user=null
             state.premium=false
-            
-
+        },
+        UserPremium:(state,action)=>{
+            state.premium=true
         }
     }
 })
 
-export const { UserLogin,UserLogout  }= UserSlice.actions
+export const { UserLogin,UserLogout,UserPremium  }= UserSlice.actions
 export default UserSlice.reducer

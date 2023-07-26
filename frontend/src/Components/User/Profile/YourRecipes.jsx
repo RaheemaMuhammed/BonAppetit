@@ -20,15 +20,18 @@ const YourRecipes = () => {
   
 
   useEffect(()=>{
-    try{
+   
         const userCurrentRecipes= async()=>{
+          try{
             const response = await getCurrentUserRecipes(token)
             setCurrentRecipes(response?.payload)
-        }
-        userCurrentRecipes()
+        
+        
     }catch(error){
-        console.log(error);
+      navigate('/expired/')
     }
+  }
+    userCurrentRecipes()
 },[refresh])
 
 

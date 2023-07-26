@@ -9,6 +9,7 @@ import { axiosInstance } from '../Axios/Instances/Instance';
 import { handleLikeStatus,getLikedRecipes } from '../Axios/Services/UserServices'
 import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices';
  const Trending = () => {
+ 
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
     const navigate=useNavigate()
@@ -28,7 +29,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             }
             userSavedRecipes()
         }catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     },[refresh])
     // to show liked recipes
@@ -41,7 +42,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             }
             userLikedRecipes()
         }catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     },[refresh])
     // for like and unlike
@@ -61,7 +62,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             
         }
         catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     }
    
@@ -78,11 +79,12 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
     
             }else{
                 navigate('login/')
+                
             }
             
         }
         catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
 
     }

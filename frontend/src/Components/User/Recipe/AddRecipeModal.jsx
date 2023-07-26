@@ -3,10 +3,13 @@ import { Dialog,Transition } from '@headlessui/react'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 
+
 import { toast } from 'react-toastify'
 import { addRecipe, getCategories } from '../../../Axios/Services/UserServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
+import { useNavigate } from 'react-router-dom'
 const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
+    const navigate=useNavigate()
     const cancelButtonRef = useRef(null)
     const [cat,setCat] = useState([])
     const [open,setOpen] =useState(true)
@@ -15,19 +18,20 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
     const [isPrivate, setIsPrivate] = useState(false);
 
     useEffect(()=>{
-        console.log(token);
-        try{
+        
+        
             const fetchCategories =async ()=>{
+                try{
                 const response = await getCategories(token)
                 if(response){
                     setCat(response?.payload)
                 }
-            }
-            fetchCategories()
-
-        }catch(error){
-            console.log(error);
+            }catch(error){
+           
+            navigate('/expired/')
         }
+    }
+    fetchCategories()
     },[])
     
 

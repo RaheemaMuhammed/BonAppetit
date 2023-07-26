@@ -3,6 +3,7 @@ import { Dialog,Transition} from '@headlessui/react'
 import { delCategories } from '../../../Axios/Services/AdminServices'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 const DeleteCat = ({setBUModal,setRefresh,id,status,Refresh,name}) => {
@@ -10,9 +11,9 @@ const DeleteCat = ({setBUModal,setRefresh,id,status,Refresh,name}) => {
     const [open,setOpen] = useState(true)
     const token = useSelector(state=>state.AdminReducer.accessToken)
 
-    
+    const navigate = useNavigate()
     const deleteCategory = async(id)=>{
-       console.log(status,'dpofffffffff');
+       console.log(status);
         try{
             const data = {
                 id:id,
@@ -25,7 +26,7 @@ const DeleteCat = ({setBUModal,setRefresh,id,status,Refresh,name}) => {
             toast.success(response?.message)
         }
         catch(error){
-            console.log(error);
+            navigate('/admin/expired/');
         }
     }
 

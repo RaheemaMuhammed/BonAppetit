@@ -27,7 +27,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             }
             userSavedRecipes()
         }catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     },[refresh])
     // to show liked recipes
@@ -40,7 +40,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             }
             userLikedRecipes()
         }catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     },[refresh])
     // for like and unlike
@@ -60,7 +60,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             
         }
         catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     }
    
@@ -81,7 +81,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             
         }
         catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
 
     }

@@ -122,6 +122,7 @@ class LikeRecipe(APIView):
                 recipe_id=data['recipe_id']
                 recipe = Recipe.objects.get(pk=recipe_id)
                 user=request.user
+                
 
                 try:
                     like= Like.objects.get(user_id=user,recipe_id=recipe)

@@ -3,6 +3,7 @@ import { Dialog,Transition} from '@headlessui/react'
 import { deleteRecipe } from '../../../Axios/Services/UserServices'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 const DeleteRecipeModal = ({setDeletemodal,setRefresh,id,Refresh}) => {
@@ -10,7 +11,7 @@ const DeleteRecipeModal = ({setDeletemodal,setRefresh,id,Refresh}) => {
     const [open,setOpen] = useState(true)
     const token = useSelector(state=>state.UserReducer.accessToken)
 
-    
+    const navigate=useNavigate()
     const deleteThisRecipe = async(id)=>{
        
         try{
@@ -21,7 +22,7 @@ const DeleteRecipeModal = ({setDeletemodal,setRefresh,id,Refresh}) => {
             toast.success(response?.message)
         }
         catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
     }
 

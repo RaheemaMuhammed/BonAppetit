@@ -5,12 +5,14 @@ import {AddCategorySchema } from '../../../Validations/categoryValidation'
 import { toast } from 'react-toastify';
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 const AddCategory = ({setAddModal,Refresh,setRefresh}) => {
     const cancelButtonRef = useRef(null)
     const [ open,setOpen] = useState(true)
     const token=useSelector(state=>state.AdminReducer.accessToken)
+    const navigate= useNavigate()
     const onSubmit = async() =>{
         const form =new FormData()
         form.append('name',values.name)
@@ -27,7 +29,7 @@ const AddCategory = ({setAddModal,Refresh,setRefresh}) => {
                 toast.error('something went wrong')
             }
         }catch(error){
-            console.log(error);
+            navigate('/admin/expired/');
         }
     }
 

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { handleRecipeStatus, getCategories } from '../../../Axios/Services/UserServices'
 import { getSingleRecipes} from '../../../Axios/Services/CommonServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
+import { useNavigate } from 'react-router-dom'
 const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
     const cancelButtonRef = useRef(null)
     const [cat,setCat] = useState([])
@@ -16,20 +17,23 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
     const username=useSelector(state=>state.UserReducer.user.username)
     const [isPrivate, setIsPrivate] = useState(false);
     const [picture,setPicture] = useState('')
+    const navigate = useNavigate()
     useEffect(()=>{
-        console.log(token);
-        try{
+        
             const fetchCategories =async ()=>{
+                try{
                 const response = await getCategories(token)
                 if(response){
                     setCat(response?.payload)
                 }
-            }
-            fetchCategories()
-
+            
+            
         }catch(error){
-            console.log(error);
+            navigate('/expired/')
         }
+    }
+        fetchCategories()
+
     },[])
     
 
@@ -94,8 +98,9 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
       };
 
       useEffect(()=>{
-        try{
+        
             const fetchSingleRecipe= async ()=>{
+                try{
                 
                 const response = await getSingleRecipes(recipe_name)
                 console.log(response);
@@ -110,11 +115,12 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
                     console.log(picture);
                     
                 }
-            }
-            fetchSingleRecipe()
+            
+            
         }catch(error){
-            console.log(error);
-        }
+            navigate('/expired/')        }
+    }
+        fetchSingleRecipe()
        },[recipe_name])
       
     const {values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue } = useFormik({

@@ -29,6 +29,7 @@ urlpatterns = [
     path('adminpanel/',include('adminpanel.urls')),
     path('user/',include('user.urls')),
     path('common/',include('common.urls')),
+    path('payment/',include('payment.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 

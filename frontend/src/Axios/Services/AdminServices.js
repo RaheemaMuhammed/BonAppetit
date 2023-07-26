@@ -15,9 +15,9 @@ export const getUsersList = async (token) => {
         return response.data
     } catch (error) {
 
-        console.log(error)
+        throw error;
         
-        console.log('some error occured')
+        
     }
 }
 
@@ -34,7 +34,7 @@ export const handleUserStatus=async (token,values)=>{
         return response.data
     }
     catch (error){
-        console.log(error);
+        throw error;
     }
 }
 // Listing categories
@@ -49,7 +49,7 @@ export const getCategories = async (token) =>{
             const response = await axiosAdminInstance.get('categories/',config)
             return response.data
         }catch(error){
-            console.log(error);
+            throw error;
         }
 }
 
@@ -81,6 +81,6 @@ export const addCategories = async (token,values)=>{
         console.log(response);
         return response.data
     }catch(error){
-        console.log(error);
+        throw error;
     }
 }

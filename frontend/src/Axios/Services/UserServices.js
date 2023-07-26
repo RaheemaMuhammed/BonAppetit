@@ -12,7 +12,7 @@ export const getRecipes = async (token) =>{
         const response = await axiosUserInstance.get('user/recipes/',config)
         return response.data
     }catch (error){
-        console.log(error);
+        throw error
     }
 }
 
@@ -29,7 +29,7 @@ export const addRecipe = async (token,values) =>{
         const response = await axiosUserInstance.post('user/recipes/',values,config)
         return response.data
     }catch (error){
-        console.log(error);
+        throw error;
     }
 }
 // get categories while upoading a recipe
@@ -45,7 +45,7 @@ export const getCategories=async (token)=>{
         const response = await axiosUserInstance.get('user/categories/',config)
         return response.data
     }catch (error){
-        console.log(error);
+        throw error;
     }
 }
 
@@ -64,7 +64,7 @@ export const handleLikeStatus=async (token,values)=>{
         return response.data
     }
     catch (error){
-        console.log(error);
+        throw error;
     }
 }
 // get liked recipes
@@ -81,7 +81,7 @@ export const getLikedRecipes = async (token)=>{
         const response = await axiosUserInstance.get('user/like/',config)
         return response.data
     }catch(error){
-        console.log(error);
+        throw error;
     }
     
 }
@@ -99,7 +99,7 @@ export const handleSaveStatus=async (token,values)=>{
         return response.data
     }
     catch (error){
-        console.log(error);
+        throw error;
     }
 }
 // get saved recipes
@@ -115,7 +115,8 @@ export const getSavedRecipes = async (token)=>{
         const response = await axiosUserInstance.get('user/saved_recipe/',config)
         return response.data
     }catch(error){
-        console.log(error);
+        
+        throw error;
     }
     
 }
@@ -133,7 +134,7 @@ export const getCurrentUserRecipes = async (token)=>{
         const response = await axiosUserInstance.get('user/user_recipe/',config)
         return response.data
     }catch(error){
-        console.log(error);
+        throw error;
     }
     
 }
@@ -151,7 +152,7 @@ export const handleRecipeStatus=async (token,values)=>{
         return response.data
     }
     catch (error){
-        console.log(error);
+        throw error;
     }
 }
 //Deleting a recipe
@@ -168,6 +169,37 @@ export const deleteRecipe = async (token,id) =>{
         const response = await axiosUserInstance.delete('user/user_recipe/',config)
         return response.data
     }catch(error){
-        console.log(error);
+        throw error;
+    }
+}
+// premium success
+export const premiumPaymentSuccess = async(token,values)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosUserInstance.post('payment/payment_success/',values,config)
+        console.log(response);
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
+// start premium 
+export const premiumPayment = async(token,values)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosUserInstance.post('payment/payment_start/',values,config)
+        return response.data
+    }catch(error){
+        throw error;
     }
 }

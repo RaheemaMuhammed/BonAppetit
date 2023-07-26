@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser,BaseUserManager,PermissionsMixin
 import uuid
+from django.utils import timezone
 # Create your models here.
 
 class CustomUserManager(BaseUserManager):
@@ -55,7 +56,10 @@ class CustomUser(AbstractUser,PermissionsMixin):
     objects = CustomUserManager()
 
 
-
+    def is_premium_active(self):
+        if self.premium_expiry is not None and self.premium_expiry >= timezone.now():
+            return True
+        return False
     def __str__(self):  
         return f'{self.username}'
     

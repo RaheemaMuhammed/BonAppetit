@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { getCategories } from '../../../Axios/Services/AdminServices'
 import DeleteCat from './DeleteCat'
 import AddCategory from './AddCategory'
+import { useNavigate } from 'react-router-dom'
 const Category = () => {
     const token=useSelector(state=>state.AdminReducer.accessToken)
     const [data,setData]=useState([])
@@ -10,6 +11,7 @@ const Category = () => {
     const [Refresh,setRefresh]=useState(false)
     const [AddModal, setAddModal] = useState(false)
 
+    const navigate= useNavigate()
 
     const [name,setName] = useState('')
     const [status,setStatus] = useState('')
@@ -27,7 +29,7 @@ const Category = () => {
             }
             fetchCategories()
         }catch(error){
-            console.log(error);
+          navigate('/admin/expired/');
         }
      },[Refresh])
      function StatusChange(id,name,status){

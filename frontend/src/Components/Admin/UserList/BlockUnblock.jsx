@@ -3,9 +3,9 @@ import { Dialog,Transition} from '@headlessui/react'
 import { handleUserStatus ,} from '../../../Axios/Services/AdminServices'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
-
+import { useNavigate } from 'react-router-dom'
 const BlockUnblock = ({setBUModal,username,status,id,setRefresh,Refresh}) => {
-
+     const navigate=useNavigate()
     const cancelButtonRef=useRef(null)
     const [open,setOpen] = useState(true)
 
@@ -22,7 +22,8 @@ const BlockUnblock = ({setBUModal,username,status,id,setRefresh,Refresh}) => {
             toast.success(response?.message)
         }
         catch(error){
-            console.log(error);
+            
+            navigate('/admin/expired/');
         }
     }
 

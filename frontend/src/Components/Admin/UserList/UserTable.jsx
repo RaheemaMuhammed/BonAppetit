@@ -2,8 +2,10 @@ import React,{useEffect,useState} from 'react';
 import { useSelector } from 'react-redux';
 import { getUsersList } from '../../../Axios/Services/AdminServices'
 import BlockUnblock from './BlockUnblock';
-const UserTable = () => {
+import { useNavigate } from 'react-router-dom';
 
+const UserTable = () => {
+const navigate = useNavigate()
   const [Data,setData] =useState([])
   const [allData,setAllData] =useState([])
   const [Refresh,setRefresh]=useState(false)
@@ -16,25 +18,24 @@ const UserTable = () => {
 
 
 
-    useEffect(() =>{
-      try{
-        const fetchUsers= async () =>{
-          const response = await getUsersList(token)
-          if (response){ 
-            setData(response?.payload)
-            setAllData(response?.payload)
-            console.log(Data);
-            console.log(allData);
-
-          }
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getUsersList(token);
+        if (response) {
+          setData(response?.payload);
+          setAllData(response?.payload);
+        
         }
-        fetchUsers()
-      }catch(error){
-        if (error.response && error.response.status === 401){
-        }
+      } catch (error) {
         console.log(error);
+        navigate('/admin/expired/');
       }
-    },[Refresh])
+    };
+  
+    fetchUsers();
+  }, [Refresh]);
+  
 
 
     function StatusChange(id,status,username){
