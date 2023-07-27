@@ -11,7 +11,7 @@ const SingleRecipeComponent = () => {
    const [ingredients,setIngredients] = useState([])
   
 //    for date formatting
-  const created_at_str = recipe.created_at;
+  const created_at_str = recipe?.created_at;
   const created_at_date = new Date(created_at_str);
   const formatted_date = created_at_date.toLocaleString('en-US', {
     month: 'long',
@@ -46,9 +46,9 @@ const SingleRecipeComponent = () => {
           <header className="mb-4 lg:mb-6 not-format">
               <address className="flex items-center mb-6 not-italic">
                   <div className=" mr-3 text-sm text-gray-900 dark:text-white">
-                  <h1 className="mb-4 text-3xl font-poppins font-bold leading-tight text-btnColor hover:text-black lg:mb-6 lg:text-4xl ">{ recipe.recipe_name }</h1>
+                  <h1 className="mb-4 text-3xl font-poppins font-bold leading-tight text-btnColor hover:text-black lg:mb-6 lg:text-4xl ">{ recipe?.recipe_name }</h1>
                   <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                    {recipe?.author_profile ?                      <img className="mr-4  w-16 h-12 rounded-full" src= {`${axiosInstance}${recipe.author_profile}`} alt="Jese Leos"/>
+                    {recipe?.author_profile ?                      <img className="mr-4  w-16 h-12 rounded-full" src= {`${axiosInstance}${recipe?.author_profile}`} alt="Jese Leos"/>
  : 
 <div className="relative w-10 h-10 overflow-hidden mr-2 bg-gray-100 rounded-full dark:bg-gray-600">
     <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
@@ -57,7 +57,7 @@ const SingleRecipeComponent = () => {
 
                     }
                       <div>
-                          <a href="#" rel="author" className="text-xl font-normal text-gray-700 dark:text-white">{recipe.author}</a>
+                          <a href="#" rel="author" className="text-xl font-normal text-gray-700 dark:text-white">{recipe?.author}</a>
                           <p className="text-base font-light text-gray-500 dark:text-gray-400">{formatted_date}</p>
                       </div>
                       </div>
@@ -66,7 +66,7 @@ const SingleRecipeComponent = () => {
               </address>
           </header>
          
-          <img className=' shadow-xl w-[500px] h-[400px] object-cover rounded-md  max-w-full' src={`${axiosInstance}${recipe.picture}`} alt=""/>
+          <img className=' shadow-xl w-[500px] h-[400px] object-cover rounded-md  max-w-full' src={`${axiosInstance}${recipe?.picture}`} alt=""/>
          
         
         <div className='mt-9'>
@@ -94,7 +94,7 @@ const SingleRecipeComponent = () => {
 
     <p className='mt-5 text-4xl text-btnColor hover:underline'>Instructions:</p>
     <div className='mt-5 text-xl my-3 hover:border-btnColor rounded text-gray-600'>
-        {recipe.instructions}
+        {recipe?.instructions}
     </div>
    </div>
       

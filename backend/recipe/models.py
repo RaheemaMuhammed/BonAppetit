@@ -15,7 +15,7 @@ class Recipe(models.Model):
     updated_at=models.DateTimeField(auto_now=True,auto_now_add=False)
     is_private=models.BooleanField(default=False)
     views=models.IntegerField(default=0)
-    revenue=models.IntegerField(default=0)
+    revenue=models.DecimalField(default=0,decimal_places=2,max_digits=5)
     report=models.IntegerField(default=0)
     total_likes=models.PositiveIntegerField(default=0)
     def __str__(self) -> str:

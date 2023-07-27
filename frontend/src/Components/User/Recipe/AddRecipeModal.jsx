@@ -16,6 +16,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
     const token = useSelector(state=>state.UserReducer.accessToken)
     const username=useSelector(state=>state.UserReducer.user.username)
     const [isPrivate, setIsPrivate] = useState(false);
+    const premium= useSelector(state=>state.UserReducer.premium)
 
     useEffect(()=>{
         
@@ -190,8 +191,7 @@ console.log(isPrivate);
 
 
                                             </div>
-                                           
-                                            <div>
+                                           {premium ? <><div>
                                             <label htmlFor="is_private">
                                             <input
                                                 type="checkbox"
@@ -202,7 +202,8 @@ console.log(isPrivate);
                                             />
                                             Private
                                             </label>
-                                        </div>
+                                        </div></> : ''}
+                                            
                                             <div>
                                             <input
                                             onChange={(evt)=>setFieldValue('picture',evt.target.files[0])}

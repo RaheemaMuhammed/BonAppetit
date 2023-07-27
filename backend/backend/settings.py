@@ -43,13 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'corsheaders',
+    'background_task',
     'rest_framework',
+    'razorpay',
     'account',
     'adminpanel',
     'recipe',
     'user',
     'common',
-    'payment'
+    'payment',
+    
+    
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

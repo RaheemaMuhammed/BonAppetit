@@ -1,8 +1,8 @@
 import json
 import razorpay
 from django.utils import timezone
-from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.permissions import IsAuthenticated
 from backend.settings import RAZOR_KEY_ID,RAZOR_KEY_SECRET
 from account.models import CustomUser
 from rest_framework.decorators import api_view,permission_classes
@@ -31,7 +31,7 @@ def handle_payment_success(request):
 
             user=request.user
             res = json.loads(request.data["response"])
-            print(res)
+            
             ord_id = ""
             raz_pay_id = ""
             raz_signature = ""
@@ -65,10 +65,21 @@ def handle_payment_success(request):
 
                 user.premium_expiry = timezone.now() + timezone.timedelta(days=30)             
                 user.save()
+                transaction_details={
+                     'transaction_id':ord_id,
+                     'amount':100,
+                     'time':timezone.now().isoformat()
+                }
+                user.add_transaction(transaction_details)
+               
                 return Response({'message':"User is now a premium subscriber",'status':200,})
             except Exception as e:
-                return Response({'message':"Error updating user premium status:",'error': str(e)})
+                return Response({'message':"Error updating user premium status:",'error': str(e),'status':400})
     except Exception as e:
          return Response({'error':str(e)})
             
             
+
+
+
+     

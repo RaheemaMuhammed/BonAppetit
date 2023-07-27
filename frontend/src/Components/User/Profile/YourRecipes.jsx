@@ -55,7 +55,8 @@ const YourRecipes = () => {
             <div className="container m-auto " >
             <div className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
               <div className='flex '>  
-               <div className='w-[25%]'><Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+               <div className='w-[25%]'>
+                <Link to={`/singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
                 </div>         
 
                 <div className="m-4 w-full">

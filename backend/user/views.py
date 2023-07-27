@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from recipe.models import *
 from adminpanel.models import Categories
 from adminpanel.serializers import CategorySerializer
+from decimal import Decimal
 # Create your views here.
 
 class RecipeList(APIView):
@@ -122,15 +123,26 @@ class LikeRecipe(APIView):
                 recipe_id=data['recipe_id']
                 recipe = Recipe.objects.get(pk=recipe_id)
                 user=request.user
-                
+    
 
                 try:
                     like= Like.objects.get(user_id=user,recipe_id=recipe)
                     like.delete()
                     recipe.total_likes-=1
+                    recipe.total_likes+=1
+                    author_id=recipe.author.id
+                    author=CustomUser.objects.get(pk=author_id)
+                    if author.wallet > 0.05:
+                        author.wallet=Decimal(author.wallet)-Decimal('0.05')
+                        author.save()
+                        print(author.wallet)
                 except Like.DoesNotExist:
                         Like.objects.create(user_id=user,recipe_id=recipe)
                         recipe.total_likes+=1
+                        author_id=recipe.author.id
+                        author=CustomUser.objects.get(pk=author_id)
+                        author.wallet=Decimal(author.wallet)+Decimal('0.05')
+                        author.save()
 
                 recipe.save()
                 serializer=RecipeSerializer(recipe,partial=True)
@@ -168,10 +180,20 @@ class SavedRecipe(APIView):
                         try:
                             saved_recipe=SavedRecipes.objects.get(user_id=user,recipe_id=recipe_id)
                             saved_recipe.delete()
+                            author_id=recipe.author.id
+                            author=CustomUser.objects.get(pk=author_id)
+                            if author.wallet > 0.05:
+                                author.wallet=Decimal(author.wallet)-Decimal(0.05)
+                                author.save()
                             return Response({'status':200,'message':'Recipe Removed Successfully'})
                         except SavedRecipes.DoesNotExist:
                             
                             SavedRecipes.objects.create(user_id=user,recipe_id=recipe)
+                            author_id=recipe.author.id
+                            author=CustomUser.objects.get(pk=author_id)
+                            author.wallet=Decimal(author.wallet)+Decimal(0.05)
+                            
+                            author.save()
                             return Response({'status':200,'message':'Recipe Added to Saved List Successfully'})
             except Exception as e:
                 return Response({'error':str(e)})

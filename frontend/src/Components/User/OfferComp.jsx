@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 const OfferComp = () => {
     const dispatch =useDispatch()
     const token = useSelector(state=>state.UserReducer.accessToken)
+    const user = useSelector(state=>state.UserReducer.user)
     const navigate= useNavigate()
     // this will be called after that razorpay page
     const handlePaymentSuccess = async (response)=>{
@@ -16,9 +17,16 @@ const OfferComp = () => {
             
             const values= await premiumPaymentSuccess(token,data)
             console.log(values);
-            dispatch(UserPremium())
-            navigate('/')
-            toast.success(values?.message)
+            if(values?.status===200){
+                dispatch(UserPremium())
+                navigate('/')
+                toast.success(values?.message)
+            }else if(values?.status === 400){
+                navigate('/')
+                toast.error(values?.message)
+            }
+            
+           
         }
         catch(error){
             console.log(error);

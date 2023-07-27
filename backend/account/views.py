@@ -96,6 +96,9 @@ class Login(APIView):
                     person = 'admin'
                 if user.is_active == True and user.is_block == False:
                     username=user.username
+                    if not user.is_premium_active():
+                        user.has_premium=False
+                        user.save() 
                     premium=user.has_premium
                     
                     login(request,user)

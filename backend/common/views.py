@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from recipe.serializers import *
 from recipe.models import *
 from rest_framework.response import Response
-
+from decimal import Decimal
 
 class RecipeList(APIView):
     # Listing all the recipes

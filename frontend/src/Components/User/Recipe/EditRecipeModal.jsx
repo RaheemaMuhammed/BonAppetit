@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import { toast } from 'react-toastify'
 import { handleRecipeStatus, getCategories } from '../../../Axios/Services/UserServices'
-import { getSingleRecipes} from '../../../Axios/Services/CommonServices'
+import { getSingleRecipes} from '../../../Axios/Services/UserServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
 import { useNavigate } from 'react-router-dom'
 const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
@@ -92,17 +92,14 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
             console.log(error);
         }
     }
-    const handleCheckboxChange = () => {
-        setIsPrivate(!isPrivate);
-       
-      };
+   
 
       useEffect(()=>{
         
             const fetchSingleRecipe= async ()=>{
                 try{
                 
-                const response = await getSingleRecipes(recipe_name)
+                const response = await getSingleRecipes(token,recipe_name)
                 console.log(response);
                 if(response){
                     setRecipe(response?.payload)

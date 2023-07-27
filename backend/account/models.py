@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser,BaseUserManager,PermissionsMixin
 import uuid
 from django.utils import timezone
+import json
 # Create your models here.
 
 class CustomUserManager(BaseUserManager):
@@ -44,11 +45,12 @@ class CustomUser(AbstractUser,PermissionsMixin):
     has_premium=models.BooleanField(default=False)
     is_block=models.BooleanField(default=False)
     premium_expiry=models.DateTimeField(null=True)
-    wallet=models.IntegerField(default=0,null=True)
+    wallet=models.DecimalField(default=0,decimal_places=2,max_digits=5)
     profile_pic=models.ImageField(null=True,upload_to='userprofile/')
     is_active=models.BooleanField(default=False)
     is_user=models.BooleanField(default=False)
     otp=models.CharField(max_length=6,null=True,blank=True)
+    transaction_history = models.TextField(default='[]')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['phone','username']
@@ -62,7 +64,16 @@ class CustomUser(AbstractUser,PermissionsMixin):
         return False
     def __str__(self):  
         return f'{self.username}'
-    
+
+
+    def get_transaction_history(self):
+        return json.loads(self.transaction_history)
+
+    def add_transaction(self, transaction_details):
+        history = self.get_transaction_history()
+        history.append(transaction_details)
+        self.transaction_history = json.dumps(history)
+        self.save()
 
 
 

@@ -72,7 +72,7 @@ import { getSavedRecipes,handleSaveStatus } from '../../../Axios/Services/UserSe
 
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`/singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
                         <div className="m-4">
                             <span className='flex justify-between'> 
                             <Link to={`singleRecipe/${item.recipe_name}`}>    <span className="font-bold">{item.recipe_name}</span></Link>

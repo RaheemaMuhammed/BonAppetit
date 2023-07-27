@@ -72,6 +72,7 @@ export const getRecipes = async ()=>{
     }
 
 }
+
 export const getSingleRecipes = async (recipe_name)=>{
     try{
         const config = {

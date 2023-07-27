@@ -16,6 +16,29 @@ export const getRecipes = async (token) =>{
     }
 }
 
+// get single recipes
+export const getSingleRecipes = async (token,recipe_name)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json",
+                Authorization : `Bearer ${token}`,
+            },
+            params:{
+                recipe_name:recipe_name
+            },
+        }
+        const response = await axiosUserInstance.get('user/single_recipe/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}
+
+
 // add a recipe
 export const addRecipe = async (token,values) =>{
     try{
