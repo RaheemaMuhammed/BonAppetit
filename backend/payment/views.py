@@ -1,11 +1,15 @@
 import json
 import razorpay
+import datetime
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import *
+from .serializers import *
 from django.utils import timezone
-
+import requests
 from rest_framework.permissions import IsAuthenticated
 from backend.settings import RAZOR_KEY_ID,RAZOR_KEY_SECRET
 from account.models import CustomUser
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view,permission_classes,APIView
 from rest_framework.response import Response
 
 # Create your views here.
@@ -68,7 +72,8 @@ def handle_payment_success(request):
                 transaction_details={
                      'transaction_id':ord_id,
                      'amount':100,
-                     'time':timezone.now().isoformat()
+                     'time':timezone.now().isoformat(),
+                     'type':'premium'
                 }
                 user.add_transaction(transaction_details)
                
@@ -80,6 +85,37 @@ def handle_payment_success(request):
             
             
 
+class PaymentRequest(APIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated]
 
+        def post(self,request):
+             data=request.data
+            #  upi_id=data['upi_id']
+             amount = data['amount']
+             user_id=request.user.id
+             user=CustomUser.objects.get(pk=user_id)
+             serializer=PaymentRequestSerializer(data=data)
+             if serializer.is_valid():
+                  serializer.save()
+                  #generate order number
+                  yr  =   int(datetime.date.today().strftime('%Y'))
+                  dt  =   int(datetime.date.today().strftime('%d'))
+                  mt  =   int(datetime.date.today().strftime('%m'))
+                  d  =    datetime.date(yr,mt,dt)
+                  current_date = d.strftime("%Y%m%d") #yyyy/mm/dd
+                  trans_id   =      current_date + str(user_id)
+                  
+                  transaction_details={
+                     'transaction_id':trans_id,
+                     'amount':amount,
+                     'time':timezone.now().isoformat(),
+                     'status':'requested',
+                     'type' :'earning'
+                  }
+                  user.add_transaction(transaction_details)
 
-     
+                  return Response({'message':'Your request is accepted.Amount will be credited in 3-4 days','status':200})
+             return Response({'error':serializer.errors,'status':400})
+             
+

@@ -226,3 +226,37 @@ export const premiumPayment = async(token,values)=>{
         throw error;
     }
 }
+// get user profile details
+
+export const getProfile = async (token)=>{
+    try{
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.get('user/user_profile/',config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+    
+}
+// payment request
+export const requestPayment = async(token,values)=>{
+    console.log(values);
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosUserInstance.post('payment/payment_request/',values,config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}

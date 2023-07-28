@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { getSingleRecipes } from '../../../Axios/Services/CommonServices'
-import { useParams } from 'react-router-dom'
+import { useParams,useNavigate } from 'react-router-dom'
 import avatar from '../../../assets/avatar.jpg'
+import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
+import { handleLikeStatus,handleSaveStatus,getLikedRecipes,getSavedRecipes} from '../../../Axios/Services/UserServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import {RxDotFilled} from 'react-icons/rx'
 import { useSelector } from 'react-redux'
@@ -9,7 +11,11 @@ const SingleRecipeComponent = () => {
    const [recipe,setRecipe] =useState({})
    const {recipe_name}= useParams()
    const [ingredients,setIngredients] = useState([])
-  
+   const token=useSelector(state=>state.UserReducer.accessToken)
+   const navigate=useNavigate()
+   const [likedRecipes,setLikedRecipes] = useState([])
+   const [savedRecipes,setSavedRecipes] = useState([])
+   const [ refresh,setRefresh] =useState(false)
 //    for date formatting
   const created_at_str = recipe?.created_at;
   const created_at_date = new Date(created_at_str);
@@ -33,7 +39,89 @@ const SingleRecipeComponent = () => {
     }catch(error){
         console.log(error);
     }
-   },[])
+   },[refresh])
+
+       // to show saved recipes
+       useEffect(()=>{
+        try{
+            const userSavedRecipes= async()=>{
+                const response = await getSavedRecipes(token)
+                setSavedRecipes(response?.payload)
+
+            }
+            userSavedRecipes()
+        }catch(error){
+            navigate('/expired/')
+        }
+    },[refresh])
+    // to show liked recipes
+    useEffect(()=>{
+        try{
+            const userLikedRecipes= async()=>{
+                const response = await getLikedRecipes(token)
+                setLikedRecipes(response?.payload)
+
+            }
+            userLikedRecipes()
+        }catch(error){
+            navigate('/expired/')
+        }
+    },[refresh])
+    // for like and unlike
+    const handleLike = async (recipe_id)=>{
+        try{
+            const data= {
+                recipe_id:recipe_id
+            }
+            if(token){
+                const response = await handleLikeStatus(token,data)
+                setRefresh(!refresh)
+                
+    
+            }else{
+                navigate('login/')
+            }
+            
+        }
+        catch(error){
+            navigate('/expired/')
+        }
+    }
+   
+    // for save and unsave
+    const handleSave = async(recipe_id)=>{
+        try{
+            const data= {
+                recipe_id:recipe_id
+            }
+            if(token){
+                const response = await handleSaveStatus(token,data)
+                setRefresh(!refresh)
+                
+    
+            }else{
+                navigate('login/')
+                
+            }
+            
+        }
+        catch(error){
+            navigate('/expired/')
+        }
+
+    }
+    const isLiked = likedRecipes?.some((likedRecipe) => likedRecipe.id === recipe.id);
+    const isSaved= savedRecipes?.some((savedRecipe) => savedRecipe.id === recipe.id)
+
+
+
+
+
+
+
+
+
+
   return (
     <div>
        
@@ -65,6 +153,17 @@ const SingleRecipeComponent = () => {
                   </div>
               </address>
           </header>
+          <div className='my-5 '>
+            <hr />
+            <div className='flex flex-row mb-3'>
+            <span className='mt-3  text-[14px] mx-1 text-btnColor '>{recipe.total_likes === 0 ? '' : recipe.total_likes}</span>
+                                 
+                                 <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(recipe.id)}>{isLiked ? <FaThumbsUp size={21} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={21}/>}</span>
+                                 <span className='cursor-pointer justify end mt-3 mx-9' onClick={()=>handleSave(recipe.id)}>{isSaved ? <FaBookmark size={21} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
+
+            </div>
+            <hr />
+          </div>
          
           <img className=' shadow-xl w-[500px] h-[400px] object-cover rounded-md  max-w-full' src={`${axiosInstance}${recipe?.picture}`} alt=""/>
          

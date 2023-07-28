@@ -84,9 +84,8 @@ class CategoryList(APIView):
             return Response({'error':e})
 
     def patch(self,request):
-        print('pofkkkkkkk')
         data=request.data
-        print(data)
+        
         try:
             category=Categories.objects.get(id=data['id'])
             cat_name=category.name
@@ -105,4 +104,13 @@ class CategoryList(APIView):
             })
         except Exception as e:
             return({'error':e})
-    
+
+class PaymentRequest(APIView):
+    # verifies authenticated using jwt
+    authentication_classes = [JWTAuthentication]
+    # verifies user is adminuser
+    permission_classes = [IsAdminUser] 
+
+    def get(self,request):
+        pass
+        

@@ -11,6 +11,7 @@ from recipe.models import *
 from adminpanel.models import Categories
 from adminpanel.serializers import CategorySerializer
 from decimal import Decimal
+from adminpanel.serializers import UserSerializer
 # Create your views here.
 
 class RecipeList(APIView):
@@ -129,10 +130,9 @@ class LikeRecipe(APIView):
                     like= Like.objects.get(user_id=user,recipe_id=recipe)
                     like.delete()
                     recipe.total_likes-=1
-                    recipe.total_likes+=1
                     author_id=recipe.author.id
                     author=CustomUser.objects.get(pk=author_id)
-                    if author.wallet > 0.05:
+                    if author.wallet > 0.05 and recipe.is_private==True:
                         author.wallet=Decimal(author.wallet)-Decimal('0.05')
                         author.save()
                         print(author.wallet)
@@ -140,9 +140,10 @@ class LikeRecipe(APIView):
                         Like.objects.create(user_id=user,recipe_id=recipe)
                         recipe.total_likes+=1
                         author_id=recipe.author.id
-                        author=CustomUser.objects.get(pk=author_id)
-                        author.wallet=Decimal(author.wallet)+Decimal('0.05')
-                        author.save()
+                        if recipe.is_private == True:
+                            author=CustomUser.objects.get(pk=author_id)
+                            author.wallet=Decimal(author.wallet)+Decimal('0.05')
+                            author.save()
 
                 recipe.save()
                 serializer=RecipeSerializer(recipe,partial=True)
@@ -182,7 +183,7 @@ class SavedRecipe(APIView):
                             saved_recipe.delete()
                             author_id=recipe.author.id
                             author=CustomUser.objects.get(pk=author_id)
-                            if author.wallet > 0.05:
+                            if author.wallet > 0.05 and recipe.is_private == True:
                                 author.wallet=Decimal(author.wallet)-Decimal(0.05)
                                 author.save()
                             return Response({'status':200,'message':'Recipe Removed Successfully'})
@@ -190,10 +191,11 @@ class SavedRecipe(APIView):
                             
                             SavedRecipes.objects.create(user_id=user,recipe_id=recipe)
                             author_id=recipe.author.id
-                            author=CustomUser.objects.get(pk=author_id)
-                            author.wallet=Decimal(author.wallet)+Decimal(0.05)
-                            
-                            author.save()
+                            if recipe.is_private == True:
+                                    author=CustomUser.objects.get(pk=author_id)
+                                    author.wallet=Decimal(author.wallet)+Decimal(0.05)
+                                    
+                                    author.save()
                             return Response({'status':200,'message':'Recipe Added to Saved List Successfully'})
             except Exception as e:
                 return Response({'error':str(e)})
@@ -243,3 +245,22 @@ class UserRecipe(APIView):
                     return Response({'error':str(e)})
 
      
+# profile page for users and editing
+class UserProfile(APIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated]
+
+        # get details
+        def get(self,request):
+             try:
+                  id=request.user.id
+                  user=CustomUser.objects.get(pk=id)
+                  serializer=UserSerializer(user)
+                  return Response({'payload':serializer.data,'message':'OK','status':200})
+             except Exception as e:
+                  return Response({'error':str(e)})
+
+        
+        # edit profile
+        def patch(self,request):
+             pass

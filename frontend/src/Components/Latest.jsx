@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
 import { axiosInstance } from '../Axios/Instances/Instance';
-import { handleLikeStatus,getLikedRecipes } from '../Axios/Services/UserServices'
-import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices';
+import { getLikedRecipes } from '../Axios/Services/UserServices'
+import { getSavedRecipes } from '../Axios/Services/UserServices';
  const Latest = () => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
@@ -44,48 +44,9 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             navigate('/expired/')
         }
     },[refresh])
-    // for like and unlike
-    const handleLike = async (recipe_id)=>{
-        try{
-            const data= {
-                recipe_id:recipe_id
-            }
-            if(token){
-                const response = await handleLikeStatus(token,data)
-                setRefresh(!refresh)
-                
-    
-            }else{
-                navigate('login/')
-            }
-            
-        }
-        catch(error){
-            navigate('/expired/')
-        }
-    }
+  
    
-    // for save and unsave
-    const handleSave = async(recipe_id)=>{
-        try{
-            const data= {
-                recipe_id:recipe_id
-            }
-            if(token){
-                const response = await handleSaveStatus(token,data)
-                setRefresh(!refresh)
-                
-    
-            }else{
-                navigate('login/')
-            }
-            
-        }
-        catch(error){
-            navigate('/expired/')
-        }
-
-    }
+   
 
 
 
@@ -126,20 +87,20 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
 
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                             <span className='flex justify-between'> 
-                            <Link to={`singleRecipe/${item.recipe_name}`}>    <span className="font-bold">{item.recipe_name}</span></Link>
+                              <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
 
-                                 <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(item.id)}>{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
-                                 <span className='cursor-pointer justify end mt-3 mx-2' onClick={()=>handleSave(item.id)}>{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
+                                 <span className='cursor-pointer justify end mt-2' >{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
+                                 <span className='cursor-pointer justify end mt-3 mx-2' >{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
                                  </span>
                                  </span>
                             <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
@@ -148,20 +109,20 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                 return(
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}>    <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`singleRecipe/${item.recipe_name}`}>    <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
-                        <Link to={`singleRecipe/${item.recipe_name}`}><span className="font-bold">{item.recipe_name}</span></Link>
+                        <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
 
-                                 <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(item.id)}>{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
-                                 <span className='cursor-pointer justify end mt-3 mx-2' onClick={()=>handleSave(item.id)}>{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
+                                 <span className='cursor-pointer justify end mt-2' >{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
+                                 <span className='cursor-pointer justify end mt-3 mx-2' >{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
                                  </span>
                                  </span>                          
                                  <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
@@ -174,21 +135,21 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                 return(
                    <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                        <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>  </Link>
+                        <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>  
                         <div className="m-4">
                         <span className='flex justify-between'> 
-                        <Link to={'/offer'}>  <span className="font-bold">{item.recipe_name}</span>
-                                 </Link>
+                          <span className="font-bold">{item.recipe_name}</span>
+                            
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
 
-                                 <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(item.id)}>{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
-                                 <span className='cursor-pointer justify end mt-3 mx-2' onClick={()=>handleSave(item.id)}>{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
+                                 <span className='cursor-pointer justify end mt-2' >{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
+                                 <span className='cursor-pointer justify end mt-3 mx-2' >{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
                                  </span>
                                  </span>                            
                                  <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
@@ -200,21 +161,21 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                     <>
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}>  <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`singleRecipe/${item.recipe_name}`}>  <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
-                        <Link to={`singleRecipe/${item.recipe_name}`}> <span className="font-bold">{item.recipe_name}</span></Link>
+                         <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex '>
                                     <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
                                  
-                                 <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(item.id)}>{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
-                                 <span className='cursor-pointer justify end mt-3 mx-2' onClick={()=>handleSave(item.id)}>{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
+                                 <span className='cursor-pointer justify end mt-2' >{isLiked ? <FaThumbsUp size={22} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={23}/>}</span>
+                                 <span className='cursor-pointer justify end mt-3 mx-2' >{isSaved ? <FaBookmark size={22} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
                                  </span>
                            
                                  </span>                            
                                  <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
