@@ -128,7 +128,7 @@ const RequestStatus = ({setSModal,Refresh,setRefresh, user,  id, amount,status})
                                            
 
                                             <button  type="submit" className="w-full text-black bg-btnColor hover:bg-newCoral focus:ring-4 focus:outline-none focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                                Add</button>
+                                                Update</button>
 
                                             <div className="flex items-center justify-between">
 

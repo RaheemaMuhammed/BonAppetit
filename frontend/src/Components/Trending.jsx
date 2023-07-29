@@ -9,7 +9,7 @@ import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/
 import { axiosInstance } from '../Axios/Instances/Instance';
 import { getLikedRecipes } from '../Axios/Services/UserServices'
 import { getSavedRecipes } from '../Axios/Services/UserServices';
- const Trending = () => {
+ const Trending = ({filter,setFilter}) => {
  
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
@@ -68,7 +68,12 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
  
   return (
     <div>
-        <h1 className='mx-16 md:mx-32 my-5 text-3xl animate-pulse text-btnColor underline'>Trending Recipes</h1>
+        <div className='flex justify-between'>
+        <h1 className='mx-16 md:mx-32 my-5 text-3xl  text-btnColor underline'>Trending Recipes</h1>
+        
+        {user && <h1 className='mr-16 md:mr-32 mt-7 cursor-pointer text-2xl text-amber-900 font-semibold underline animate-pulse ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
+        </div>
+        
 <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     

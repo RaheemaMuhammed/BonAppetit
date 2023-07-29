@@ -37,7 +37,7 @@ const YourRecipes = () => {
 
   return (
     <>
-   <div className='mt-20 '>
+   <div className='md:mt-20 mx-2'>
    {editModal ? <EditRecipeModal setEditModal={setEditmodal} Refresh={refresh} setRefresh={setRefresh} recipe_name={recipe_name} /> : ''}
    {deleteModal ? <DeleteRecipeModal setDeletemodal={setDeletemodal} Refresh={refresh} setRefresh={setRefresh} id={id} /> : ''}
 

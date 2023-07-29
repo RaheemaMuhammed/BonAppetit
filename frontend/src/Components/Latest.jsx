@@ -70,7 +70,7 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
  
   return (
     <div>
-        <h1 className='mx-16 md:mx-32 my-5 text-3xl animate-pulse text-btnColor underline'>Fresh from the Kitchen</h1>
+        <h1 className='mx-16 md:mx-32 my-5 text-3xl text-btnColor underline'>Fresh from the Kitchen</h1>
 <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     

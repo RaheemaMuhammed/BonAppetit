@@ -5,9 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
 import { axiosInstance } from '../Axios/Instances/Instance';
-import { handleLikeStatus,getLikedRecipes } from '../Axios/Services/UserServices'
-import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices';
- const RecipeCards = () => {
+import { getSavedRecipes,getLikedRecipes,getFilteredRecipe } from '../Axios/Services/UserServices'
+ const RecipeCards = ({filter,setFilter}) => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
     const navigate=useNavigate()
@@ -16,7 +15,13 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
     const [likedRecipes,setLikedRecipes] = useState([])
     const [savedRecipes,setSavedRecipes] = useState([])
     const [ refresh,setRefresh] =useState(false)
-    
+    const [filterList,setFilterList] =useState(false)
+    const [category,setCategory] = useState('')
+    const [categories, setCategories] = useState([])
+
+
+
+
     // to show saved recipes
     useEffect(()=>{
         try{
@@ -43,72 +48,66 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
             navigate('/expired/')
         }
     },[refresh])
-    // for like and unlike
-    const handleLike = async (recipe_id)=>{
-        try{
-            const data= {
-                recipe_id:recipe_id
-            }
-            if(token){
-                const response = await handleLikeStatus(token,data)
-                setRefresh(!refresh)
-                
-    
-            }else{
-                navigate('login/')
-            }
-            
-        }
-        catch(error){
-            navigate('/expired/')
-        }
-    }
-   
-    // for save and unsave
-    const handleSave = async(recipe_id)=>{
-        try{
-            const data= {
-                recipe_id:recipe_id
-            }
-            if(token){
-                const response = await handleSaveStatus(token,data)
-                setRefresh(!refresh)
-                
-    
-            }else{
-                navigate('login/')
-            }
-            
-        }
-        catch(error){
-            navigate('/expired/')
-        }
-
-    }
-
-
-
-
+ 
     // for fetching recipes
     useEffect(()=>{
         try{
             const fetchRecipes= async()=>{
                 const response = await getRecipes()
                 if(response){
-                    setRecipes(response?.payload)
+                    const filteredRecipes = category ? response?.payload.filter((item)=>item.category_name === category):response?.payload
+
+                    setRecipes(filteredRecipes)
+                    console.log(response?.payload);
+                    const categoryNames = [...new Set(response?.payload.map(item=>item.category.name))]
+                    console.log(categoryNames);
+                    setCategories(categoryNames)
+                    console.log(categories);
                 }
             }
             fetchRecipes()
             
-            
         }catch(error){
             console.log(error);
         }
-    },[refresh])
+    },[refresh,category])
  
   return (
+    <>
+    <div>
+
+<div className='flex mx-3 md:mx-16 mt-3 justify-between'>
     
-    <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
+    <h1 className='ml-6 md:ml-16 cursor-pointer text-lg text-primary font-normal flex font-poppins my-2 bg-btnColor  px-2 rounded' onClick={()=>setFilterList(!filterList)}>Filter
+     <svg class="w-4 h-4 ml-2 mt-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+   
+
+    </h1>
+    
+
+    <h1 className=' mx-5 md:mx-14 cursor-pointer text-2xl text-amber-900 font-semibold underline animate-pulse my-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
+
+</div>
+
+<hr />
+
+    </div>
+    {filterList &&<>
+    <div className='absolute rounded-lg bg-btnColor text-white mx-8 md:mx-20  p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52'>
+    <p  onClick={()=>setCategory('')} className='cursor-pointer hover:text-black py-1'>All</p>
+
+        {categories?.map((item)=>(
+
+            <p key={item} onClick={()=>setCategory(item)} className='cursor-pointer hover:text-black py-1'>{item}</p>
+            
+        ))}
+        
+        </div>
+        </> }
+    <div className='relative mx-14 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     
 
@@ -124,10 +123,10 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
 
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                             <span className='flex justify-between'> 
-                            <Link to={`singleRecipe/${item.recipe_name}`}>    <span className="font-bold">{item.recipe_name}</span></Link>
+                               <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
 
@@ -137,7 +136,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                                  </span>
                             <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
@@ -146,10 +145,10 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                 return(
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}>    <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`singleRecipe/${item.recipe_name}`}>    <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
-                        <Link to={`singleRecipe/${item.recipe_name}`}><span className="font-bold">{item.recipe_name}</span></Link>
+                        <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
 
@@ -159,7 +158,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                                  </span>                          
                                  <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link> 
                     </div>
                     
                     
@@ -172,11 +171,11 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                 return(
                    <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                        <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>  </Link>
+                        <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>  
                         <div className="m-4">
                         <span className='flex justify-between'> 
-                        <Link to={'/offer'}>  <span className="font-bold">{item.recipe_name}</span>
-                                 </Link>
+                          <span className="font-bold">{item.recipe_name}</span>
+                                
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
 
@@ -186,7 +185,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                                  </span>                            
                                  <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
@@ -198,10 +197,10 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                     <>
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                    <Link to={`singleRecipe/${item.recipe_name}`}>  <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                    <Link to={`singleRecipe/${item.recipe_name}`}>  <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
-                        <Link to={`singleRecipe/${item.recipe_name}`}> <span className="font-bold">{item.recipe_name}</span></Link>
+                         <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex '>
                                     <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
                                  
@@ -212,7 +211,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
                                  </span>                            
                                  <span className="block text-gray-700 text-sm">Recipe by <b>{item.author}</b></span>
                         </div>
-                       
+                        </Link>
                     </div>
                     
                     
@@ -232,6 +231,7 @@ import { getSavedRecipes,handleSaveStatus } from '../Axios/Services/UserServices
     }
 </>
     </div>
+    </>
   )
 }
 

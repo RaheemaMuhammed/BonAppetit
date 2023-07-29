@@ -247,8 +247,7 @@ class UserRecipe(APIView):
      
 # profile page for users and editing
 class UserProfile(APIView):
-        authentication_classes = [JWTAuthentication]
-        permission_classes = [IsAuthenticated]
+        
 
         # get details
         def get(self,request):
@@ -264,3 +263,5 @@ class UserProfile(APIView):
         # edit profile
         def patch(self,request):
              pass
+ 
+          

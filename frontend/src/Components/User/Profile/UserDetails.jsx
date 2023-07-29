@@ -34,7 +34,7 @@ const UserDetails = () => {
 
   return (
     <>
-      <div className=' flex flex-col mt-14 mx-32 p-5 '>
+      <div className=' flex flex-col mt-14 md:mx-32 p-5 '>
 
 <div className='flex justify-center items-center'>
 {profile?.profile_pic ?    <img className="mr-4  w-16 h-12 rounded-full" src={`${axiosInstance}${profile.profile_pic}`} alt=""/>
@@ -44,7 +44,7 @@ const UserDetails = () => {
 </div>
   }
 </div>
-      <div className=" overflow-x-auto">
+      <div className=" overflow-x-auto w-full">
     <table className="w-full text-lg text-left border mt-4 text-gray-500 dark:text-gray-400">
        
         <tbody>

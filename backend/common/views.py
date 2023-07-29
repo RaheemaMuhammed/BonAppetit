@@ -50,3 +50,7 @@ class Latest(APIView):
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:
                 return Response({'error':str(e)})
+            
+
+          
+          

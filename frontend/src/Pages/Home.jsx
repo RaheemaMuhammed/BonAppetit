@@ -10,6 +10,7 @@ import Latest from '../Components/Latest'
 import Trending from '../Components/Trending'
 const Home = () => {
   const [loader, setLoader] = useState(true)
+  const [filter,setFilter] = useState(false)
   
   const user = useSelector(state => state.UserReducer.user)
   useEffect(() => {
@@ -22,9 +23,13 @@ const Home = () => {
    {loader ? <Loader/> : <>
    <Header/>
    { user ? <Search/> :  <Banner/>}
-   <Trending/>
-   <Latest/>
-   {/* <RecipeCards/> */}
+   {user && filter ?<RecipeCards setFilter={setFilter} filter = {filter}/> :
+   <>
+   <Trending setFilter={setFilter} filter = {filter}/>
+   <Latest/> 
+   </>}
+   
+   {/*  */}
    <Footer/>
    </> }
    
