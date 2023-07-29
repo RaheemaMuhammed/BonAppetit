@@ -98,23 +98,6 @@ class PaymentRequest(APIView):
              serializer=PaymentRequestSerializer(data=data)
              if serializer.is_valid():
                   serializer.save()
-                  #generate order number
-                  yr  =   int(datetime.date.today().strftime('%Y'))
-                  dt  =   int(datetime.date.today().strftime('%d'))
-                  mt  =   int(datetime.date.today().strftime('%m'))
-                  d  =    datetime.date(yr,mt,dt)
-                  current_date = d.strftime("%Y%m%d") #yyyy/mm/dd
-                  trans_id   =      current_date + str(user_id)
-                  
-                  transaction_details={
-                     'transaction_id':trans_id,
-                     'amount':amount,
-                     'time':timezone.now().isoformat(),
-                     'status':'requested',
-                     'type' :'earning'
-                  }
-                  user.add_transaction(transaction_details)
-
                   return Response({'message':'Your request is accepted.Amount will be credited in 3-4 days','status':200})
              return Response({'error':serializer.errors,'status':400})
              

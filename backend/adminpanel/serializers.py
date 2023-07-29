@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from account.models import *
 import json
+from payment.models import PaymentRequest
 
 class TransactionHistoryField(serializers.Field):
     def to_representation(self, value):
@@ -31,3 +32,9 @@ class CategorySerializer(serializers.ModelSerializer):
             if any(char.isdigit() for char in data):
                 raise serializers.ValidationError("Category name cannot contain numbers.")
             return data
+        
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentRequest
+        fields = '__all__'

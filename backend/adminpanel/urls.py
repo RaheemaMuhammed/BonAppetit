@@ -5,6 +5,6 @@ from .views import *
 urlpatterns = [
     path('users/',UserList.as_view()),
     path('categories/',CategoryList.as_view()),
-    path('payment_requests',PaymentRequest.as_view())
+    path('payment_requests/',ManageRequest.as_view())
   
 ]

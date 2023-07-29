@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import { toast } from 'react-toastify'
+import { UPISchema } from '../../../Validations/upiValidation'
+
 import { requestPayment } from '../../../Axios/Services/UserServices'
 import { getSingleRecipes} from '../../../Axios/Services/UserServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
 import { useNavigate } from 'react-router-dom'
-const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount}) => {
+const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount,requestSent,setRequestSent}) => {
     const cancelButtonRef = useRef(null)
     const [upi_id,setUPIID] = useState('')
     const [open,setOpen] =useState(true)
@@ -28,6 +30,7 @@ const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount}) => {
             if(response.status===200){
                 setRModal(false)
                 setRefresh(!Refresh)
+                setRequestSent(!requestSent)
                 toast.success(response.message)
             }else if (response.status===400){
                 toast.warning('Invalid Data')
@@ -45,7 +48,7 @@ const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount}) => {
          amount:"",
          upi_id:""
         },
-       
+        validationSchema: UPISchema ,
         onSubmit,
     })
     
@@ -102,7 +105,9 @@ const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount}) => {
                                                 onBlur={handleBlur} id="upi_id"
                                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "/>
                                                
-
+                                               {errors.upi_id && touched.upi_id && (
+                                                    <p className="text-red-600">{errors.upi_id}</p>
+                                                  )}
                                             </div>
                                             
                                       

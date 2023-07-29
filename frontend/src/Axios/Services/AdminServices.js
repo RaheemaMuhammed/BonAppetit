@@ -84,3 +84,36 @@ export const addCategories = async (token,values)=>{
         throw error;
     }
 }
+// for getting payyment requests
+
+export const getPaymentRequests = async (token) =>{
+    try {
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },
+        }
+        const response = await axiosAdminInstance.get('payment_requests/',config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
+//for handling payment status
+
+export const handlePaymentRequests = async (token,values)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosAdminInstance.post('payment_requests/',values,config)
+        console.log(response);
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}

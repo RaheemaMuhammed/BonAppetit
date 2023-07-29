@@ -113,7 +113,7 @@ viewBox="0 0 504 512.08"
  </g>
 </svg>
                <NavLink to={'/admin/subscription'}className={({ isActive, isPending }) =>
-    isPending ? ' bg-newCoral ' : isActive ? 'bg-btnColor rounded p-1 ' : ''}>Subscription</NavLink>
+    isPending ? ' bg-newCoral ' : isActive ? 'bg-btnColor rounded p-1 ' : ''}>Payments</NavLink>
         
     </li>
 
