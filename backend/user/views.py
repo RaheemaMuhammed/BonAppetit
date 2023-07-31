@@ -27,8 +27,6 @@ class RecipeList(APIView):
             data=request.data
             recipe_name = request.data['recipe_name']
             data=data.copy()
-           
-            
             author=CustomUser.objects.get(username=data['author'])
             data['author']=author.id
             serializer = PostRecipeSerializer(data=data)
@@ -67,7 +65,6 @@ class RecipeList(APIView):
 
     # deleting a recipe
     def delete(self,request):
-            print('sjdskjd')
             try:
                  id=request.GET.get('id')
                  print(id)
@@ -77,7 +74,7 @@ class RecipeList(APIView):
             except Exception as e:
                  return Response({'error':str(e)})
 
-    # Get single recipe
+# Get single recipe
 
 class SingleRecipe(APIView):
         authentication_classes = [JWTAuthentication]
@@ -247,8 +244,8 @@ class UserRecipe(APIView):
      
 # profile page for users and editing
 class UserProfile(APIView):
-        
-
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated]
         # get details
         def get(self,request):
              try:
@@ -263,5 +260,34 @@ class UserProfile(APIView):
         # edit profile
         def patch(self,request):
              pass
- 
-          
+
+# comment system
+class Comments(APIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated]
+
+        def post(self,request):
+             try:
+                  
+                    data=request.data
+                    user_id=request.user.id
+                    data['user_id']=user_id
+                    serializer=PostCommentsSerializer(data=data)
+                    if serializer.is_valid():
+                        serializer.save()
+                        return Response({'status':200,'message':'Comment Posted successfully'})
+                    return Response({'status':400,'message':'Invalid Data'})
+             except Exception as e:
+                  return Response({'error':str(e)})
+                    
+        
+        def delete(self,request):
+            try:
+                 id=request.GET.get('id')
+                 comment=Comment.objects.get(pk=id)
+                 comment.delete()
+                 return Response({'status':200,'message':' Deleted successfully'})
+            except Exception as e:
+                 return Response({'error':str(e)})
+     
+

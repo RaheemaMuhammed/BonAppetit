@@ -16,12 +16,10 @@ class RecipeSerializer(serializers.ModelSerializer):
                   'ingredients','created_at','updated_at','author_id','author','views','revenue','report','comments','total_likes')
  
 
-
 class PostRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model=Recipe
         fields='__all__'
-
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +30,16 @@ class SavedRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedRecipes
         fields = '__all__'
+
+class CommentsSerializer(serializers.ModelSerializer):
+    user=serializers.CharField(source='user_id.username')
+    user_profile=serializers.ImageField(source='user_id.profile_pic')
+    class Meta:
+
+        model = Comment
+        fields = ('id','user','recipe_id','comment','created_at','user_profile','reply')
+
+class PostCommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Comment
+        fields='__all__'

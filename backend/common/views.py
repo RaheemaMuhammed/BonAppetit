@@ -51,6 +51,18 @@ class Latest(APIView):
             except Exception as e:
                 return Response({'error':str(e)})
             
+class CommentListing(APIView):
+  
+          def get(self,request):
+             try:
+                recipe_id = request.GET.get('recipe_id')
+                
+                recipe=Comment.objects.filter(recipe_id=recipe_id)
+                
+                serializer=CommentsSerializer(recipe,many=True)
+                return Response({'status':200,'payload':serializer.data})
 
+             except Exception as e:
+                  return Response({'error':str(e)})
           
           

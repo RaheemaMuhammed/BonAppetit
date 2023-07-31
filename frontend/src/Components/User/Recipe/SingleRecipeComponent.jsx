@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getSingleRecipes } from '../../../Axios/Services/CommonServices'
 import { useParams,useNavigate } from 'react-router-dom'
 import avatar from '../../../assets/avatar.jpg'
+import CommentComponent from './CommentComponent'
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
 import { handleLikeStatus,handleSaveStatus,getLikedRecipes,getSavedRecipes} from '../../../Axios/Services/UserServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
@@ -31,6 +32,7 @@ const SingleRecipeComponent = () => {
             const response = await getSingleRecipes(recipe_name)
             if(response){
                 setRecipe(response?.payload)
+                console.log(recipe);
                 setIngredients(response?.payload?.ingredients?.split(',') || [])
                 console.log(recipe);
             }
@@ -113,24 +115,13 @@ const SingleRecipeComponent = () => {
     const isLiked = likedRecipes?.some((likedRecipe) => likedRecipe.id === recipe.id);
     const isSaved= savedRecipes?.some((savedRecipe) => savedRecipe.id === recipe.id)
 
-
-
-
-
-
-
-
-
-
   return (
     <div>
-       
-
-
+    
 
 <main className="pt-8 pb-16 lg:pt-16 lg:pb-24  ">
   <div className="  ">
-      <article className=" mx-[25%] format format-sm sm:format-base lg:format-lg format-blue ">
+      <article className="mx-2 md:mx-[25%] format format-sm sm:format-base lg:format-lg format-blue ">
           <header className="mb-4 lg:mb-6 not-format">
               <address className="flex items-center mb-6 not-italic">
                   <div className=" mr-3 text-sm text-gray-900 dark:text-white">
@@ -202,6 +193,9 @@ const SingleRecipeComponent = () => {
       
        
       </article>
+  </div>
+  <div>
+    <CommentComponent recipe_id={recipe?.id} author={recipe?.author}/>
   </div>
 </main>
 

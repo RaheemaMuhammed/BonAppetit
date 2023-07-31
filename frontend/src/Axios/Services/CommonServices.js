@@ -127,3 +127,23 @@ export const getLatest= async ()=>{
     }
 
 }
+// get comments
+export const getSingleRecipeComents = async (recipe_id)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json"
+            },
+            params:{
+                recipe_id:recipe_id
+            },
+        }
+        const response = await axiosUserInstance.get('common/comments/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}

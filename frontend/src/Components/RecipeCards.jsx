@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
 import { axiosInstance } from '../Axios/Instances/Instance';
-import { getSavedRecipes,getLikedRecipes,getFilteredRecipe } from '../Axios/Services/UserServices'
+import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices'
  const RecipeCards = ({filter,setFilter}) => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
@@ -58,11 +58,8 @@ import { getSavedRecipes,getLikedRecipes,getFilteredRecipe } from '../Axios/Serv
                     const filteredRecipes = category ? response?.payload.filter((item)=>item.category_name === category):response?.payload
 
                     setRecipes(filteredRecipes)
-                    console.log(response?.payload);
                     const categoryNames = [...new Set(response?.payload.map(item=>item.category.name))]
-                    console.log(categoryNames);
                     setCategories(categoryNames)
-                    console.log(categories);
                 }
             }
             fetchRecipes()
@@ -78,8 +75,8 @@ import { getSavedRecipes,getLikedRecipes,getFilteredRecipe } from '../Axios/Serv
 
 <div className='flex mx-3 md:mx-16 mt-3 justify-between'>
     
-    <h1 className='ml-6 md:ml-16 cursor-pointer text-lg text-primary font-normal flex font-poppins my-2 bg-btnColor  px-2 rounded' onClick={()=>setFilterList(!filterList)}>Filter
-     <svg class="w-4 h-4 ml-2 mt-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+    <h1 className='ml-10 md:ml-16 cursor-pointer text-lg text-primary font-normal flex font-poppins my-2 bg-btnColor  px-1 rounded' onClick={()=>setFilterList(!filterList)}>Filter
+     <svg class="w-4 h-4 ml-1 mt-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
     </svg>
@@ -88,7 +85,7 @@ import { getSavedRecipes,getLikedRecipes,getFilteredRecipe } from '../Axios/Serv
     </h1>
     
 
-    <h1 className=' mx-5 md:mx-14 cursor-pointer text-2xl text-amber-900 font-semibold underline animate-pulse my-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
+    <h1 className=' mx-10 md:mx-14 cursor-pointer text-base md:text-2xl text-amber-900 font-semibold underline animate-pulse my-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
 
 </div>
 

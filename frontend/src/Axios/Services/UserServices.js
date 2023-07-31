@@ -260,3 +260,36 @@ export const requestPayment = async(token,values)=>{
         throw error;
     }
 }
+// post a comment
+export const postingComment = async(token,values)=>{
+    console.log(values);
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosUserInstance.post('user/comments/',values,config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
+// delete a commnt
+export const deleteComment = async (token,id) =>{
+    try {
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },params: {
+                id: id,
+            },
+        }
+        const response = await axiosUserInstance.delete('user/comments/',config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
