@@ -35,6 +35,7 @@ class CategorySerializer(serializers.ModelSerializer):
         
 
 class PaymentSerializer(serializers.ModelSerializer):
+    user=serializers.CharField(source='user.username')
     class Meta:
         model = PaymentRequest
-        fields = '__all__'
+        fields = ('user','id','upi_id','amount','created_at','status')

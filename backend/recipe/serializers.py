@@ -31,13 +31,23 @@ class SavedRecipeSerializer(serializers.ModelSerializer):
         model = SavedRecipes
         fields = '__all__'
 
-class CommentsSerializer(serializers.ModelSerializer):
-    user=serializers.CharField(source='user_id.username')
-    user_profile=serializers.ImageField(source='user_id.profile_pic')
-    class Meta:
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user_id.username')
+    user_profile = serializers.ImageField(source='user_id.profile_pic')
+    children = serializers.SerializerMethodField()
+    is_parent = serializers.SerializerMethodField()
 
+    class Meta:
         model = Comment
-        fields = ('id','user','recipe_id','comment','created_at','user_profile','reply')
+        fields = ('id', 'user', 'recipe_id', 'comment', 'created_at', 'user_profile', 'parent', 'children', 'is_parent')
+
+    def get_children(self, obj):
+        children_qs = obj.replies.all()  
+        serializer = CommentSerializer(children_qs, many=True)
+        return serializer.data
+
+    def get_is_parent(self, obj):
+        return obj.parent is None
 
 class PostCommentsSerializer(serializers.ModelSerializer):
     class Meta:

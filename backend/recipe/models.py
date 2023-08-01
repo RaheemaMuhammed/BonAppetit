@@ -32,7 +32,14 @@ class Like(models.Model):
 
 class Comment(models.Model):
     comment=models.TextField()
-    reply=models.TextField(null=True)
     user_id=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     recipe_id=models.ForeignKey(Recipe,on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now=False,auto_now_add=True)
+    parent=models.ForeignKey('self', null=True , blank=True , on_delete=models.CASCADE , related_name='replies')
+
+   
+
+    def __str__(self):
+        return str(self.user_id) + ' comment ' + str(self.comment)
+
+    

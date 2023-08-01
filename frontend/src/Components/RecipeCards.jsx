@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
 import { axiosInstance } from '../Axios/Instances/Instance';
 import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices'
+import { BsStars } from 'react-icons/bs';
  const RecipeCards = ({filter,setFilter}) => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
@@ -60,6 +61,7 @@ import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices
                     setRecipes(filteredRecipes)
                     const categoryNames = [...new Set(response?.payload.map(item=>item.category.name))]
                     setCategories(categoryNames)
+                    
                 }
             }
             fetchRecipes()
@@ -75,8 +77,8 @@ import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices
 
 <div className='flex mx-3 md:mx-16 mt-3 justify-between'>
     
-    <h1 className='ml-10 md:ml-16 cursor-pointer text-lg text-primary font-normal flex font-poppins my-2 bg-btnColor  px-1 rounded' onClick={()=>setFilterList(!filterList)}>Filter
-     <svg class="w-4 h-4 ml-1 mt-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+    <h1 className='ml-10 md:ml-16 cursor-pointer text-lg text-primary font-medium flex font-serif my-2 bg-btnColor  px-1 rounded-sm' onClick={()=>setFilterList(!filterList)}>filter
+     <svg class="w-4 h-4  mt-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
     </svg>
@@ -85,7 +87,7 @@ import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices
     </h1>
     
 
-    <h1 className=' mx-10 md:mx-14 cursor-pointer text-base md:text-2xl text-amber-900 font-semibold underline animate-pulse my-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
+    <h1 className=' mx-10 md:mx-14 cursor-pointer text-base md:text-2xl text-amber-900 font-semibold underline animate-pulse my-2 bg-primary rounded-full px-1 md:px-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
 
 </div>
 
@@ -93,12 +95,12 @@ import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices
 
     </div>
     {filterList &&<>
-    <div className='absolute rounded-lg bg-btnColor text-white mx-8 md:mx-20  p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52'>
-    <p  onClick={()=>setCategory('')} className='cursor-pointer hover:text-black py-1'>All</p>
+    <div className='absolute rounded-lg bg-btnColor text-white mx-8 md:mx-20  p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-52'>
+    <p  onClick={()=>{setCategory('');setFilterList(!filterList);}} className='cursor-pointer hover:text-black py-1'>All</p>
 
         {categories?.map((item)=>(
 
-            <p key={item} onClick={()=>setCategory(item)} className='cursor-pointer hover:text-black py-1'>{item}</p>
+            <p key={item} onClick={()=>{setCategory(item);setFilterList(!filterList);}} className='cursor-pointer hover:text-black py-1'>{item}</p>
             
         ))}
         
@@ -168,6 +170,11 @@ import { getSavedRecipes,getLikedRecipes  } from '../Axios/Services/UserServices
                 return(
                    <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
+                    <div className='absolute z-1 flex bg-white mt-1 rounded-full px-1'>
+                        <p className='font-poppins text-xs font-bold text-btnColor m-1'>Premium</p>
+                        <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />
+
+                        </div>
                         <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>  
                         <div className="m-4">
                         <span className='flex justify-between'> 

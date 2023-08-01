@@ -57,9 +57,9 @@ class CommentListing(APIView):
              try:
                 recipe_id = request.GET.get('recipe_id')
                 
-                recipe=Comment.objects.filter(recipe_id=recipe_id)
+                recipe=Comment.objects.filter(recipe_id=recipe_id,parent=None)
                 
-                serializer=CommentsSerializer(recipe,many=True)
+                serializer=CommentSerializer(recipe,many=True)
                 return Response({'status':200,'payload':serializer.data})
 
              except Exception as e:

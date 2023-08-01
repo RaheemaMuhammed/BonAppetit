@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
-
+import {BsStars} from 'react-icons/bs'
 import { axiosInstance } from '../Axios/Instances/Instance';
 import { getLikedRecipes } from '../Axios/Services/UserServices'
 import { getSavedRecipes } from '../Axios/Services/UserServices';
@@ -71,7 +71,7 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
         <div className='flex justify-between'>
         <h1 className='mx-16 md:mx-32 my-5 text-xl md:text-3xl  text-btnColor underline'>Trending Recipes</h1>
         
-        {user && <h1 className='mr-16 md:mr-32 mt-8 cursor-pointer text-xs md:text-2xl text-amber-900 font-semibold underline animate-pulse ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
+        {user && <h1 className='mr-14  mb-3 md:mr-32 mt-8 cursor-pointer text-xs md:text-2xl text-amber-900 font-semibold underline animate-pulse bg-primary pt-2 md:pt-0  rounded-full lg:px-2 ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
         </div>
         
 <div className='mx-16 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
@@ -92,7 +92,9 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
                     <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
-                            <span className='flex justify-between'> 
+                            <span className='flex justify-between'>
+            
+                            
                                <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
@@ -115,6 +117,7 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
                     <Link to={`singleRecipe/${item.recipe_name}`}>    <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
+
                         <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
@@ -138,10 +141,19 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
                 return(
                    <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
-                        <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>  
+
+
+                        <div className='absolute z-[1] flex bg-white mt-1 rounded-full px-1'>
+                        <p className='font-poppins text-xs font-bold text-btnColor m-1'>Premium</p>
+                        <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />
+
+                        </div>
+                        <Link to={'/offer'}> <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover relative "/>  
                         <div className="m-4">
-                        <span className='flex justify-between'> 
-                         <span className="font-bold">{item.recipe_name}</span>
+                        <span className='flex justify-between'>
+                       
+                         <span className="font-bold">{item.recipe_name} 
+</span>
                                 
                                  <span className='flex'>
                                  <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>
@@ -167,6 +179,7 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
                     <Link to={`singleRecipe/${item.recipe_name}`}>  <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
+
                         <span className="font-bold">{item.recipe_name}</span>
                                  <span className='flex '>
                                     <span className='mt-3 text-[14px] mx-1 text-btnColor'>{item.total_likes === 0 ? '' : item.total_likes}</span>

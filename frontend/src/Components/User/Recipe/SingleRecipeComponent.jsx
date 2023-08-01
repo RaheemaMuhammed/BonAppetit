@@ -147,7 +147,7 @@ const SingleRecipeComponent = () => {
           <div className='my-5 '>
             <hr />
             <div className='flex flex-row mb-3'>
-            <span className='mt-3  text-[14px] mx-1 text-btnColor '>{recipe.total_likes === 0 ? '' : recipe.total_likes}</span>
+            <span className='mt-3  text-[14px] mx-1 text-btnColor '>{recipe?.total_likes === 0 ? '' : recipe?.total_likes}</span>
                                  
                                  <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(recipe.id)}>{isLiked ? <FaThumbsUp size={21} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={21}/>}</span>
                                  <span className='cursor-pointer justify end mt-3 mx-9' onClick={()=>handleSave(recipe.id)}>{isSaved ? <FaBookmark size={21} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
