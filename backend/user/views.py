@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.utils import timezone
+from datetime import timedelta
+
 from django.shortcuts import render
 from recipe.serializers import *
 from rest_framework.views import APIView
@@ -12,6 +14,9 @@ from adminpanel.models import Categories
 from adminpanel.serializers import CategorySerializer
 from decimal import Decimal
 from adminpanel.serializers import UserSerializer
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 # Create your views here.
 
 class RecipeList(APIView):
@@ -137,10 +142,31 @@ class LikeRecipe(APIView):
                         Like.objects.create(user_id=user,recipe_id=recipe)
                         recipe.total_likes+=1
                         author_id=recipe.author.id
+
                         if recipe.is_private == True:
                             author=CustomUser.objects.get(pk=author_id)
                             author.wallet=Decimal(author.wallet)+Decimal('0.05')
                             author.save()
+                        notification_message=f"{user.username} liked your recipe :{recipe.recipe_name}"
+                        Notifications.objects.create(sender=user,recipient=recipe.author,message=notification_message,is_read=False)
+
+                        channel_layer=get_channel_layer()
+                        author_channel_name=f"user_{recipe.author.id}"
+
+                        
+                    
+                        async_to_sync(channel_layer.group_send)(
+                             author_channel_name,
+                             {
+                                  "type":"send_notification",
+                                  "notification":{
+                                       "message":notification_message,
+                                       "is_read":False,
+                                  },
+                             },
+                        )
+
+                        
 
                 recipe.save()
                 serializer=RecipeSerializer(recipe,partial=True)
@@ -290,3 +316,28 @@ class Comments(APIView):
             except Exception as e:
                  return Response({'error':str(e)})
      
+# get latest notification
+class Notification(APIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAuthenticated] 
+        def get(self,request):
+             try:
+                  
+                    thirty_days_ago = timezone.now() - timedelta(days=30)
+                    notifs=Notifications.objects.filter(recipient=request.user ,timestamp__gte=thirty_days_ago).order_by('-timestamp')
+                    serializer=notificationSerializer(notifs,many=True)
+                    return Response({'payload':serializer.data,'status':200})
+             except Exception as e:
+                    return Response({'error':str(e),'status':400})
+             
+        # mark as read
+        def patch(self,request):
+             try:
+                  notifs=Notifications.objects.filter(recipient=request.user ,is_read=False)
+                  for noti in notifs:
+                       noti.is_read=True
+                       noti.save()
+                  return Response({'status':200,'message':'Marked notifications as read'})
+             except Exception as e:
+                  return Response({'error':str(e),'status':400})
+             

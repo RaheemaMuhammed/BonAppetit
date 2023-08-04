@@ -1,6 +1,8 @@
 from django.db import models
 from account.models import CustomUser
 from adminpanel.models import Categories
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 # Create your models here.
 
 
@@ -43,3 +45,12 @@ class Comment(models.Model):
         return str(self.user_id) + ' comment ' + str(self.comment)
 
     
+class Notifications(models.Model):
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_notifications')
+    recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='received_notifications')
+    message = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f'{self.sender} -> {self.recipient}: {self.message}' 

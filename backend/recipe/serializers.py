@@ -53,3 +53,8 @@ class PostCommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model=Comment
         fields='__all__'
+
+class notificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Notifications
+        fields='__all__'

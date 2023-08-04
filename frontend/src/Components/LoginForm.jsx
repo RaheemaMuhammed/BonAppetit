@@ -17,7 +17,7 @@ const LoginForm = () => {
         const onSubmit = async () =>{
             try{
                 const response= await Login(values)
-                console.log(response);
+                
                 if (response.status == 200){
                     toast.success(response.message)
                     if (response.person == 'user'){

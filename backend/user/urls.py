@@ -11,5 +11,6 @@ urlpatterns=[
     path('user_recipe/',UserRecipe.as_view()),
     path('user_profile/',UserProfile.as_view()),
     path('comments/',Comments.as_view()),
+    path('notification/',Notification.as_view()),
    
 ]

@@ -122,6 +122,11 @@ import { BsStars } from 'react-icons/bs';
 
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
+                    {item.is_private && <div className='absolute z-1 flex bg-white mt-1 rounded-full px-1'>
+                        <p className='font-poppins text-xs font-bold text-btnColor m-1'>Premium</p>
+                        <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />
+
+                        </div>}
                     <Link to={`singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                             <span className='flex justify-between'> 
@@ -144,6 +149,11 @@ import { BsStars } from 'react-icons/bs';
                 return(
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
+                        {item.is_private && <div className='absolute z-1 flex bg-white mt-1 rounded-full px-1'>
+                        <p className='font-poppins text-xs font-bold text-btnColor m-1'>Premium</p>
+                        <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />
+
+                        </div>}
                     <Link to={`singleRecipe/${item.recipe_name}`}>    <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 
@@ -201,6 +211,11 @@ import { BsStars } from 'react-icons/bs';
                     <>
                     <div key={item.id} className="container m-auto">
                     <div key={item.id} className="bg-white rounded overflow-hidden shadow-md relative hover:shadow-lg w-full mb-2">
+                    {item.is_private && <div className='absolute z-1 flex bg-white mt-1 rounded-full px-1'>
+                        <p className='font-poppins text-xs font-bold text-btnColor m-1'>Premium</p>
+                        <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />
+
+                        </div>}
                     <Link to={`singleRecipe/${item.recipe_name}`}>  <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
                         <div className="m-4">
                         <span className='flex justify-between'> 

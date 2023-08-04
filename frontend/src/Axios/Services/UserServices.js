@@ -293,3 +293,38 @@ export const deleteComment = async (token,id) =>{
         throw error;
     }
 }
+// get user notifoications
+
+export const getNotificactions = async (token)=>{
+    try{
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.get('user/notification/',config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+    
+}
+// 
+export const handleNotiStatus=async (token,values)=>{
+    try {
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.patch('user/notification/',values,config)
+        return response.data
+    }
+    catch (error){
+        throw error;
+    }
+}

@@ -74,7 +74,7 @@ function stateChange(id,user,amount,status) {
            
            <tr className="border-b dark:border-neutral-500">
                <td className="text-black whitespace-nowrap px-6 py-4 font-medium">{index+1}</td>
-               <td className="text-black whitespace-nowrap px-6 py-4">{ item.user}</td>
+               <td className="text-black whitespace-nowrap px-6 py-4">{ item.username}</td>
                <td className="text-black whitespace-nowrap px-6 py-4">{item.amount}</td>
                <td className="text-black whitespace-nowrap px-6 py-4">{item.upi_id}</td>
                {item.status === 'Completed' || item.status === 'Cancelled' ?(item.status === 'Completed'? <td className="cursor-pointer text-lg font-medium whitespace-nowrap px-6 py-4 text-green-500" onClick={()=>toast.warning('You cannot update this status!!')}>{ item.status}</td>:
