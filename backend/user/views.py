@@ -339,7 +339,7 @@ class Comments(APIView):
 # get latest notification
 class Notification(APIView):
         authentication_classes = [JWTAuthentication]
-        permission_classes = [IsAuthenticated,IsAdminUser] 
+        permission_classes = [IsAuthenticated] 
         def get(self,request):
              try:
                   

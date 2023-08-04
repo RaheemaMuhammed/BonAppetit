@@ -92,7 +92,13 @@ class Login(APIView):
                 obj = CustomUser.objects.get(email=email)
                 if obj.is_user == True:
                     person = 'user'
+                    latest_payment_request=PaymentRequest.objects.filter(user=user).order_by('-created_at').first()
+                    if latest_payment_request.status == 'Accepted':
+                        requested=True
+                    else:
+                        requested=False
                 if obj.is_superuser == True:
+                    requested=False
                     person = 'admin'
                 if user.is_active == True and user.is_block == False:
                     username=user.username
@@ -102,11 +108,7 @@ class Login(APIView):
                     premium=user.has_premium
                     
                     login(request,user)
-                    latest_payment_request=PaymentRequest.objects.filter(user=user).order_by('-created_at').first()
-                    if latest_payment_request.status == 'Accepted':
-                        requested=True
-                    else:
-                        requested=False
+                    
                     refresh=RefreshToken.for_user(user)
                     return Response({'message':'you are successfully logged in',
                                     'status':200,

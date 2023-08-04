@@ -307,7 +307,7 @@ export const getNotificactions = async (token)=>{
         const response = await axiosUserInstance.get('user/notification/',config)
         return response.data
     }catch(error){
-        throw error;
+        console.log(error); 
     }
     
 }

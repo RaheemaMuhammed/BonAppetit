@@ -12,7 +12,6 @@ const Header = () => {
     const admin = useSelector(state => state.AdminReducer.admin)
     const token = useSelector(state=>state.UserReducer.accessToken)
     const tokenA=useSelector(state=>state.AdminReducer.accessToken)
-    const [sendToken,setSendToken] =useState('')
     const [addModal,setAddmodal] = useState(false)
    const [flyNoti,setFlyNoti] =useState('')
     const [Refresh, setRefresh] = useState(false)
@@ -23,6 +22,22 @@ const navigate = useNavigate()
         userT: token,
         adminT: tokenA,
       };
+
+      useEffect(() => {
+            try{
+                const userNotifications= async()=>{
+                    const response = await getNotificactions(tokens[user ? 'userT' : 'adminT'])
+                    console.log(response);
+                    setNotifications(response?.payload)
+        
+                }
+                userNotifications()
+            }catch(error){
+                navigate('/expired/')
+            }
+        
+        
+    }, [Refresh])
  useEffect(() => {
     console.log(token,tokenA);
     
@@ -38,7 +53,7 @@ const navigate = useNavigate()
        if (!data.is_read) {
          setNotiCount((prevCount) => prevCount + 1);
        }
-       setNotifications((prevNotifications) => [ data,...prevNotifications]);
+       setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]);
      };
      socket.onclose = () => {
        console.log('WebSocket connection closed.');
@@ -58,22 +73,7 @@ const navigate = useNavigate()
       setFlyNoti('');
     }, 3000); 
   };
-useEffect(() => {
-    
-        try{
-            const userNotifications= async()=>{
-                const response = await getNotificactions(tokens[user? 'userT' : 'adminT'])
-                setNotifications(response?.payload)
-    
-            }
-            userNotifications()
-        }catch(error){
-            navigate('/expired/')
-        }
-    
-        
-    
-}, [Refresh])
+
 
 function handleRead() {
   
@@ -187,7 +187,7 @@ function handleRead() {
         <span className="sr-only" >Close menu</span>
     </button>
   <div className="py-4 overflow-y-auto text-white">
-    {notifications.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
+    {notifications?.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
     <ul className="space-y-2 font-medium" onClick={handleRead}>
         {notifications?.map((noti)=>{
 

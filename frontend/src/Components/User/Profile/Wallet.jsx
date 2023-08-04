@@ -11,7 +11,9 @@ const [balance,setBalance] = useState('')
 const [rModal,setRModal] = useState(false)
 const [user,setUser] = useState('')
 const [ refresh,setRefresh] =useState(false)
+
 const [history,setHistory] = useState([])
+const [rhistory,setRHistory] = useState([])
 const [requestSent, setRequestSent] = useState(false);
 
 const requested = useSelector(state=>state.UserReducer.requested)
@@ -24,7 +26,8 @@ const navigate=useNavigate()
         const response = await getProfile(token)
 setBalance(response?.payload?.wallet)
 setUser(response?.payload?.id)
-setHistory(response?.payload?.transaction_history)
+setRHistory(response?.payload?.transaction_history)
+setHistory(rhistory?.reverse())
 
 
       }catch(error){
@@ -79,7 +82,7 @@ return(
             <p className='my-4 mx-1'>Transaction ID : {item.transaction_id}</p>
             <td>
               <p>{item.time.split('T')[0]}</p>
-              {item.type === 'premium' ?<p  className='text-red-400'>-{item.amount}</p> :<p className='text-green-400'>+{item.amount}</p>}
+              {item.type === 'premium' ?<p  className='text-red-400'>-{item.amount}</p> :(item.status==='Completed' ? <p className='text-green-400'>+{item.amount}</p>:'')}
               
             </td>
              

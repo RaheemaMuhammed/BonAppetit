@@ -18,30 +18,31 @@ const LoginForm = () => {
             try{
                 const response= await Login(values)
                 
-                if (response.status == 200){
-                    toast.success(response.message)
-                    if (response.person == 'user'){
+                if (response?.status == 200){
+                    toast.success(response?.message)
+                    if (response?.person == 'user'){
                         dispatch(UserLogin({
-                            refreshToken : response.refresh,
-                            accessToken : response.access,
-                            user:{ username : response.username ,person:response.person},
-                            premium:response.premium
+                            refreshToken : response?.refresh,
+                            accessToken : response?.access,
+                            user:{ username : response?.username ,person:response?.person},
+                            premium:response?.premium,
+                            requested:response?.requested
                         }))
                         localStorage.setItem('Component','dashboard')
                         navigate('/')
                     } else if (response.person === 'admin') {
                         dispatch(AdminLogin({ 
-                            refreshToken: response.refresh,
-                            accessToken: response.access,
-                            admin: { username: response.username, person: response.person } }))
+                            refreshToken: response?.refresh,
+                            accessToken: response?.access,
+                            admin: { username: response?.username, person: response?.person } }))
                         navigate('/admin/dashboard')
                     }
-                  }else if (response.status === 700) {
-                        toast.error(response.message)
-                      } else if (response.status === 800) {
-                        toast.error(response.message)
-                      } else if (response.status === 404) {
-                        toast.error(response.message)
+                  }else if (response?.status === 700) {
+                        toast.error(response?.message)
+                      } else if (response?.status === 800) {
+                        toast.error(response?.message)
+                      } else if (response?.status === 404) {
+                        toast.error(response?.message)
                       } else {
                         toast.error('something went wrong')
                       }
