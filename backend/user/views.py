@@ -152,7 +152,7 @@ class LikeRecipe(APIView):
 
                         channel_layer=get_channel_layer()
                         author_channel_name=f"user_{recipe.author.id}"
-
+                        print(author_channel_name)
                         
                     
                         async_to_sync(channel_layer.group_send)(
@@ -339,7 +339,7 @@ class Comments(APIView):
 # get latest notification
 class Notification(APIView):
         authentication_classes = [JWTAuthentication]
-        permission_classes = [IsAuthenticated] 
+        permission_classes = [IsAuthenticated,IsAdminUser] 
         def get(self,request):
              try:
                   

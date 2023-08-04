@@ -14,7 +14,7 @@ const [ refresh,setRefresh] =useState(false)
 const [history,setHistory] = useState([])
 const [requestSent, setRequestSent] = useState(false);
 
-
+const requested = useSelector(state=>state.UserReducer.requested)
 const navigate=useNavigate()
   const token =useSelector(state=>state.UserReducer.accessToken)
   
@@ -52,7 +52,7 @@ setHistory(response?.payload?.transaction_history)
 <div className='my-8 h-20 flex flex-col items-center justify-center'>
 <p className='text-center text-2xl font-bold'>₹{balance} </p>
 <div className='bg-btnColor hover:bg-primary  rounded-md w-auto px-3 py-1 mt-3'>
-{balance >=1 ?( requestSent ?<p className='text-white cursor-pointer hover:text-black text-center'onClick={()=>toast.warning('Your request has been sent,please wait for the transaction!')} >Requested</p>
+{balance >=1 ?( requested ?<p className='text-white cursor-pointer hover:text-black text-center'onClick={()=>toast.warning('Your request has been sent,please wait for the transaction!')} >Requested</p>
   : <p className='text-white cursor-pointer hover:text-black text-center' onClick={()=>{setRModal(!rModal)}} >Redeem Now</p>)
 :<p className='text-white cursor-pointer hover:text-black text-center'onClick={()=>lowBalance()} >Redeem Now</p>
     }

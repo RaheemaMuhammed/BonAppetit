@@ -9,7 +9,7 @@ from  rest_framework_simplejwt.authentication import JWTAuthentication
 # Create your views here
 from rest_framework_simplejwt.tokens import RefreshToken
 from .emails import send_otp_via_email
-
+from payment.models import PaymentRequest
 # to handle registration
 
 
@@ -102,6 +102,11 @@ class Login(APIView):
                     premium=user.has_premium
                     
                     login(request,user)
+                    latest_payment_request=PaymentRequest.objects.filter(user=user).order_by('-created_at').first()
+                    if latest_payment_request.status == 'Accepted':
+                        requested=True
+                    else:
+                        requested=False
                     refresh=RefreshToken.for_user(user)
                     return Response({'message':'you are successfully logged in',
                                     'status':200,
@@ -109,7 +114,8 @@ class Login(APIView):
                                     'access':str(refresh.access_token),
                                     'username':username,
                                     'person':person,
-                                    'premium':premium
+                                    'premium':premium,
+                                    'requested': requested
 
                     })
                 elif user.is_block == True:

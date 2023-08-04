@@ -1,11 +1,11 @@
 import {Fragment,useEffect,useRef,useState} from 'react'
 import { Dialog,Transition } from '@headlessui/react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import { toast } from 'react-toastify'
 import { UPISchema } from '../../../Validations/upiValidation'
-
+import { UserPaymentRequest } from '../../../Redux/UserSlice'
 import { requestPayment } from '../../../Axios/Services/UserServices'
 import { getSingleRecipes} from '../../../Axios/Services/UserServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
@@ -17,7 +17,7 @@ const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount,requestSent,s
     const token = useSelector(state=>state.UserReducer.accessToken)
     const username=useSelector(state=>state.UserReducer.user.username)
     const navigate = useNavigate()
-   
+    const dispatch = useDispatch()
     const onSubmit= async()=>{
         const form =new FormData()
         form.append('user',user)
@@ -31,6 +31,7 @@ const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount,requestSent,s
                 setRModal(false)
                 setRefresh(!Refresh)
                 setRequestSent(!requestSent)
+                dispatch(UserPaymentRequest())
                 toast.success(response.message)
             }else if (response.status===400){
                 toast.warning('Invalid Data')
