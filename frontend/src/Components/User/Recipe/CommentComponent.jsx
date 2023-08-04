@@ -109,7 +109,7 @@ const CommentComponent = ({recipe_id,author}) => {
         return(
 
             <>
-            <article className="p-2 mb-2 text-base bg-white rounded-lg ">
+            <article key={item.id} className="p-2 mb-2 text-base bg-white rounded-lg ">
           <footer className="flex justify-between items-center mb-2">
               <div className="flex items-center">
                   <p className="inline-flex items-center mr-3 text-base text-gray-900 dark:text-white">
@@ -119,8 +119,7 @@ const CommentComponent = ({recipe_id,author}) => {
                           alt="Michael Gough"/>  :     <svg className=" rounded w-4 mr-1 h-6 text-gray-400 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
 }
                     {item.user}</p>
-                  <p className="text-sm text-gray-600 "><time pubdate datetime="2022-02-08"
-                          title="February 8th, 2022">{formatted_date}</time></p>
+                  <p className="text-sm text-gray-600 ">{formatted_date}</p>
               </div>
               {(user === item.user || user ===author) &&  <button 
                   className="inline-flex items-center p-2 text-sm font-medium text-center text-btnColor bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
@@ -138,7 +137,7 @@ const CommentComponent = ({recipe_id,author}) => {
               onClick={()=>{ commentTextFieldRef.current?.focus();setPostComment(`@${item.user} `);setParent(item.id)
                } }
                   className="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
-                  <svg aria-hidden="true" className="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                  <svg aria-hidden="true" className="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                   Reply
               </button>
           </div>
@@ -153,7 +152,7 @@ const CommentComponent = ({recipe_id,author}) => {
         year: 'numeric'
         });
         return(
-<article className="p-3 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
+<article key={item1.id} className="p-3 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
       <footer className="flex justify-between items-center mb-2">
           <div className="flex items-center">
           <p className="inline-flex items-center mr-3 text-base text-gray-900 dark:text-white">
@@ -164,8 +163,7 @@ const CommentComponent = ({recipe_id,author}) => {
                            <svg className=" rounded w-4 mr-1 h-6 text-gray-400 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
 }
                     {item1.user}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-                          title="February 8th, 2022">{formatted_date1}</time></p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{formatted_date1}</p>
               </div>
               {(user === item1.user || user ===author) &&  <button 
                   className="inline-flex items-center p-2 text-sm font-medium text-center text-btnColor bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
@@ -197,7 +195,7 @@ const CommentComponent = ({recipe_id,author}) => {
       <hr />
       <form className="my-6">
           <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-              <label for="comment" className="sr-only">Your comment</label>
+              <label htmlFor="comment" className="sr-only">Your comment</label>
               <textarea id="comment" rows="6"
               value={postComment}
               onChange={(e) => setPostComment(e.target.value)}

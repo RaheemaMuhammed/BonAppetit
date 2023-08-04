@@ -296,11 +296,31 @@ class Comments(APIView):
              try:
                   
                     data=request.data
+                    print(data)
+                    recipe=data['recipe_id']
                     user_id=request.user.id
                     data['user_id']=user_id
+                    user=CustomUser.objects.get(pk=user_id)
+                    this_recipe=Recipe.objects.get(pk=recipe)
                     serializer=PostCommentsSerializer(data=data)
                     if serializer.is_valid():
                         serializer.save()
+                        notification_message=f"{user.username} commented on your post"
+                        
+                        Notifications.objects.create(sender=user,recipient=this_recipe.author,message=notification_message,is_read=False)
+                        
+                        channel_layer=get_channel_layer()
+                        author_channel_name=f"user_{this_recipe.author.id}"
+                        async_to_sync(channel_layer.group_send)(
+                             author_channel_name,
+                             {
+                                  "type":"send_notification",
+                                  "notification":{
+                                       "message":notification_message,
+                                       "is_read":False,
+                                  },
+                             },
+                        )
                         return Response({'status':200,'message':'Comment Posted successfully'})
                     return Response({'status':400,'message':'Invalid Data'})
              except Exception as e:

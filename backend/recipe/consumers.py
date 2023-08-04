@@ -12,13 +12,10 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
-         
-        # Assuming you have a way to get the currently logged-in user, you can use it to filter notifications
         user = self.scope["user"]
         
         if not user.is_anonymous:
             # Add the user to the channel group
-           
             await self.channel_layer.group_add(
                 f"user_{user.id}", self.channel_name
             )
