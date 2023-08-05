@@ -24,6 +24,8 @@ const navigate = useNavigate()
       };
 
       useEffect(() => {
+        if(user){
+
             try{
                 const userNotifications= async()=>{
                     const response = await getNotificactions(tokens[user ? 'userT' : 'adminT'])
@@ -35,33 +37,35 @@ const navigate = useNavigate()
             }catch(error){
                 navigate('/expired/')
             }
+        }
         
         
     }, [Refresh])
  useEffect(() => {
-    console.log(token,tokenA);
-    
-    const socket = new WebSocket(`ws://localhost:8000/ws/notifications/?token=${tokens[user? 'userT' : 'adminT']}`);
+    if(user){
 
-    socket.onopen=()=>{
-       console.log('WebSocket connection opened.');
+        const socket = new WebSocket(`ws://localhost:8000/ws/notifications/?token=${tokens[user? 'userT' : 'adminT']}`);
+    
+        socket.onopen=()=>{
+           console.log('WebSocket connection opened.');
+        }
+        socket.onmessage = (event) => {
+           const data = JSON.parse(event.data);
+           console.log('Received notification:', data);
+           showNotification(data.message)
+           if (!data.is_read) {
+             setNotiCount((prevCount) => prevCount + 1);
+           }
+           setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]);
+         };
+         socket.onclose = () => {
+           console.log('WebSocket connection closed.');
+         };
+       
+         return () => {
+           socket.close();
+         };
     }
-    socket.onmessage = (event) => {
-       const data = JSON.parse(event.data);
-       console.log('Received notification:', data);
-       showNotification(data.message)
-       if (!data.is_read) {
-         setNotiCount((prevCount) => prevCount + 1);
-       }
-       setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]);
-     };
-     socket.onclose = () => {
-       console.log('WebSocket connection closed.');
-     };
-   
-     return () => {
-       socket.close();
-     };
     
    
    

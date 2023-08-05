@@ -361,3 +361,23 @@ class Notification(APIView):
              except Exception as e:
                   return Response({'error':str(e),'status':400})
              
+# for reporting a recipe
+class Reports(APIView):
+     authentication_classes = [JWTAuthentication]
+     permission_classes = [IsAuthenticated] 
+     def post(self,request):
+        try:
+            data=request.data
+            user=request.user.id
+            recipe_id=data['reported_item']
+            data['user']=user
+            recipe=Recipe.objects.get(pk=recipe_id)
+            serializer=ReportSerializer(data=data)
+            if serializer.is_valid():
+                 recipe.total_reports+=1
+                 recipe.save()
+                 serializer.save()
+                 return Response({'status':200,'message':f'Recipe {recipe.recipe_name} is reported successfully'})
+            return Response({'status':400,'message':serializer.errors})
+        except Exception as e:
+            return Response({'error':str(e)})

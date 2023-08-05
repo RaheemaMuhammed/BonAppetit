@@ -18,7 +18,7 @@ class Recipe(models.Model):
     is_private=models.BooleanField(default=False)
     views=models.IntegerField(default=0)
     revenue=models.DecimalField(default=0,decimal_places=2,max_digits=5)
-    report=models.IntegerField(default=0)
+    total_reports=models.IntegerField(default=0)
     total_likes=models.PositiveIntegerField(default=0)
     def __str__(self) -> str:
         return self.recipe_name
@@ -54,3 +54,20 @@ class Notifications(models.Model):
     
     def __str__(self):
         return f'{self.sender} -> {self.recipient}: {self.message}' 
+
+class Report(models.Model):
+    REPORT_TYPES = (
+        ('inappropriate', 'Inappropriate Content'),
+        ('spam', 'Spam'),
+        ('copied', 'Content Copied'),
+        ('other', 'Other'),
+    )
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    reported_item = models.ForeignKey(Recipe, on_delete=models.CASCADE) 
+    report_type = models.CharField(max_length=20, choices=REPORT_TYPES)
+    reason = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report on {self.reported_item} by {self.user}"

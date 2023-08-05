@@ -7,7 +7,7 @@ const SingleRecipe = () => {
   return (
     <>
     <Header/>
-    <SingleRecipeComponent/>
+    <SingleRecipeComponent />
 <Footer/>
     </>
 

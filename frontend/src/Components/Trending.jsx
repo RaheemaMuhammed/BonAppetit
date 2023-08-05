@@ -24,28 +24,34 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
 
     // to show saved recipes
     useEffect(()=>{
-        try{
-            const userSavedRecipes= async()=>{
-                const response = await getSavedRecipes(token)
-                setSavedRecipes(response?.payload)
+        if(user){
 
+            try{
+                const userSavedRecipes= async()=>{
+                    const response = await getSavedRecipes(token)
+                    setSavedRecipes(response?.payload)
+    
+                }
+                userSavedRecipes()
+            }catch(error){
+                navigate('/expired/')
             }
-            userSavedRecipes()
-        }catch(error){
-            navigate('/expired/')
         }
     },[refresh])
     // to show liked recipes
     useEffect(()=>{
-        try{
-            const userLikedRecipes= async()=>{
-                const response = await getLikedRecipes(token)
-                setLikedRecipes(response?.payload)
+        if(user){
 
+            try{
+                const userLikedRecipes= async()=>{
+                    const response = await getLikedRecipes(token)
+                    setLikedRecipes(response?.payload)
+    
+                }
+                userLikedRecipes()
+            }catch(error){
+                navigate('/expired/')
             }
-            userLikedRecipes()
-        }catch(error){
-            navigate('/expired/')
         }
     },[refresh])
 
@@ -56,6 +62,7 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
                 const response = await getTrending()
                 if(response){
                     setRecipes(response?.payload)
+                    console.log(response);
                 }
             }
             fetchRecipes()
@@ -81,7 +88,7 @@ import { getSavedRecipes } from '../Axios/Services/UserServices';
         {recipes?.length === 0 ? '' : 
         <>
 
-        {recipes.map(item=>{
+        {recipes?.map(item=>{
              // Check if the recipe is liked by the logged-in user
           const isLiked = likedRecipes?.some((likedRecipe) => likedRecipe.id === item.id);
           const isSaved= savedRecipes?.some((savedRecipe) => savedRecipe.id === item.id)

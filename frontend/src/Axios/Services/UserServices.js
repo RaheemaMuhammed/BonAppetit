@@ -328,3 +328,19 @@ export const handleNotiStatus=async (token,values)=>{
         throw error;
     }
 }
+// handle report status
+export const reportingRecipe = async(token,values)=>{
+    console.log(values);
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosUserInstance.post('user/report/',values,config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}

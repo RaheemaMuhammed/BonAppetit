@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { getSingleRecipes } from '../../../Axios/Services/CommonServices'
 import { useParams,useNavigate } from 'react-router-dom'
-import avatar from '../../../assets/avatar.jpg'
+import {BsFlag} from 'react-icons/bs'
 import CommentComponent from './CommentComponent'
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
-import { handleLikeStatus,handleSaveStatus,getLikedRecipes,getSavedRecipes} from '../../../Axios/Services/UserServices'
+import { handleLikeStatus,handleSaveStatus,getLikedRecipes,getSavedRecipes,reportingRecipe} from '../../../Axios/Services/UserServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import {RxDotFilled} from 'react-icons/rx'
 import { useSelector } from 'react-redux'
+import ReportRecipeModal from './ReportRecipeModal'
 const SingleRecipeComponent = () => {
    const [recipe,setRecipe] =useState({})
    const {recipe_name}= useParams()
    const [ingredients,setIngredients] = useState([])
    const token=useSelector(state=>state.UserReducer.accessToken)
+   const user=useSelector(state=>state.UserReducer.user)
    const navigate=useNavigate()
    const [likedRecipes,setLikedRecipes] = useState([])
    const [savedRecipes,setSavedRecipes] = useState([])
    const [ refresh,setRefresh] =useState(false)
+   const [reportModal,setReportModal]=useState(false)
 //    for date formatting
   const created_at_str = recipe?.created_at;
   const created_at_date = new Date(created_at_str);
@@ -32,9 +35,7 @@ const SingleRecipeComponent = () => {
             const response = await getSingleRecipes(recipe_name)
             if(response){
                 setRecipe(response?.payload)
-                console.log(recipe);
                 setIngredients(response?.payload?.ingredients?.split(',') || [])
-                console.log(recipe);
             }
         }
         fetchSingleRecipe()
@@ -45,28 +46,34 @@ const SingleRecipeComponent = () => {
 
        // to show saved recipes
        useEffect(()=>{
-        try{
-            const userSavedRecipes= async()=>{
-                const response = await getSavedRecipes(token)
-                setSavedRecipes(response?.payload)
+        if(user){
 
+            try{
+                const userSavedRecipes= async()=>{
+                    const response = await getSavedRecipes(token)
+                    setSavedRecipes(response?.payload)
+    
+                }
+                userSavedRecipes()
+            }catch(error){
+                navigate('/expired/')
             }
-            userSavedRecipes()
-        }catch(error){
-            navigate('/expired/')
         }
     },[refresh])
     // to show liked recipes
     useEffect(()=>{
-        try{
-            const userLikedRecipes= async()=>{
-                const response = await getLikedRecipes(token)
-                setLikedRecipes(response?.payload)
+        if(user){
 
+            try{
+                const userLikedRecipes= async()=>{
+                    const response = await getLikedRecipes(token)
+                    setLikedRecipes(response?.payload)
+    
+                }
+                userLikedRecipes()
+            }catch(error){
+                navigate('/expired/')
             }
-            userLikedRecipes()
-        }catch(error){
-            navigate('/expired/')
         }
     },[refresh])
     // for like and unlike
@@ -112,20 +119,25 @@ const SingleRecipeComponent = () => {
         }
 
     }
+
+
+
+
     const isLiked = likedRecipes?.some((likedRecipe) => likedRecipe.id === recipe.id);
     const isSaved= savedRecipes?.some((savedRecipe) => savedRecipe.id === recipe.id)
 
   return (
-    <div>
-    
+    <div className=''>
+       {reportModal ? <ReportRecipeModal setreportModal={setReportModal} Refresh={refresh} setRefresh={setRefresh} reported_item={recipe.id} recipe_name={recipe.recipe_name} /> : ''}
+
 
 <main className="pt-8 pb-16 lg:pt-16 lg:pb-24  ">
   <div className="  ">
-      <article className="mx-2 md:mx-[25%] format format-sm sm:format-base lg:format-lg format-blue ">
+      <article className="mx-2 md:mx-[9%] format format-sm sm:format-base lg:format-lg format-blue ">
           <header className="mb-4 lg:mb-6 not-format">
               <address className="flex items-center mb-6 not-italic">
                   <div className=" mr-3 text-sm text-gray-900 dark:text-white">
-                  <h1 className="mb-4 text-3xl font-poppins font-bold leading-tight text-btnColor hover:text-black lg:mb-6 lg:text-4xl ">{ recipe?.recipe_name }</h1>
+                  <p className="mb-4 text-3xl leading-tight text-btnColor hover:text-orange-700 lg:mb-6 lg:text-6xl font-medium underline ">{ recipe?.recipe_name }</p>
                   <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
                     {recipe?.author_profile ?                      <img className="mr-4  w-16 h-12 rounded-full" src= {`${axiosInstance}${recipe?.author_profile}`} alt="Jese Leos"/>
  : 
@@ -145,30 +157,33 @@ const SingleRecipeComponent = () => {
               </address>
           </header>
           <div className='my-5 '>
-            <hr />
-            <div className='flex flex-row mb-3'>
-            <span className='mt-3  text-[14px] mx-1 text-btnColor '>{recipe?.total_likes === 0 ? '' : recipe?.total_likes}</span>
+          <hr style={{borderTopColor:'brown'}}/>  
+                    <div className='flex w-full justify-between mb-3 '>
+                <span className='flex'>
+                <span className='mt-3  text-[14px] mx-1 text-btnColor '>{recipe?.total_likes === 0 ? '' : recipe?.total_likes}</span>
                                  
                                  <span className='cursor-pointer justify end mt-2' onClick={() => handleLike(recipe.id)}>{isLiked ? <FaThumbsUp size={21} style={{fill:'brown'}} />: <FaRegThumbsUp color='brown' size={21}/>}</span>
                                  <span className='cursor-pointer justify end mt-3 mx-9' onClick={()=>handleSave(recipe.id)}>{isSaved ? <FaBookmark size={21} style={{fill:'brown'}}/>  : <FaRegBookmark size={21} style={{color:'brown'}}  />}</span>
+                </span>
+ 
+                                 <span className='cursor-pointer justify end mt-3 ' onClick={()=>setReportModal(!reportModal)}><BsFlag size={21} style={{fill:'brown'}}/>  </span>
 
             </div>
-            <hr />
+            <hr style={{borderTopColor:'brown'}}/>
           </div>
-         
-          <img className=' shadow-xl w-[500px] h-[400px] object-cover rounded-md  max-w-full' src={`${axiosInstance}${recipe?.picture}`} alt=""/>
-         
-        
-        <div className='mt-9'>
-<p className='mt-5 text-4xl text-btnColor hover:underline'>Ingredients:</p>     
+          <div className='flex flex-col sm:grid sm:grid-cols-2 gap-2'>
+          <img className=' w-full hover:shadow-2xl shadow-xl h-[400px] object-cover rounded-md  ' src={`${axiosInstance}${recipe?.picture}`} alt=""/>
+
+        <div className=' shadow-md rounded-lg p-1 w-full'>
+<p className='mt-3 text-4xl text-btnColor hover:underline text-center font-serif'>Ingredients</p>     
 <div>
     {ingredients?.length===0 ? '' : 
     <>
     {ingredients.map((item,index)=>{
         return(
             <>
-             <div key={index} className='flex my-4 text-xl text-gray-600 '>
-         <div className='mt-1'><RxDotFilled /></div> 
+             <div key={index} className='flex my-4 text-xl  '>
+         <div className='mt-1'><RxDotFilled style={{color:'brown'}}/></div> 
           <span className='mt-0'>{item}</span>
         </div>
             
@@ -180,10 +195,14 @@ const SingleRecipeComponent = () => {
      }
 </div>
    </div>
-   <div>
+          </div>
+         
+         
+        
+   <div className='mt-5 rounded-lg px-2 pb-1 shadow-lg'>
 
-    <p className='mt-5 text-4xl text-btnColor hover:underline'>Instructions:</p>
-    <div className='mt-5 text-xl my-3 hover:border-btnColor rounded text-gray-600'>
+    <p className='mt-3 text-4xl text-btnColor hover:underline font-serif'>Instructions</p>
+    <div className='mt-3 text-xl my-3 hover:border-btnColor rounded '>
         {recipe?.instructions}
     </div>
    </div>

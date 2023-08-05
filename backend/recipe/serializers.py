@@ -13,7 +13,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ('id','author_profile','category', 'category_name', 'picture', 'recipe_name', 'instructions','is_private',
-                  'ingredients','created_at','updated_at','author_id','author','views','revenue','report','comments','total_likes')
+                  'ingredients','created_at','updated_at','author_id','author','views','revenue','total_reports','comments','total_likes')
  
 
 class PostRecipeSerializer(serializers.ModelSerializer):
@@ -57,4 +57,9 @@ class PostCommentsSerializer(serializers.ModelSerializer):
 class notificationSerializer(serializers.ModelSerializer):
     class Meta:
         model=Notifications
+        fields='__all__'
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Report
         fields='__all__'

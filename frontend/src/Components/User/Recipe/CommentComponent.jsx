@@ -91,7 +91,7 @@ const CommentComponent = ({recipe_id,author}) => {
 
   return (
     <div><section className="bg-white  py-4 lg:py-8">
-    <div className="max-w-3xl border rounded-lg mx-auto px-4">
+    <div className=" border rounded-lg mx-2 md:mx-[9%] px-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg lg:text-2xl mt-2 font-bold text-newCoral ">Discussion ({comments?.length})</h2>
       </div>
@@ -142,6 +142,8 @@ const CommentComponent = ({recipe_id,author}) => {
               </button>
           </div>
       </article>
+      
+
       {item.children.length >=1 &&
       <>{item.children.map(item1=>{
         const created_at_str1 = item1?.created_at;
@@ -180,7 +182,6 @@ const CommentComponent = ({recipe_id,author}) => {
   </article>
         )
       })}
-      <hr />
       </>
        
       

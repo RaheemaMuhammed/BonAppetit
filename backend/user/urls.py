@@ -12,5 +12,6 @@ urlpatterns=[
     path('user_profile/',UserProfile.as_view()),
     path('comments/',Comments.as_view()),
     path('notification/',Notification.as_view()),
+    path('report/',Reports.as_view()),
    
 ]
