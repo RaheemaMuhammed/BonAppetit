@@ -1,3 +1,4 @@
+
 import React,{useEffect} from 'react'
 import Header from '../../Components/Header'
 import Footer from '../../Components/Footer'
@@ -5,7 +6,8 @@ import Sidebar from '../../Components/Admin/Sidebar'
 import Loader from '../../Components/Loader'
 import { useState } from 'react'
 import RecipeTable from '../../Components/Admin/RecipeList/RecipeTable'
-const RecipeList = () => {
+import ReportList from '../../Components/Admin/Reports/ReportList'
+const RecipeReports = () => {
 
     const [loader, setLoader] = useState(true)
 
@@ -22,7 +24,7 @@ const RecipeList = () => {
       <div className='block  md:flex'>
       <Sidebar/>
       <div className='justify-center '>
-<RecipeTable/>
+<ReportList/>
       </div>
       
 
@@ -36,7 +38,7 @@ const RecipeList = () => {
   )
 }
 
-export default RecipeList
+export default RecipeReports
 
 
 

@@ -11,7 +11,6 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from recipe.models import *
 from adminpanel.models import Categories
-from adminpanel.serializers import CategorySerializer
 from decimal import Decimal
 from adminpanel.serializers import UserSerializer
 from channels.layers import get_channel_layer

@@ -3,6 +3,8 @@ from .models import *
 from account.models import *
 import json
 from payment.models import PaymentRequest
+from recipe.models import Recipe,Comment
+from recipe.serializers import RecipeSerializer,CommentSerializer
 
 class TransactionHistoryField(serializers.Field):
     def to_representation(self, value):
@@ -13,25 +15,28 @@ class TransactionHistoryField(serializers.Field):
 
 class UserSerializer(serializers.ModelSerializer):
     status=serializers.BooleanField(source='is_block')
-    recipes=serializers.PrimaryKeyRelatedField(many=True,read_only=True)
-    comments=serializers.PrimaryKeyRelatedField(many=True,read_only=True)
-    transaction_history = TransactionHistoryField()
     class Meta:
         model = CustomUser
-        fields = ['email', 'phone', 'username', 'has_premium', 'is_block','wallet' ,'premium_expiry', 'id', 'profile_pic', 'is_active','status', 'is_user', 'otp','recipes','comments','transaction_history']
+        fields = ['email', 'phone', 'username', 'has_premium', 'is_block','id', 'is_active','status', 'is_user']
 
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    status=serializers.BooleanField(source='is_disabled')
+class UserDetailSerializer(serializers.ModelSerializer):
+    status=serializers.BooleanField(source='is_block')
+    transaction_history = TransactionHistoryField()
+    recipes = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
     class Meta:
-        model = Categories
-        fields = ['name','id','is_disabled','status']
-    def validate(self, data):
-        if data['name']:
-            if any(char.isdigit() for char in data):
-                raise serializers.ValidationError("Category name cannot contain numbers.")
-            return data
+        model = CustomUser
+        fields = ['email', 'phone', 'username', 'has_premium', 'is_block','wallet' ,'premium_expiry', 'id', 'profile_pic', 'is_active','status', 'is_user','transaction_history','recipes','comments']
+    
+    def get_recipes(self, obj):
+        user_recipes = Recipe.objects.filter(author=obj)
+        serializer = RecipeSerializer(user_recipes, many=True)
+        return serializer.data
+
+    def get_comments(self, obj):
+        user_comments = Comment.objects.filter(user_id=obj)
+        serializer = CommentSerializer(user_comments, many=True)
+        return serializer.data
         
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -39,3 +44,4 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentRequest
         fields = ('user','id','upi_id','amount','created_at','status','username')
+

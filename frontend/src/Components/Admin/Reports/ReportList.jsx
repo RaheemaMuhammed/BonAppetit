@@ -1,57 +1,11 @@
-import React,{useEffect,useState} from 'react';
-import { useSelector } from 'react-redux';
-import { getUsersList } from '../../../Axios/Services/AdminServices'
-import BlockUnblock from './BlockUnblock';
-import { useNavigate } from 'react-router-dom';
-import SingleUser from './SingleUser';
-const UserTable = () => {
-const navigate = useNavigate()
-  const [Data,setData] =useState([])
-  const [allData,setAllData] =useState([])
-  const [Refresh,setRefresh]=useState(false)
-  const token =useSelector(state => state.AdminReducer.accessToken)
-  const [status,setStatus] = useState('')
-  const [username,setUsername] = useState('')
-  const [id,setId]=useState('')
-  const [userId,setUserId]=useState('')
-  const [BUModal,setBUModal] = useState(false)
-    
-   const [single,setSingle] =useState(false)
+import React from 'react'
 
- 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await getUsersList(token);
-        if (response) {
-          setData(response?.payload);
-          
-          setAllData(response?.payload);
-        
-        }
-      } catch (error) {
-        console.log(error);
-        navigate('/admin/expired/');
-      }
-    };
-  
-    fetchUsers();
-  }, [Refresh]);
-  
-
-
-    function StatusChange(id,status,username){
-      setUsername(username)
-      setStatus(status)
-      setId(id)
-    }
-
-
-
+const ReportList = () => {
   return (
-<div className='h-full px-20 py-20'>
-{single ? <SingleUser user_id={userId} setSingle={setSingle} single={single} /> : <>
-{BUModal ? <BlockUnblock setBUModal={setBUModal} username={username} status={status} id={id} setRefresh={setRefresh} Refresh={Refresh} /> : ''}
+    <div>
+        
+        <div className='h-full px-20 py-20'>
+{/* {BUModal ? <BlockUnblock setBUModal={setBUModal} username={username} status={status} id={id} setRefresh={setRefresh} Refresh={Refresh} /> : ''} */}
 <p className='text-center font-serif font-semibold text-2xl text-black'>Users</p>
       {/* {allData?.length !== 0 ?
         <div className='mb-3'>
@@ -82,15 +36,15 @@ const navigate = useNavigate()
             </tr>
           </thead>
           <tbody>{Data.map((item,index)=>{
+
     const hasPremiumString = item.has_premium ? "Premium" : "Basic";
     const isActiveString = item.is_active ? "Active" : "Inactive";           
     
     
     return(
-      
-<tr className="border-b">
+<tr className="border-b dark:border-neutral-500">
                   <td className="text-black whitespace-nowrap px-6 py-4 font-medium">{ index+1 }</td>
-                  <td className="text-black whitespace-nowrap px-6 py-4 cursor-pointer font-normal"  onClick={()=>{setSingle(!single);setUserId(item.id)}}>{item.username}</td>
+                  <td className="text-black whitespace-nowrap px-6 py-4">{item.username}</td>
                   <td className="text-black whitespace-nowrap px-6 py-4">{item.email}</td>
                   <td className="text-black whitespace-nowrap px-6 py-4">{item.phone}</td>
                   <td className="text-black whitespace-nowrap px-6 py-4">{hasPremiumString}{hasPremiumString ==='Premium' && (item.expiry) }</td>
@@ -128,11 +82,10 @@ const navigate = useNavigate()
   </div>
 }
   </div>
-</> }
-
  
   </div>
+    </div>
   )
 }
 
-export default UserTable
+export default ReportList

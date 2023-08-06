@@ -7,7 +7,7 @@ from asgiref.sync import async_to_sync
 
 
 class Recipe(models.Model):
-    author=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    author=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='recipes')
     recipe_name=models.CharField(max_length=100)
     category=models.ForeignKey(Categories,on_delete=models.CASCADE)
     picture=models.ImageField(upload_to='media',default='recipe')
@@ -34,7 +34,7 @@ class Like(models.Model):
 
 class Comment(models.Model):
     comment=models.TextField()
-    user_id=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    user_id=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='comments')
     recipe_id=models.ForeignKey(Recipe,on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now=False,auto_now_add=True)
     parent=models.ForeignKey('self', null=True , blank=True , on_delete=models.CASCADE , related_name='replies')

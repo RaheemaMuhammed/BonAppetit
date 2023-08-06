@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .serializers import *
 from account.models import CustomUser
 import datetime
+from recipe.serializers import CategorySerializer
 from decimal import Decimal
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
@@ -11,6 +12,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from .models import Categories
 from payment.models import PaymentRequest
+from recipe.models import Recipe,Comment
 # Create your views here.
 
 
@@ -25,13 +27,23 @@ class UserList(APIView):
 
 
     # getting user list
-    def get(self,request):
+    def get(self,request,user_id=None):
         try:
-            users=CustomUser.objects.filter(is_user=True).order_by('-id')
-            serializer=UserSerializer(users,many=True)
-            return Response({'payload':serializer.data,'message':'success' })
+            if user_id is None:
+
+                    users=CustomUser.objects.filter(is_user=True).order_by('-id')
+                    serializer=UserSerializer(users,many=True)
+                    return Response({'payload':serializer.data,'message':'success','status':200 })
+            else:
+                user =CustomUser.objects.get(pk=user_id)
+                
+                serializer=UserDetailSerializer(user)
+                print(serializer.data)
+                return Response({'payload':serializer.data,'message':'success','status':200 })
+        except CustomUser.DoesNotExist:
+            return Response({'error':'User not found','status':404})
         except Exception as e:
-            return Response({'error':e})
+            return Response({'error':e,'status':400})
         
     # for blocking and unblocking
 
@@ -50,7 +62,13 @@ class UserList(APIView):
                 return Response({'message':f'{username} is Blocked'})    
         except Exception as e:
             return Response({'error':e})
+class SingleUser(APIView):
+    authentication_classes = [JWTAuthentication]
+    # verifies user is adminuser
+    permission_classes = [IsAdminUser] 
 
+    def get(self,request):
+        pass
 
 class CategoryList(APIView):
     # verifies authenticated using jwt
@@ -143,6 +161,7 @@ class ManageRequest(APIView):
             }
             user.add_transaction(transaction_details)
             if status == 'Completed':
+                    
                     user.wallet=user.wallet-Decimal(amount)
                     user.save()
             
@@ -151,3 +170,16 @@ class ManageRequest(APIView):
             return Response({'error':str(e),'status':400})
         
         
+class Recipes(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]  
+
+    def get(self,request):
+        try:
+            users=Recipe.objects.all().order_by('-id')
+            serializer=UserSerializer(users,many=True)
+            return Response({'payload':serializer.data,'message':'success' })
+        except Exception as e:
+            return Response({'error':e})
+    def delete(self,request):
+        pass

@@ -20,7 +20,25 @@ export const getUsersList = async (token) => {
         
     }
 }
+// get user single
+export const getSingleUser = async (token,id) => {
+    try {
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
 
+            }
+        }
+        const response = await axiosAdminInstance.get(`users/${id}/`, config)
+        return response.data
+    } catch (error) {
+
+        throw error;
+        
+        
+    }
+}
 // Blocking and Unblocking users
 export const handleUserStatus=async (token,values)=>{
     try {
