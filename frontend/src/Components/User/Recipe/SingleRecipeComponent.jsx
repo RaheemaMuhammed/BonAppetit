@@ -4,7 +4,7 @@ import { useParams,useNavigate } from 'react-router-dom'
 import {BsFlag} from 'react-icons/bs'
 import CommentComponent from './CommentComponent'
 import {  FaThumbsUp,FaRegBookmark,FaRegThumbsUp,FaBookmark } from 'react-icons/fa';
-import { handleLikeStatus,handleSaveStatus,getLikedRecipes,getSavedRecipes,reportingRecipe} from '../../../Axios/Services/UserServices'
+import { handleLikeStatus,handleSaveStatus,getLikedRecipes,getSavedRecipes,handleView} from '../../../Axios/Services/UserServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import {RxDotFilled} from 'react-icons/rx'
 import { useSelector } from 'react-redux'
@@ -20,6 +20,7 @@ const SingleRecipeComponent = () => {
    const [savedRecipes,setSavedRecipes] = useState([])
    const [ refresh,setRefresh] =useState(false)
    const [reportModal,setReportModal]=useState(false)
+   const [recipeId,setRecipeID] =useState('')
 //    for date formatting
   const created_at_str = recipe?.created_at;
   const created_at_date = new Date(created_at_str);
@@ -28,13 +29,21 @@ const SingleRecipeComponent = () => {
     day: 'numeric',
     year: 'numeric'
   });
-   useEffect(()=>{
-    try{
+
+  
+  
+  
+
+  
+  useEffect(()=>{
+      try{
         const fetchSingleRecipe= async ()=>{
             
             const response = await getSingleRecipes(recipe_name)
             if(response){
                 setRecipe(response?.payload)
+                setRecipeID(response?.payload?.id)
+                
                 setIngredients(response?.payload?.ingredients?.split(',') || [])
             }
         }
@@ -42,8 +51,28 @@ const SingleRecipeComponent = () => {
     }catch(error){
         console.log(error);
     }
-   },[refresh])
+},[refresh])
 
+//  to track view count
+useEffect(() => {
+  if(user){
+    try{
+        const data={
+            "recipe_id" :recipeId
+        }
+        const updateViewCount= async()=>{
+            const response = await handleView(token,data)
+            setSavedRecipes(response?.payload)
+
+        }
+        updateViewCount()
+    }catch(error){
+        console.log(error);
+        navigate('/expired/')
+    }
+
+  }
+}, [recipeId])
        // to show saved recipes
        useEffect(()=>{
         if(user){

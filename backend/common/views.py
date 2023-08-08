@@ -22,7 +22,10 @@ class SingleRecipe(APIView):
         def get(self,request):
             try:
                 recipe_name = request.GET.get('recipe_name')
-                recipe = Recipe.objects.get(recipe_name=recipe_name)  
+                print(recipe_name)
+                recipe = Recipe.objects.get(recipe_name=recipe_name)
+                print(recipe)
+                counts=recipe.views.all()
                 serializer = RecipeSerializer(recipe)
                 return Response({'status':200,'payload':serializer.data})
             except Exception as e:

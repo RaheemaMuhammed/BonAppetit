@@ -311,7 +311,7 @@ export const getNotificactions = async (token)=>{
     }
     
 }
-// 
+// notificatio staTUES read or not
 export const handleNotiStatus=async (token,values)=>{
     try {
         const config = {
@@ -339,6 +339,22 @@ export const reportingRecipe = async(token,values)=>{
             }
         }
         const response = await axiosUserInstance.post('user/report/',values,config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
+// to track recipe view
+export const handleView = async(token,values)=>{
+    console.log(values,'LLLLLLLLLLLLLL');
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            }
+        }
+        const response = await axiosUserInstance.post('user/track_view/',values,config)
         return response.data
     }catch(error){
         throw error;

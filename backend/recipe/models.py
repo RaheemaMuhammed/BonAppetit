@@ -3,10 +3,12 @@ from account.models import CustomUser
 from adminpanel.models import Categories
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.contrib.contenttypes.fields import GenericRelation
+from hitcount.models import HitCountMixin,HitCount
 # Create your models here.
 
 
-class Recipe(models.Model):
+class Recipe(models.Model,HitCountMixin):
     author=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='recipes')
     recipe_name=models.CharField(max_length=100)
     category=models.ForeignKey(Categories,on_delete=models.CASCADE)
@@ -16,7 +18,7 @@ class Recipe(models.Model):
     created_at=models.DateTimeField(auto_now=False,auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True,auto_now_add=False)
     is_private=models.BooleanField(default=False)
-    views=models.IntegerField(default=0)
+    views=GenericRelation(HitCount,object_id_field="object_pk")
     revenue=models.DecimalField(default=0,decimal_places=2,max_digits=5)
     total_reports=models.IntegerField(default=0)
     total_likes=models.PositiveIntegerField(default=0)

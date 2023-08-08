@@ -56,22 +56,22 @@ const YourRecipes = () => {
             <div className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2">
               <div className='flex '>  
                <div className='w-[25%]'>
-                <Link to={`/singleRecipe/${item.recipe_name}`}><img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
+                <Link to={`/singleRecipe/${item.recipe.recipe_name}`}><img src={`${axiosInstance}${item.recipe.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/></Link>
                 </div>         
 
                 <div className="m-4 w-full">
                     <span className='flex justify-between'> 
                     <div>
-                    <Link to={`singleRecipe/${item.recipe_name}`}>    <span className="font-bold text-2xl">{item.recipe_name}</span></Link>
-<p  className='flex gap-2 text-lg my-2 '><FaRegEye color='brown' size={22}/>{item.views}</p>
-<p className='flex gap-2 text-lg'><FaRegThumbsUp color='brown' size={22}/>{item.total_likes}</p>
+                    <Link to={`singleRecipe/${item.recipe.recipe_name}`}>    <span className="font-bold text-2xl">{item.recipe.recipe_name}</span></Link>
+<p  className='flex gap-2 text-lg my-2 '><FaRegEye color='brown' size={22}/>{item.view_count}</p>
+<p className='flex gap-2 text-lg'><FaRegThumbsUp color='brown' size={22}/>{item.recipe.total_likes}</p>
 
                     </div>
                     
                     
                     <div className='block '>
-                    <span className='cursor-pointer mb-8' onClick={()=>{setDeletemodal(!deleteModal); setId(item.id);}}><FaRegTrashAlt size={24} style={{color:'brown',marginBottom:'10px'}} /></span>
-                    <span className='cursor-pointer' onClick={()=>{setEditmodal(!editModal); setRecipe_name(item.recipe_name);} }><FaRegEdit size={24} style={{color:'brown'}} /></span>
+                    <span className='cursor-pointer mb-8' onClick={()=>{setDeletemodal(!deleteModal); setId(item.recipe.id);}}><FaRegTrashAlt size={24} style={{color:'brown',marginBottom:'10px'}} /></span>
+                    <span className='cursor-pointer' onClick={()=>{setEditmodal(!editModal); setRecipe_name(item.recipe.recipe_name);} }><FaRegEdit size={24} style={{color:'brown'}} /></span>
                     
                     </div>
 

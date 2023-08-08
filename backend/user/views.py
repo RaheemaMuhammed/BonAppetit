@@ -1,5 +1,7 @@
 from django.utils import timezone
 from datetime import timedelta
+from hitcount.models import HitCount
+from django.contrib.contenttypes.models import ContentType
 
 from django.shortcuts import render
 from recipe.serializers import *
@@ -231,10 +233,17 @@ class UserRecipe(APIView):
         def get(self,request):
              try:
                 user=request.user
-                print(user)
                 recipes=Recipe.objects.filter(author=user)
-                serializer=RecipeSerializer(recipes,many=True)
-                return Response({'payload':serializer.data,'status':200})
+                recipe_data=[]
+                for recipe in recipes:
+                     try:
+                         hit_count = recipe.views.get()
+                         view_count = hit_count.hits
+                     except HitCount.DoesNotExist:
+                         view_count = 0
+                     serializer=RecipeSerializer(recipe)
+                     recipe_data.append({'recipe':serializer.data,'view_count':view_count})
+                return Response({'payload':recipe_data,'status':200})
              except Exception as e:
                   return Response({'error':str(e)})
                   
@@ -381,3 +390,28 @@ class Reports(APIView):
             return Response({'status':400,'message':serializer.errors})
         except Exception as e:
             return Response({'error':str(e)})
+        
+class TrackRecipeView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        data=request.data
+        recipe_id = data['recipe_id']
+        if not recipe_id:
+            return Response({'error': 'Recipe ID is required.'}, status=400)
+        
+        try:
+            recipe = Recipe.objects.get(pk=recipe_id)
+            print(recipe)
+        except Recipe.DoesNotExist:
+            return Response({'error': 'Recipe not found.'}, status=400)
+        content_type =ContentType.objects.get_for_model(Recipe)
+        object_pk=str(recipe.pk)
+        hit_count, created = HitCount.objects.get_or_create(
+          content_type=content_type,
+          object_pk=object_pk
+        )
+        hit_count.increase()
+        
+
+        return Response({'message': 'Recipe view tracked.'})
