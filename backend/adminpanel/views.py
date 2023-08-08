@@ -38,7 +38,6 @@ class UserList(APIView):
                 user =CustomUser.objects.get(pk=user_id)
                 
                 serializer=UserDetailSerializer(user)
-                print(serializer.data)
                 return Response({'payload':serializer.data,'message':'success','status':200 })
         except CustomUser.DoesNotExist:
             return Response({'error':'User not found','status':404})
@@ -176,8 +175,8 @@ class Recipes(APIView):
 
     def get(self,request):
         try:
-            users=Recipe.objects.all().order_by('-id')
-            serializer=UserSerializer(users,many=True)
+            recipes=Recipe.objects.all().order_by('total_reports')
+            serializer=RecipeSerializer(recipes,many=True)
             return Response({'payload':serializer.data,'message':'success' })
         except Exception as e:
             return Response({'error':e})

@@ -147,7 +147,7 @@ class LikeRecipe(APIView):
                             author.wallet=Decimal(author.wallet)+Decimal('0.05')
                             author.save()
                         notification_message=f"{user.username} liked your recipe :{recipe.recipe_name}"
-                        Notifications.objects.create(sender=user,recipient=recipe.author,message=notification_message,is_read=False)
+                        Notifications.objects.create(sender=user,recipient=recipe.author,post=recipe,message=notification_message,is_read=False)
 
                         channel_layer=get_channel_layer()
                         author_channel_name=f"user_{recipe.author.id}"
@@ -164,8 +164,8 @@ class LikeRecipe(APIView):
                                   },
                              },
                         )
+                        print('helloooo')
 
-                        
 
                 recipe.save()
                 serializer=RecipeSerializer(recipe,partial=True)
@@ -304,9 +304,9 @@ class Comments(APIView):
                     serializer=PostCommentsSerializer(data=data)
                     if serializer.is_valid():
                         serializer.save()
-                        notification_message=f"{user.username} commented on your post"
+                        notification_message=f"{user.username} commented {data['comment']}"
                         
-                        Notifications.objects.create(sender=user,recipient=this_recipe.author,message=notification_message,is_read=False)
+                        Notifications.objects.create(sender=user,recipient=this_recipe.author,post=this_recipe,message=notification_message,is_read=False)
                         
                         channel_layer=get_channel_layer()
                         author_channel_name=f"user_{this_recipe.author.id}"
@@ -345,6 +345,7 @@ class Notification(APIView):
                     thirty_days_ago = timezone.now() - timedelta(days=30)
                     notifs=Notifications.objects.filter(recipient=request.user ,timestamp__gte=thirty_days_ago).order_by('-timestamp')
                     serializer=notificationSerializer(notifs,many=True)
+                    print(serializer.data)
                     return Response({'payload':serializer.data,'status':200})
              except Exception as e:
                     return Response({'error':str(e),'status':400})

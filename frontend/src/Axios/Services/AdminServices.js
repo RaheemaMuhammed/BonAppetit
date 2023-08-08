@@ -135,3 +135,18 @@ export const handlePaymentRequests = async (token,values)=>{
         throw error;
     }
 }
+// get all the recipes
+export const getAllRecipes = async (token) =>{
+    try {
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },
+        }
+        const response = await axiosAdminInstance.get('recipes/',config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}

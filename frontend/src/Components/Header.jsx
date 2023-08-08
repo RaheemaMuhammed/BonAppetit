@@ -15,6 +15,7 @@ const Header = () => {
     const [addModal,setAddmodal] = useState(false)
    const [flyNoti,setFlyNoti] =useState('')
     const [Refresh, setRefresh] = useState(false)
+    const [recipe,setRecipe] =  useState('')
 const navigate = useNavigate()
     const [notiCount,setNotiCount] = useState(0)
     const [notifications,setNotifications] = useState([])
@@ -24,12 +25,12 @@ const navigate = useNavigate()
       };
 
       useEffect(() => {
-        if(user){
+        if(user || admin){
 
             try{
                 const userNotifications= async()=>{
                     const response = await getNotificactions(tokens[user ? 'userT' : 'adminT'])
-                    console.log(response);
+                    console.log(response,'****************');
                     setNotifications(response?.payload)
         
                 }
@@ -42,7 +43,7 @@ const navigate = useNavigate()
         
     }, [Refresh])
  useEffect(() => {
-    if(user){
+    if(user || admin){
 
         const socket = new WebSocket(`ws://localhost:8000/ws/notifications/?token=${tokens[user? 'userT' : 'adminT']}`);
     
@@ -52,7 +53,8 @@ const navigate = useNavigate()
         socket.onmessage = (event) => {
            const data = JSON.parse(event.data);
            console.log('Received notification:', data);
-           showNotification(data.message)
+           showNotification(data?.message)
+           setRecipe(data?.recipe_name)
            if (!data.is_read) {
              setNotiCount((prevCount) => prevCount + 1);
            }
@@ -192,11 +194,18 @@ function handleRead() {
     </button>
   <div className="py-4 overflow-y-auto text-white">
     {notifications?.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
-    <ul className="space-y-2 font-medium" onClick={handleRead}>
+    <ul className="space-y-2 font-medium" >
         {notifications?.map((noti)=>{
-
         return noti.is_read ? (
-             <li className='font-light text-btnColor'>{noti.message} </li> ):(<li className='font-semibold text-btnColor'>{noti.message} </li>)
+            <Link to={`/singleRecipe/${noti.recipe_name}`}>
+            
+            <li className='font-light text-btnColor' onClick={handleRead}>{noti.message} </li>
+            </Link>
+              ):(
+                <Link to={`/singleRecipe/${noti.recipe_name}`}>
+              <li className='font-semibold text-btnColor' onClick={handleRead}>{noti.message} </li>
+                </Link>
+              )
             
 
         

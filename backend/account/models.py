@@ -51,6 +51,7 @@ class CustomUser(AbstractUser,PermissionsMixin):
     is_user=models.BooleanField(default=False)
     otp=models.CharField(max_length=6,null=True,blank=True)
     transaction_history = models.TextField(default='[]')
+    total_reports=models.IntegerField(default=0)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['phone','username']

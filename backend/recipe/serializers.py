@@ -70,9 +70,11 @@ class PostCommentsSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 class notificationSerializer(serializers.ModelSerializer):
+    recipe_name=serializers.CharField(source='post.recipe_name')
     class Meta:
         model=Notifications
-        fields='__all__'
+        fields=('id','sender','recipient','message','timestamp','is_read','post','recipe_name')
+
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:

@@ -14,10 +14,12 @@ class TransactionHistoryField(serializers.Field):
         return json.dumps(data)
 
 class UserSerializer(serializers.ModelSerializer):
+    transaction_history = TransactionHistoryField()
+
     status=serializers.BooleanField(source='is_block')
     class Meta:
         model = CustomUser
-        fields = ['email', 'phone', 'username', 'has_premium', 'is_block','id', 'is_active','status', 'is_user']
+        fields = ['email', 'phone', 'username', 'has_premium', 'is_block','id', 'is_active','status', 'is_user','profile_pic','wallet','transaction_history']
 
 class UserDetailSerializer(serializers.ModelSerializer):
     status=serializers.BooleanField(source='is_block')

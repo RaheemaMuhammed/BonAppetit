@@ -48,6 +48,7 @@ class Comment(models.Model):
 class Notifications(models.Model):
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sent_notifications')
     recipient = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='received_notifications')
+    post=models.ForeignKey(Recipe,on_delete=models.CASCADE,default=None,null=True)
     message = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
