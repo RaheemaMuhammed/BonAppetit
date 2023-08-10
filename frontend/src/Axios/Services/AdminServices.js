@@ -150,3 +150,19 @@ export const getAllRecipes = async (token) =>{
         throw error;
     }
 }
+// Blocking and Unblocking recipes
+export const changeRecipeStatus=async (token,values)=>{
+    try {
+        const config = {
+            headers :{
+                "Content-type" : "application/json",
+                Authorization:`Bearer ${token}`,
+            }
+        }
+        const response = await axiosAdminInstance.patch('recipes/',values,config)
+        return response.data
+    }
+    catch (error){
+        throw error;
+    }
+}

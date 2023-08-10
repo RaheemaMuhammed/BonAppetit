@@ -18,12 +18,13 @@ class RecipeSerializer(serializers.ModelSerializer):
     author_profile= serializers.ImageField(source='author.profile_pic')
     category_name = serializers.CharField(source='category.name')
     comments=serializers.PrimaryKeyRelatedField(many=True,read_only=True)
+    status=serializers.BooleanField(source='is_disabled')
     category = CategorySerializer()
 
     class Meta:
         model = Recipe
         fields = ('id','author_profile','category', 'category_name', 'picture', 'recipe_name', 'instructions','is_private',
-                  'ingredients','created_at','updated_at','author_id','author','revenue','total_reports','comments','total_likes')
+                  'ingredients','created_at','updated_at','author_id','author','revenue','total_reports','comments','total_likes','is_disabled','status')
  
 
 class PostRecipeSerializer(serializers.ModelSerializer):

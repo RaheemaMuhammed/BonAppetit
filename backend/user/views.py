@@ -166,7 +166,7 @@ class LikeRecipe(APIView):
                                   },
                              },
                         )
-                        print('helloooo')
+                       
 
 
                 recipe.save()
@@ -304,7 +304,7 @@ class Comments(APIView):
              try:
                   
                     data=request.data
-                    print(data)
+                   
                     recipe=data['recipe_id']
                     user_id=request.user.id
                     data['user_id']=user_id
@@ -354,7 +354,7 @@ class Notification(APIView):
                     thirty_days_ago = timezone.now() - timedelta(days=30)
                     notifs=Notifications.objects.filter(recipient=request.user ,timestamp__gte=thirty_days_ago).order_by('-timestamp')
                     serializer=notificationSerializer(notifs,many=True)
-                    print(serializer.data)
+                    
                     return Response({'payload':serializer.data,'status':200})
              except Exception as e:
                     return Response({'error':str(e),'status':400})
@@ -397,14 +397,15 @@ class TrackRecipeView(APIView):
     def post(self, request):
         data=request.data
         recipe_id = data['recipe_id']
+        
         if not recipe_id:
-            return Response({'error': 'Recipe ID is required.'}, status=400)
+            return Response({'error': 'Recipe ID is required.', 'status':400})
         
         try:
             recipe = Recipe.objects.get(pk=recipe_id)
-            print(recipe)
+       
         except Recipe.DoesNotExist:
-            return Response({'error': 'Recipe not found.'}, status=400)
+            return Response({'error': 'Recipe not found.', 'status':400})
         content_type =ContentType.objects.get_for_model(Recipe)
         object_pk=str(recipe.pk)
         hit_count, created = HitCount.objects.get_or_create(
@@ -413,5 +414,4 @@ class TrackRecipeView(APIView):
         )
         hit_count.increase()
         
-
-        return Response({'message': 'Recipe view tracked.'})
+        return Response({'message': 'Recipe view tracked.','status':200})

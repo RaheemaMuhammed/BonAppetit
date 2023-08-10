@@ -82,6 +82,7 @@ const navigate = useNavigate()
             </tr>
           </thead>
           <tbody>{Data.map((item,index)=>{
+            console.log(item,index);
     const hasPremiumString = item.has_premium ? "Premium" : "Basic";
     const isActiveString = item.is_active ? "Active" : "Inactive";           
     

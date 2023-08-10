@@ -210,13 +210,13 @@ useEffect(() => {
     <>
     {ingredients.map((item,index)=>{
         return(
-            <>
+            
              <div key={index} className='flex my-4 text-xl  '>
          <div className='mt-1'><RxDotFilled style={{color:'brown'}}/></div> 
           <span className='mt-0'>{item}</span>
         </div>
             
-            </>
+            
         )
     })}
    

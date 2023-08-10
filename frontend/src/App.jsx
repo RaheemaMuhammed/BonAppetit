@@ -9,11 +9,15 @@ const App = () => {
   return (
     <>
     <BrowserRouter>
+   
+
+
     <ToastContainer />
       <Routes>
         <Route path="/*" Component={UserRoutes}/>
         <Route path="/admin/*" Component={AdminRoute}/>
       </Routes>
+   
     </BrowserRouter>
     
     </>

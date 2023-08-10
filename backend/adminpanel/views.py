@@ -19,7 +19,6 @@ from recipe.models import Recipe,Comment
 # Listing all the users
 
 class UserList(APIView):
-
     # verifies authenticated using jwt
     authentication_classes = [JWTAuthentication]
     # verifies user is adminuser
@@ -175,10 +174,27 @@ class Recipes(APIView):
 
     def get(self,request):
         try:
-            recipes=Recipe.objects.all().order_by('total_reports')
+            recipes=Recipe.objects.all().order_by('-total_reports')
             serializer=RecipeSerializer(recipes,many=True)
             return Response({'payload':serializer.data,'message':'success' })
         except Exception as e:
             return Response({'error':e})
     def delete(self,request):
         pass
+    # for blocking and unblocking
+
+    def patch(self,request):
+        data=request.data
+        try:
+            recipe=Recipe.objects.get(id=data['id'])
+            recipe_name=recipe.recipe_name
+            if data['status'] == True:
+                recipe.is_disabled =False
+                recipe.save()
+                return Response({'message':f'{recipe_name} is Unblocked'})
+            if data['status'] == False:
+                recipe.is_disabled = True
+                recipe.save()
+                return Response({'message':f'{recipe_name} is Disabled'})    
+        except Exception as e:
+            return Response({'error':e})

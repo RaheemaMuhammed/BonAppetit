@@ -9,7 +9,7 @@ class RecipeList(APIView):
     # Listing all the recipes
     def get(self,request):
             try:
-                recipes=Recipe.objects.all().order_by('-id')
+                recipes=Recipe.objects.filter(is_disabled=False).order_by('-id')
                 serializer=RecipeSerializer(recipes,many=True)
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:
@@ -22,9 +22,9 @@ class SingleRecipe(APIView):
         def get(self,request):
             try:
                 recipe_name = request.GET.get('recipe_name')
-                print(recipe_name)
+                
                 recipe = Recipe.objects.get(recipe_name=recipe_name)
-                print(recipe)
+                
                 counts=recipe.views.all()
                 serializer = RecipeSerializer(recipe)
                 return Response({'status':200,'payload':serializer.data})
@@ -38,7 +38,7 @@ class AuthorProfile(APIView):
 class Trending(APIView):
      def get(self,request):
             try:
-                recipes=Recipe.objects.order_by('-total_likes')[:8]
+                recipes=Recipe.objects.filter(is_disabled=False).order_by('-total_likes')[:8]
                 serializer=RecipeSerializer(recipes,many=True)
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:
@@ -48,7 +48,7 @@ class Trending(APIView):
 class Latest(APIView):
      def get(self,request):
             try:
-                recipes=Recipe.objects.order_by('-created_at')[:8]
+                recipes=Recipe.objects.filter(is_disabled=False).order_by('-created_at')[:8]
                 serializer=RecipeSerializer(recipes,many=True)
                 return Response({'payload':serializer.data,'message':'success'})
             except Exception as e:

@@ -7,13 +7,10 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 
 
-
-
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
         user = self.scope["user"]
-        
         if not user.is_anonymous:
             # Add the user to the channel group
             await self.channel_layer.group_add(

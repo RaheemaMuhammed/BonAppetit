@@ -22,6 +22,7 @@ class Recipe(models.Model,HitCountMixin):
     revenue=models.DecimalField(default=0,decimal_places=2,max_digits=5)
     total_reports=models.IntegerField(default=0)
     total_likes=models.PositiveIntegerField(default=0)
+    is_disabled=models.BooleanField(default=False)
     def __str__(self) -> str:
         return self.recipe_name
     

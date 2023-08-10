@@ -197,7 +197,7 @@ const CommentComponent = ({recipe_id,author}) => {
       <form className="my-6">
           <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
               <label htmlFor="comment" className="sr-only">Your comment</label>
-              <textarea id="comment" rows="6"
+              <textarea ref={commentTextFieldRef} id="comment" rows="6"
               value={postComment}
               onChange={(e) => setPostComment(e.target.value)}
                   className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none "

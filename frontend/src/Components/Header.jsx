@@ -30,7 +30,6 @@ const navigate = useNavigate()
             try{
                 const userNotifications= async()=>{
                     const response = await getNotificactions(tokens[user ? 'userT' : 'adminT'])
-                    console.log(response,'****************');
                     setNotifications(response?.payload)
         
                 }
@@ -69,9 +68,6 @@ const navigate = useNavigate()
          };
     }
     
-   
-   
-   
  }, [user,admin])
  const showNotification = (message) => {
     setFlyNoti(message);
