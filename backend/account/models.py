@@ -63,6 +63,8 @@ class CustomUser(AbstractUser,PermissionsMixin):
         if self.premium_expiry is not None and self.premium_expiry >= timezone.now():
             return True
         return False
+    def has_private_recipe(self):
+        return self.recipe_set.filter(is_private=True).exists()
     def __str__(self):  
         return f'{self.username}'
 

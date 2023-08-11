@@ -12,6 +12,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from .models import Categories
 from payment.models import PaymentRequest
+from django.db.models.functions import Trunc
+
 from recipe.models import Recipe,Comment
 # Create your views here.
 
@@ -198,3 +200,29 @@ class Recipes(APIView):
                 return Response({'message':f'{recipe_name} is Disabled'})    
         except Exception as e:
             return Response({'error':e})
+        
+
+# for graphs
+
+class Analytics(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def get(self,request):
+        try:
+           basic_users=CustomUser.objects.filter(is_active=True,has_premium=False).count()
+           premium_users=CustomUser.objects.filter(is_active=True,has_premium=True).count()
+           users_with_private = Recipe.objects.filter(is_private=True).values('author').distinct().count()
+           other=premium_users-users_with_private
+
+
+           data=[{'basic':basic_users,
+               'premium':premium_users,
+               'with_private':users_with_private,
+               'without_private':other},
+           ]
+           
+           return Response({'payload':data,'status':200})
+
+        except Exception as e:
+            return Response({'error':str(e)})

@@ -47,3 +47,9 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = PaymentRequest
         fields = ('user','id','upi_id','amount','created_at','status','username')
 
+# for graph
+class UserAnalyticSerializer(serializers.Serializer):
+    date = serializers.DateField()
+    regular_users = serializers.IntegerField()
+    premium_users = serializers.IntegerField()
+    

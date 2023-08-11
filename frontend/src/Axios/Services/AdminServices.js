@@ -166,3 +166,18 @@ export const changeRecipeStatus=async (token,values)=>{
         throw error;
     }
 }
+// for graph and analytisc
+export const getAnalytics = async (token) =>{
+    try {
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },
+        }
+        const response = await axiosAdminInstance.get('analytics/',config)
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
