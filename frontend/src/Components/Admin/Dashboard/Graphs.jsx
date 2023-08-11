@@ -2,13 +2,14 @@ import React, { useState,useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { getAnalytics } from '../../../Axios/Services/AdminServices'
 import { Doughnut } from 'react-chartjs-2'
-// import {Chart, ArcElement} from 'chart.js'
 import 'chart.js/auto'
-// Chart.register(ArcElement);
+import BarChart from './BarChart'
 const Graphs = () => {
   const token =useSelector(state=>state.AdminReducer.accessToken)
   const [data,setData] = useState([])
   const [doughdata,setDoughdata] =useState({})
+  const [bardata,setbardata]=useState({})
+
 
   useEffect(() => {
    
@@ -33,6 +34,7 @@ const Graphs = () => {
   }, [])
   useEffect(() => {
     setDoughdata(data[0])
+    setbardata(data[1]?.category_recipe)
   
   }, [data]);
   const options = {
@@ -57,6 +59,9 @@ const Graphs = () => {
     scales: {
       y: {
         beginAtZero: true,
+        suggestedMin: 100,
+        suggestedMax: 50000
+
       },
     },
   },
@@ -66,7 +71,7 @@ const Graphs = () => {
       labels: ["Basic", 'Premium', 'With Private Recipe', 'No Private Recipe'],
       datasets: [
         {
-          label:'basic',
+          label:'Number of users',
           data: [
             doughdata?.basic || 0,
             doughdata?.premium || 0,
@@ -80,12 +85,17 @@ const Graphs = () => {
 
     }
   return (
-  <div className="  w-full ">
-    <p className='text-xl text-center my-3 font-medium'>Users</p>
-    <div className='flex justify-center w-[100%] h-[45%]'>
+  <div className="flex flex-col  w-full sm:grid sm:gap-5 sm:grid-cols-2 border p-2 h-[50%]">
+    <div className='col-span-1'>
+      {bardata && <BarChart options={options} data={bardata}/>}
+    </div>
+    <div className='col-span-1  '>
+    <p className='text-2xl text-center my-3 font-medium'>Users</p>
+<div className='flex items-center justify-center h-[80%]'>
 
-    {doughdata && <Doughnut options={options} data ={chartDatasets}
+    {doughdata && <Doughnut options={options} data ={chartDatasets} height={400}
     />}
+</div>
     </div>
 </div>
   

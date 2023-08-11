@@ -214,12 +214,19 @@ class Analytics(APIView):
            premium_users=CustomUser.objects.filter(is_active=True,has_premium=True).count()
            users_with_private = Recipe.objects.filter(is_private=True).values('author').distinct().count()
            other=premium_users-users_with_private
-
-
+           recipe_types={}
+           types=Categories.objects.all()
+           for type in types:
+               count=Recipe.objects.filter(category=type).count()
+               recipe_types[type.name]=count
+           recipe_count=Recipe.objects.filter(category__name__in=recipe_types)
+           print(recipe_count)
            data=[{'basic':basic_users,
                'premium':premium_users,
                'with_private':users_with_private,
                'without_private':other},
+               {'category_recipe':recipe_types},
+
            ]
            
            return Response({'payload':data,'status':200})

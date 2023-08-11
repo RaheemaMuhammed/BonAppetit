@@ -232,7 +232,7 @@ function handleRead() {
         <span className="sr-only" >Close menu</span>
     </button>
   <div className="py-4 overflow-y-auto text-white">
-    {notifications.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
+    {notifications?.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
     <ul className="space-y-2 font-medium" onClick={handleRead}>
         {notifications?.map((noti)=>{
 
