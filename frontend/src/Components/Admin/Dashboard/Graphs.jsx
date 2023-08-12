@@ -82,8 +82,12 @@ const Graphs = () => {
   return (
     <div className='flex flex-col gap-3 w-screen '>
 
+<div className=''>
+    <p className='text-2xl text-center my-3 font-medium'>Revenue Analysis</p>
+  {linedata && <LineChart options={options} data={linedata}/>}
+</div>
 
-  <div className="flex flex-col  w-full sm:grid sm:gap-5 sm:grid-cols-2  p-2 h-[50%]">
+  <div className="flex flex-col  w-full sm:grid sm:gap-5 sm:grid-cols-2 p-2 h-[50%]">
     <div className='col-span-1'>
     <p className='text-2xl text-center my-3 font-medium'>Recipes</p>
 
@@ -97,10 +101,6 @@ const Graphs = () => {
     />}
 </div>
     </div>
-</div>
-<div className='block'>
-    <p className='text-2xl text-center my-3 font-medium'>Revenue Analysis</p>
-  {linedata && <LineChart options={options} data={linedata}/>}
 </div>
     </div>
   
