@@ -15,7 +15,6 @@ const BarChart = ({data,options}) => {
     }
   return (
     <div>
-    <p className='text-2xl text-center my-3 font-medium'>Recipes</p>
 
         <Bar options={options} data={barDataSets} height={250}/>
     </div>

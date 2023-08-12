@@ -4,11 +4,13 @@ import { getAnalytics } from '../../../Axios/Services/AdminServices'
 import { Doughnut } from 'react-chartjs-2'
 import 'chart.js/auto'
 import BarChart from './BarChart'
+import LineChart from './LineChart'
 const Graphs = () => {
   const token =useSelector(state=>state.AdminReducer.accessToken)
   const [data,setData] = useState([])
   const [doughdata,setDoughdata] =useState({})
   const [bardata,setbardata]=useState({})
+  const [linedata,setlinedata] =useState({})
 
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const Graphs = () => {
   useEffect(() => {
     setDoughdata(data[0])
     setbardata(data[1]?.category_recipe)
+    setlinedata(data[2]?.transaction_details)
   
   }, [data]);
   const options = {
@@ -43,15 +46,7 @@ const Graphs = () => {
       text:'Users'
       
   }, plugins: {
-    title: {
-      display: true,
-      text: "Details of basic and premium users",
-      align: "center",
-      padding: {
-        top: 10,
-        bottom: 10,
-      },
-    },
+    
     legend: {
       display: true,
       position: "top",
@@ -85,8 +80,13 @@ const Graphs = () => {
 
     }
   return (
-  <div className="flex flex-col  w-full sm:grid sm:gap-5 sm:grid-cols-2 border p-2 h-[50%]">
+    <div className='flex flex-col gap-3 w-screen '>
+
+
+  <div className="flex flex-col  w-full sm:grid sm:gap-5 sm:grid-cols-2  p-2 h-[50%]">
     <div className='col-span-1'>
+    <p className='text-2xl text-center my-3 font-medium'>Recipes</p>
+
       {bardata && <BarChart options={options} data={bardata}/>}
     </div>
     <div className='col-span-1  '>
@@ -98,6 +98,11 @@ const Graphs = () => {
 </div>
     </div>
 </div>
+<div className='block'>
+    <p className='text-2xl text-center my-3 font-medium'>Revenue Analysis</p>
+  {linedata && <LineChart options={options} data={linedata}/>}
+</div>
+    </div>
   
   )
 }

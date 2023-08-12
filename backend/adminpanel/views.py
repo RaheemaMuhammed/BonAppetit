@@ -210,22 +210,46 @@ class Analytics(APIView):
 
     def get(self,request):
         try:
+        #    first set
            basic_users=CustomUser.objects.filter(is_active=True,has_premium=False).count()
            premium_users=CustomUser.objects.filter(is_active=True,has_premium=True).count()
            users_with_private = Recipe.objects.filter(is_private=True).values('author').distinct().count()
            other=premium_users-users_with_private
+        #    2nd set
            recipe_types={}
            types=Categories.objects.all()
            for type in types:
                count=Recipe.objects.filter(category=type).count()
                recipe_types[type.name]=count
-           recipe_count=Recipe.objects.filter(category__name__in=recipe_types)
-           print(recipe_count)
+            # 3rd set
+           transaction_history_queryset=CustomUser.objects.all().values('transaction_history')
+           transaction_history = [json.loads(item['transaction_history']) for item in transaction_history_queryset]
+           transactions=[]
+           for signle_transaction_data in transaction_history :
+               for transaction in signle_transaction_data:
+                   transactions.append(transaction)
+           accounts_daily={}
+           for transaction in transactions:
+                transaction_time = datetime.datetime.strptime(transaction['time'], '%Y-%m-%dT%H:%M:%S.%f%z')
+                transaction_days = transaction_time.date()
+                transaction_day = transaction_days.strftime("%d-%m-%Y")
+
+                print(transaction_day)
+                if transaction['type'] == 'earning':
+                    accounts_daily.setdefault(transaction_day, {'income': 0, 'outgoing': 0})
+                    accounts_daily[transaction_day]['outgoing'] += float(transaction['amount'])
+                else:
+                    accounts_daily.setdefault(transaction_day, {'income': 0, 'outgoing': 0})
+                    accounts_daily[transaction_day]['income'] += float(transaction['amount'])
+           print(accounts_daily)
+           
+
            data=[{'basic':basic_users,
                'premium':premium_users,
                'with_private':users_with_private,
                'without_private':other},
                {'category_recipe':recipe_types},
+               {'transaction_details': accounts_daily}
 
            ]
            
