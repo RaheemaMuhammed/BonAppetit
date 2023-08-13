@@ -22,6 +22,7 @@ const RecipeTable = () => {
           setRecipes(response?.payload)
         }
       } catch (error) {
+        navigate('/admin/expired/');
         
       }
     }

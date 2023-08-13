@@ -48,7 +48,7 @@ export const addRecipe = async (token,values) =>{
                 Authorization : `Bearer ${token}`,
             }
         }
-        console.log(config);
+        
         const response = await axiosUserInstance.post('user/recipes/',values,config)
         return response.data
     }catch (error){
@@ -346,7 +346,7 @@ export const reportingRecipe = async(token,values)=>{
 }
 // to track recipe view
 export const handleView = async(token,values)=>{
-    console.log(values,'LLLLLLLLLLLLLL');
+   
     try{
         const config = {
             headers:{
@@ -359,4 +359,25 @@ export const handleView = async(token,values)=>{
     }catch(error){
         throw error;
     }
+}
+
+export const getSearchSuggestions = async (token,term)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json",
+                Authorization : `Bearer ${token}`,
+            },
+            params:{
+                term:term
+            },
+        }
+        const response = await axiosUserInstance.get('user/suggestions/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
 }

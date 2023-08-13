@@ -13,6 +13,7 @@ urlpatterns=[
     path('comments/',Comments.as_view()),
     path('notification/',Notification.as_view()),
     path('report/',Reports.as_view()),
-    path('track_view/',TrackRecipeView.as_view())
+    path('track_view/',TrackRecipeView.as_view()),
+    path('suggestions/',Suggestions.as_view())
    
 ]

@@ -2,7 +2,7 @@ from django.utils import timezone
 from datetime import timedelta
 from hitcount.models import HitCount
 from django.contrib.contenttypes.models import ContentType
-
+from django.db.models import Q
 from django.shortcuts import render
 from recipe.serializers import *
 from rest_framework.views import APIView
@@ -415,3 +415,31 @@ class TrackRecipeView(APIView):
         hit_count.increase()
         
         return Response({'message': 'Recipe view tracked.','status':200})
+    
+
+# search suggestions
+class Suggestions(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+         try:
+              
+                term=request.GET.get('term')
+                print(term)
+                matching_recipes=self.get_suggestions(Recipe,'recipe_name',term)
+                matching_cats=self.get_suggestions(Categories,'name',term)
+                
+                
+                suggestion=matching_recipes+matching_cats
+                
+                
+                return Response({'payload':suggestion,'status':200})
+         except Exception as e:
+              return Response({'error':str(e),'status':400})
+    
+    def get_suggestions(self,model,field,term):
+                matching_objects=model.objects.filter(**{f'{field}__icontains':term})
+                suggestions = [getattr(obj,field) for obj in matching_objects]
+                return suggestions
+         
