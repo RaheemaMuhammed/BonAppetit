@@ -8,12 +8,13 @@ import { persistReducer,FLUSH,
 import storage  from "redux-persist/lib/storage"
 import UserReducer from "./UserSlice"
 import AdminReducer from "./AdminSlice"
-
+import WebSocketReducer from "./WebSocketSlice"
 const PersistConfig = {key :'root' , storage,version:1}
 
 const reducer = combineReducers({
     UserReducer,
-    AdminReducer
+    AdminReducer,
+    WebSocketReducer,
 })
 
 const PersistReducer = persistReducer(PersistConfig,reducer)

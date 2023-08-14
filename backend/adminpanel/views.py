@@ -234,14 +234,14 @@ class Analytics(APIView):
                 transaction_days = transaction_time.date()
                 transaction_day = transaction_days.strftime("%d-%m-%Y")
 
-                print(transaction_day)
+               
                 if transaction['type'] == 'earning':
                     accounts_daily.setdefault(transaction_day, {'income': 0, 'outgoing': 0})
                     accounts_daily[transaction_day]['outgoing'] += float(transaction['amount'])
                 else:
                     accounts_daily.setdefault(transaction_day, {'income': 0, 'outgoing': 0})
                     accounts_daily[transaction_day]['income'] += float(transaction['amount'])
-           print(accounts_daily)
+          
            
 
            data=[{'basic':basic_users,

@@ -76,7 +76,11 @@ class notificationSerializer(serializers.ModelSerializer):
         model=Notifications
         fields=('id','sender','recipient','message','timestamp','is_read','post','recipe_name')
 
-
+class notificationAdminSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=Notifications
+        fields=('id','sender','recipient','message','timestamp','is_read')
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model=Report
