@@ -8,7 +8,6 @@ import Search from '../Components/User/Search'
 import RecipeCards from '../Components/RecipeCards'
 import Latest from '../Components/Latest'
 import Trending from '../Components/Trending'
-import SearchResults from '../Components/User/SearchResults'
 const Home = () => {
   const [loader, setLoader] = useState(true)
   const [filter,setFilter] = useState(false)
@@ -25,16 +24,13 @@ const Home = () => {
    {loader ? <Loader/> : <>
    <Header/>
    { user ? <Search setSearch={setSearch} search={search} /> :  <Banner/>}
-   {search ? <SearchResults/> : 
-   
-   <> 
+    
    {user && filter ?<RecipeCards setFilter={setFilter} filter = {filter}/> :
    <>
    <Trending setFilter={setFilter} filter = {filter}/>
    <Latest/> 
    </>}
-   </>
-   }
+   
    
    
    <Footer/>

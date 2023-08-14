@@ -15,6 +15,7 @@ import Wallet from '../Components/User/Profile/Wallet';
 import SavedRecipes from '../Components/User/Profile/SavedRecipes';
 import UserDetails from '../Components/User/Profile/UserDetails';
 import Expired from '../Components/Expired'
+import SearchPage from '../Pages/User/SearchPage';
 const UserRoutes = () => {
     const isAuth = useSelector(state=>state.AdminReducer.accessToken)
     const isUAuth = useSelector(state=>state.UserReducer.accessToken)
@@ -25,6 +26,7 @@ const UserRoutes = () => {
             <Route path="/" element={ isAuth ? <Dashboard/> : <Home/>}/>
             <Route path="/offer" element={ isAuth ? <Dashboard/> :( isUAuth ? <Offer/> :<Navigate to="/login"/> )}/>
             <Route path="/singleRecipe/:recipe_name" element={  <SingleRecipe/>}/>
+            <Route path='search/:query' element={<SearchPage/>}/>
             <Route path='/login' element={ isAuth ? <Dashboard/> : <LogIn/> } />
             <Route path='/register' element={ isUAuth ? <Home/> : ( isAuth ? <Dashboard/> :<Signup/>  )  } />
             <Route path='/verify' element={ isUAuth ? <Home/>:<VerifyOTP/> } />

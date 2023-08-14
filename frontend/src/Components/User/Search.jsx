@@ -2,26 +2,42 @@ import React, { useState,useEffect } from 'react'
 import { Dropdown } from 'rsuite';
 import { getSearchSuggestions } from '../../Axios/Services/UserServices';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const Search = ({setSearch,search}) => {
+const Search = () => {
     const [value,setValue] =useState('')
     const token= useSelector(state=>state.UserReducer.accessToken)
     const [debouncedInputValue, setDebouncedInputValue] =useState('')
     const [suggestionList,setSuggestionList] =useState([])
     const [suggClicked,setSuggClicked] =useState(false)
-    
+    const [refresh,setRefresh]=useState(false)
+    const navigate=useNavigate()
+     
     const onChange =(evt)=>{
+
         setValue(evt.target.value)
+        setSuggClicked(false)
         
     }
-    const onSearch=(term)=>{
-        setSuggClicked(true)
-      setValue(term)
     
-      
-        console.log(term,'searchinggg...');
+    const onSearch=(term)=>{
+        if(term.length===0){
+            toast.error('Enter a search query')
+        }else{
+
+        setSuggClicked(true)
+          setValue(term)
+          navigate(`/search/${term}`)
+          setRefresh(!refresh)
+         
+          
+            console.log(term,'searchinggg...');
+        }
       
     }
+
+    // for debouncing(limiting api call)
     useEffect(() => {
       const delayInputTimeoutId = setTimeout(() => {
         if(!suggestionList.includes(value)){
@@ -34,7 +50,7 @@ console.log(!suggestionList.includes(value))
         clearTimeout(delayInputTimeoutId)
       }
     }, [value,500])
-
+// to fetch the suggestions
     useEffect(() => {
       if(debouncedInputValue ){
         const fetchSuggestions= async()=>{
@@ -78,7 +94,9 @@ console.log(!suggestionList.includes(value))
 
                    
                 />
-                <button className="px-4 text-white bg-btnColor rounded-full " onClick={()=>{value && setSearch(!search);onSearch(value)}}>
+                {/* <Link to={}> */}
+                
+                <button className="px-4 text-white bg-btnColor rounded-full h-10 " onClick={()=>onSearch(value)}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5"
@@ -94,12 +112,16 @@ console.log(!suggestionList.includes(value))
                         />
                     </svg>
                 </button>
+                {/* </Link> */}
             </div>
             
         {!suggClicked && <>  {suggestionList?.length===0 ? '' :  <div className='absolute z-30 bg-newCoral p-2 w-max rounded-lg my-1'>
                 {suggestionList?.map((item,index)=>{
                     return(
-                   <p key={index} onClick={()=>{onSearch(item);}} className='my-1 cursor-pointer border-b-stone-700 hover:text-primary'>{item}</p>
+                        
+                        
+                        <p key={index} onClick={()=>onSearch(item)} className='my-1 cursor-pointer border-b-stone-700 hover:text-primary'>{item}</p>
+                       
                     )
                 })}
 

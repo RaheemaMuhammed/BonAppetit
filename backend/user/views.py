@@ -426,7 +426,6 @@ class Suggestions(APIView):
          try:
               
                 term=request.GET.get('term')
-                print(term)
                 matching_recipes=self.get_suggestions(Recipe,'recipe_name',term)
                 matching_cats=self.get_suggestions(Categories,'name',term)
                 
@@ -443,3 +442,17 @@ class Suggestions(APIView):
                 suggestions = [getattr(obj,field) for obj in matching_objects]
                 return suggestions
          
+class Search(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self,request):
+         try:
+              
+            query=request.GET.get('query')
+            matching_recipes=Recipe.objects.filter(Q(recipe_name__icontains=query) | Q(category__name__icontains=query) | Q(author__username__icontains=query) | Q(ingredients__icontains=query))
+            # print(matching_recipes.recipe_name)
+            serializer=RecipeSerializer(matching_recipes,many=True)
+            return Response({'payload':serializer.data,'status':200})
+         except Exception as e:
+            return Response({'error':str(e),'status':400})

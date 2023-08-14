@@ -381,3 +381,24 @@ export const getSearchSuggestions = async (token,term)=>{
     }
 
 }
+
+export const getSearchResults = async (token,query)=>{
+    try{
+        const config = {
+            headers:{
+                "Content-type":"application/json",
+                Authorization : `Bearer ${token}`,
+            },
+            params:{
+                query:query
+            },
+        }
+        const response = await axiosUserInstance.get('user/search/',config)
+        return response.data
+
+    }
+    catch (error){
+        console.log(error.message)
+    }
+
+}
