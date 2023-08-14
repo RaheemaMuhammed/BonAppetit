@@ -50,7 +50,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
         form.append('picture',values.picture)
        
         try{
-            console.log(isPrivate);
+           
             const response = await addRecipe(token,form)
             if(response.status===200){
                 setAddModal(false)
@@ -83,7 +83,6 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
         onSubmit,
     })
 
-console.log(isPrivate);
 
   return (
     <>

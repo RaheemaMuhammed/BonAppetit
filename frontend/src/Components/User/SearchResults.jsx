@@ -16,7 +16,7 @@ const SearchResults = () => {
    const { likedRecipes,savedRecipes} =useRecipeAPI(token)
 
     useEffect(() => {
-        console.log(query,'ksj');
+       
       const fetchResults=async()=>{
         try {
             const response = await getSearchResults(token,query)
@@ -35,7 +35,7 @@ const SearchResults = () => {
     
   return (
     <div>
-        {/* <h1 className='mx-16 md:mx-32 my-5 text-3xl text-btnColor underline'>Fresh from the Kitchen</h1> */}
+        <h1 className='mx-16 md:mx-32 my-5 text-3xl text-btnColor text-center'>Showing results for '{query}'</h1> 
         {recipes?.length === 0 ? <div className='flex items-center justify-center'>
             <p className='font-semibold text-2xl'>No Results Found!!!</p>
         </div> : 
@@ -57,13 +57,10 @@ const SearchResults = () => {
             isSaved={isSaved}
             user={user} 
           />)
-            
-
         }
             )
  }
         
-    
     </>
     
 </>

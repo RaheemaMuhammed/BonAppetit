@@ -52,4 +52,3 @@ class UserAnalyticSerializer(serializers.Serializer):
     date = serializers.DateField()
     regular_users = serializers.IntegerField()
     premium_users = serializers.IntegerField()
-    

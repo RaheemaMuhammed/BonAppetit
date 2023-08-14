@@ -20,7 +20,7 @@ const RecipeCard = ({item,premium,isLiked,isSaved,user}) => {
 
   return (
     <div key={item.id} className="container m-auto">
-    <div key={item.id} className="bg-white rounded overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2" onClick={()=>handleCardClick()}>
+    <div key={item.id} className="bg-white rounded cursor-pointer overflow-hidden shadow-lg relative hover:shadow-xl w-full mb-2" onClick={()=>handleCardClick()}>
     {item.is_private && <div className='absolute z-1 flex bg-white mt-1 rounded-full px-1'>
         <p className='font-poppins text-xs font-bold text-btnColor m-1'>Premium</p>
         <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />

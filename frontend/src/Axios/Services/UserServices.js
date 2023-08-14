@@ -41,6 +41,9 @@ export const getSingleRecipes = async (token,recipe_name)=>{
 
 // add a recipe
 export const addRecipe = async (token,values) =>{
+    for (var key of values.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
     try{
         const config = {
             headers:{
@@ -163,10 +166,13 @@ export const getCurrentUserRecipes = async (token)=>{
 }
 // editing a recipe 
 export const handleRecipeStatus=async (token,values)=>{
+    for (var key of values.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+    }
     try {
         const config = {
             headers :{
-                "Content-type" : "application/json",
+                "Content-type" : "multipart/form-data",
                 Authorization:`Bearer ${token}`,
             },
             
@@ -243,6 +249,23 @@ export const getProfile = async (token)=>{
         throw error;
     }
     
+}
+// edit user profile
+export const updateUserProfile=async (token,values)=>{
+    try {
+        const config = {
+            headers :{
+                "Content-type" : "multipart/form-data",
+                Authorization:`Bearer ${token}`,
+            },
+            
+        }
+        const response = await axiosUserInstance.patch('user/user_profile/',values,config)
+        return response.data
+    }
+    catch (error){
+        throw error;
+    }
 }
 // payment request
 export const requestPayment = async(token,values)=>{

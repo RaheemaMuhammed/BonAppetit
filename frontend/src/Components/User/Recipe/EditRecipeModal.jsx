@@ -68,16 +68,18 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
       
         // Check if the picture field has changed
         if (values.picture instanceof File) {
+            
           changedValues.picture = values.picture;
         }
       
         // Append the changed values to the form
         Object.entries(changedValues).forEach(([key, value]) => {
           form.append(key, value);
+          
         });
        
         try{
-            console.log(isPrivate);
+            
             const response = await handleRecipeStatus(token,form)
             if(response.status===200){
                 setEditModal(false)
@@ -127,7 +129,7 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
             ingredients:"",
             author:username,
             category:"",
-            picture:''
+            picture:""
         },
        
         onSubmit,

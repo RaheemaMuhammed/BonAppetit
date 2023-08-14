@@ -4,12 +4,18 @@ import { useNavigate } from 'react-router-dom'
 import { UserLogout } from '../../../Redux/UserSlice'
 import { getProfile} from '../../../Axios/Services/UserServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
+import EditProfileModal from './EditProfileModal'
 const UserDetails = () => {
 
     const user_token =useSelector((state) => state.UserReducer.accessToken)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [profile,setProfile] =useState({})
+    const [editModal,setEditmodal] = useState(false)
+  const [ refresh,setRefresh] =useState(false)
+
+
+    
     const handleLogout =() => {
             if (user_token){
                 
@@ -29,12 +35,13 @@ const UserDetails = () => {
         }
       }
       currentProfile()
-    },[])
+    },[refresh])
 
 
   return (
     <>
       <div className=' flex flex-col mt-14 md:mx-32 p-5 '>
+      {editModal ? <EditProfileModal setEditModal={setEditmodal} Refresh={refresh} setRefresh={setRefresh} username={profile.username} email={profile.email} phone={profile.phone} profile_pic={profile.profile_pic} /> : ''}
 
 <div className='flex justify-center items-center'>
 {profile?.profile_pic ?    <img className="mr-4  w-16 h-12 rounded-full" src={`${axiosInstance}${profile.profile_pic}`} alt=""/>
@@ -81,7 +88,7 @@ const UserDetails = () => {
     </table>
 </div>
 <div className='flex justify-between'>
-<p onClick={handleLogout} className="cursor-pointer  h-10 text-white bg-btnColor hover:bg-newPeach hover:text-black font-medium rounded-lg  my-3 text-sm px-5 py-2.5 text-justify">
+<p onClick={()=>{setEditmodal(!editModal)}} className="cursor-pointer  h-10 text-white bg-btnColor hover:bg-newPeach hover:text-black font-medium rounded-lg  my-3 text-sm px-5 py-2.5 text-justify">
 Edit
 </p> 
 <p onClick={handleLogout} className="cursor-pointer  h-10 text-white bg-btnColor hover:bg-newPeach hover:text-black font-medium rounded-lg  my-3 text-sm px-5 py-2.5 text-justify">
@@ -93,49 +100,7 @@ Logout
       </div>
 
     </>
-      // <>
-      // <div className="mt-1 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-      //       <div className="w-full flex flex-col">
-      //         <div className="flex-1 bg-black  shadow-xl p-8">
-      //           <h4 className="text-xl text-white font-bold">Personal Info</h4>
-      //           <ul className="mt-2 text-gray-700">
-  
-                  
-                 
-      //               <li className="flex border-b py-2 border-gray-600">
-      //                 <><span className="font-bold w-24 text-white">Username:</span>
-      //                   <span className="text-white">{profile?.username}</span></>
-                      
-      //               </li>
-                 
-  
-                  
-      //               <li className="flex border-b py-2 border-gray-600">
-      //               <span className="font-bold w-24 text-white ">Email:</span>
-      //                   <span className=" text-white">{profile?.email}</span>
-                      
-      //               </li>
-                  
-  
-                 
-                 
-      //               <li className="flex border-b py-2 border-gray-600">
-      //                 <span className="font-bold w-24 text-white">Mobile:</span>
-      //                   <span className=" text-white">{profile?.phone}</span>
-                    
-      //               </li>
-                  
-  
-                  
-  
-                
-                
-      //           </ul>
-      //         </div>
-      //       </div>
-      //     </div>
-  
-      // </>
+      
   )
 }
 

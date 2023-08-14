@@ -17,6 +17,7 @@ from decimal import Decimal
 from adminpanel.serializers import UserSerializer
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from account.serializers import RegisterSerializer
 
 # Create your views here.
 
@@ -31,6 +32,7 @@ class RecipeList(APIView):
     def post(self,request):
         try:
             data=request.data
+            print(data)
             recipe_name = request.data['recipe_name']
             data=data.copy()
             author=CustomUser.objects.get(username=data['author'])
@@ -56,6 +58,7 @@ class RecipeList(APIView):
 
     def patch(self,request):
          data=request.data
+         print(data)
          try:
                 recipe=Recipe.objects.get(id=data['id'])
                 print(recipe)
@@ -293,8 +296,25 @@ class UserProfile(APIView):
         
         # edit profile
         def patch(self,request):
-             pass
-
+            data=request.data
+            if not data:
+                return Response({'error': 'Request body is empty', 'status': 404})
+            try:
+                profile=CustomUser.objects.get(id=request.user.id)
+               
+                serializer = RegisterSerializer(profile, data=data, partial=True)
+                
+                
+                if serializer.is_valid():
+                    serializer.save() 
+                    return Response({'message': 'Profile updated successfully', 'status': 200})
+                else:
+                    return Response({'error': serializer.errors, 'status': 400})
+            except Exception as e:
+                return Response({'error': str(e), 'status': 500})
+                    
+                
+           
 # comment system
 class Comments(APIView):
         authentication_classes = [JWTAuthentication]
@@ -456,3 +476,7 @@ class Search(APIView):
             return Response({'payload':serializer.data,'status':200})
          except Exception as e:
             return Response({'error':str(e),'status':400})
+         
+         
+    
+         
