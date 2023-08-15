@@ -5,6 +5,7 @@ import { UserLogout } from '../../../Redux/UserSlice'
 import { getProfile} from '../../../Axios/Services/UserServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import EditProfileModal from './EditProfileModal'
+import useAxios from '../../../Axios/Instances/useAxios'
 const UserDetails = () => {
 
     const user_token =useSelector((state) => state.UserReducer.accessToken)
@@ -14,24 +15,25 @@ const UserDetails = () => {
     const [editModal,setEditmodal] = useState(false)
   const [ refresh,setRefresh] =useState(false)
 
-
+const api=useAxios()
     
     const handleLogout =() => {
             if (user_token){
                 
                 dispatch(UserLogout())
-                localStorage.setItem('Component','dashboard')
+                
                 
             }navigate('/')
         }
     useEffect(()=>{
       const currentProfile = async() =>{
         try{
-          const response = await getProfile(user_token)
+          const response = await getProfile(api)
           console.log(response);
           setProfile(response?.payload)
         }catch(error){
-          navigate('/expired/')
+          // navigate('/expired/')
+          console.log(error);
         }
       }
       currentProfile()

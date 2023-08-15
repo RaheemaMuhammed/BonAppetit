@@ -6,6 +6,7 @@ import { postingComment,deleteComment } from '../../../Axios/Services/UserServic
 import { toast } from 'react-toastify';
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import useAxios from '../../../Axios/Instances/useAxios';
 
 const CommentComponent = ({recipe_id,author}) => {
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ const CommentComponent = ({recipe_id,author}) => {
     const user=useSelector(state=>state.UserReducer.user?.username)
     const token=useSelector(state=>state.UserReducer.accessToken)
     const commentTextFieldRef = useRef(null);
-
+const api =useAxios()
     const [postComment,setPostComment]=useState('')
     const [ refresh,setRefresh] =useState(false)
     const [comments,setComments] = useState([])
@@ -54,7 +55,7 @@ const CommentComponent = ({recipe_id,author}) => {
                       
                     
                     if(token){
-                        const response = await postingComment(token,data)
+                        const response = await postingComment(api,data)
                         setRefresh(!refresh)
 
                         setPostComment('')
@@ -73,7 +74,7 @@ const CommentComponent = ({recipe_id,author}) => {
         //deleting a comment
     const handleCommentDelete = async(id)=>{
         try {
-            const response= await deleteComment(token,id)
+            const response= await deleteComment(api,id)
             if(response.status===200){
                 setRefresh(!refresh)
                 toast.success(response.message)

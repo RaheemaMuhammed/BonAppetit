@@ -6,6 +6,7 @@ import {  useNavigate } from "react-router-dom";
 import { useRecipeAPI } from '../CustomHooks/Recipe/useRecipeAPI';
 
 import RecipeCard from './RecipeCard';
+import useAxios from '../Axios/Instances/useAxios';
  const Trending = ({filter,setFilter}) => {
  
     const [recipes,setRecipes] = useState([])
@@ -14,11 +15,12 @@ import RecipeCard from './RecipeCard';
     const user = useSelector(state=>state.UserReducer.user)
     const [ refresh,setRefresh] =useState(false)
     const navigate=useNavigate()
+    const api =useAxios()
    
    
    
     // to show liked and saved recipes
-     const { likedRecipes,savedRecipes }= user ?useRecipeAPI(token) : []
+     const { likedRecipes,savedRecipes }= user ?useRecipeAPI(api) : []
     
     
 

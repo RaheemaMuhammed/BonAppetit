@@ -11,11 +11,24 @@ const UserSlice= createSlice({
     },
     reducers:{
         UserLogin:(state,action)=>{
+            console.log(action);
+            console.log(state.accessToken);
             state.refreshToken=action.payload.refreshToken
             state.accessToken=action.payload.accessToken
             state.user=action.payload.user
             state.premium=action.payload.premium
-            state.requested=action.payload.requested           
+            state.requested=action.payload.requested
+            console.log(state.accessToken);
+
+        },
+        TokenRefreshing:(state,action)=>{
+            console.log(action);
+            console.log(state.accessToken);
+            state.refreshToken=action.payload.refreshToken
+            state.accessToken=action.payload.accessToken
+            
+            console.log(state.accessToken);
+
         },
         UserLogout:(state,action)=>{
             state.refreshToken=null
@@ -33,5 +46,5 @@ const UserSlice= createSlice({
     }
 })
 
-export const { UserLogin,UserLogout,UserPremium,UserPaymentRequest  }= UserSlice.actions
+export const { UserLogin,UserLogout,UserPremium,UserPaymentRequest,TokenRefreshing  }= UserSlice.actions
 export default UserSlice.reducer

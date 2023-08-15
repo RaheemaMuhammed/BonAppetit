@@ -4,6 +4,7 @@ import { getSearchSuggestions } from '../../Axios/Services/UserServices';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import useAxios from '../../Axios/Instances/useAxios';
 
 const Search = () => {
     const [value,setValue] =useState('')
@@ -13,7 +14,7 @@ const Search = () => {
     const [suggClicked,setSuggClicked] =useState(false)
     const [refresh,setRefresh]=useState(false)
     const navigate=useNavigate()
-     
+     const api=useAxios()
     const onChange =(evt)=>{
 
         setValue(evt.target.value)
@@ -55,7 +56,7 @@ console.log(!suggestionList.includes(value))
       if(debouncedInputValue ){
         const fetchSuggestions= async()=>{
         try {
-            const response = await getSearchSuggestions(token,debouncedInputValue)
+            const response = await getSearchSuggestions(api,debouncedInputValue)
             
             if(response?.status === 200){
                 console.log(response?.payload);

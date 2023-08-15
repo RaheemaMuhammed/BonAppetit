@@ -2,18 +2,17 @@
 import React, { useEffect, useState } from 'react'
 import { getLatest } from '../Axios/Services/CommonServices'
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 import { useRecipeAPI } from '../CustomHooks/Recipe/useRecipeAPI';
 import RecipeCard from './RecipeCard';
+import useAxios from '../Axios/Instances/useAxios';
  const Latest = () => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
-    const navigate=useNavigate()
+    const api =useAxios()
     const premium= useSelector(state=>state.UserReducer.premium)
     const user = useSelector(state=>state.UserReducer.user)
    
-    const [ refresh,setRefresh] =useState(false)
-   const {likedRecipes,savedRecipes} =user? useRecipeAPI(token):[]
+   const {likedRecipes,savedRecipes} =user? useRecipeAPI(api):[]
    
    
 

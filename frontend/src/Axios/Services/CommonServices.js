@@ -1,4 +1,4 @@
-import { axiosUserInstance } from '../Instances/Instance';
+import { axiosCommonInstance } from '../Instances/Instance';
 
 
 // REgistration process
@@ -10,7 +10,7 @@ export const Register = async (values) => {
                 "Content-type" :"multipart/formdata"
             }
         }
-        const response = await axiosUserInstance.post('account/register/',values,config)
+        const response = await axiosCommonInstance.post('account/register/',values,config)
         return response.data
     }catch (error){
         console.log(error)
@@ -28,7 +28,7 @@ export const Login = async (values) =>{
                 "Content-type":"application/json",
             }
         }
-        const response = await axiosUserInstance.post('account/login/',values,config)
+        const response = await axiosCommonInstance.post('account/login/',values,config)
         return response.data
     }catch (error){
         console.log(error)
@@ -46,7 +46,7 @@ export const VerifyEmail = async (values) =>{
                 
             }
         }
-        const response = await axiosUserInstance.post('account/verify/',values,config)
+        const response = await axiosCommonInstance.post('account/verify/',values,config)
         return response.data
     }catch (error){
         console.log(error)
@@ -63,7 +63,7 @@ export const getRecipes = async ()=>{
                 "Content-type":"application/json"
             }
         }
-        const response = await axiosUserInstance.get('common/recipes/',config)
+        const response = await axiosCommonInstance.get('common/recipes/',config)
         return response.data
 
     }
@@ -83,7 +83,7 @@ export const getSingleRecipes = async (recipe_name)=>{
                 recipe_name:recipe_name
             },
         }
-        const response = await axiosUserInstance.get('common/single_recipe/',config)
+        const response = await axiosCommonInstance.get('common/single_recipe/',config)
         return response.data
 
     }
@@ -101,7 +101,7 @@ export const getTrending = async ()=>{
                 "Content-type":"application/json"
             }
         }
-        const response = await axiosUserInstance.get('common/trending/',config)
+        const response = await axiosCommonInstance.get('common/trending/',config)
         return response.data
 
     }
@@ -110,7 +110,7 @@ export const getTrending = async ()=>{
     }
 
 }
-// Trending recipes
+// latest recipes
 export const getLatest= async ()=>{
     try{
         const config = {
@@ -118,7 +118,7 @@ export const getLatest= async ()=>{
                 "Content-type":"application/json"
             }
         }
-        const response = await axiosUserInstance.get('common/latest/',config)
+        const response = await axiosCommonInstance.get('common/latest/',config)
         return response.data
 
     }
@@ -138,7 +138,7 @@ export const getSingleRecipeComents = async (recipe_id)=>{
                 recipe_id:recipe_id
             },
         }
-        const response = await axiosUserInstance.get('common/comments/',config)
+        const response = await axiosCommonInstance.get('common/comments/',config)
         return response.data
 
     }

@@ -8,6 +8,7 @@ import { handleRecipeStatus, getCategories } from '../../../Axios/Services/UserS
 import { getSingleRecipes} from '../../../Axios/Services/UserServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
 import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../Axios/Instances/useAxios'
 const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
     const cancelButtonRef = useRef(null)
     const [cat,setCat] = useState([])
@@ -18,11 +19,12 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [picture,setPicture] = useState('')
     const navigate = useNavigate()
+    const api=useAxios()
     useEffect(()=>{
         
             const fetchCategories =async ()=>{
                 try{
-                const response = await getCategories(token)
+                const response = await getCategories(api)
                 if(response){
                     setCat(response?.payload)
                 }
@@ -80,7 +82,7 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
        
         try{
             
-            const response = await handleRecipeStatus(token,form)
+            const response = await handleRecipeStatus(api,form)
             if(response.status===200){
                 setEditModal(false)
                 setRefresh(!Refresh)
@@ -101,7 +103,7 @@ const EditRecipeModal = ({setEditModal,Refresh,setRefresh,recipe_name}) => {
             const fetchSingleRecipe= async ()=>{
                 try{
                 
-                const response = await getSingleRecipes(token,recipe_name)
+                const response = await getSingleRecipes(api,recipe_name)
                 console.log(response);
                 if(response){
                     setRecipe(response?.payload)

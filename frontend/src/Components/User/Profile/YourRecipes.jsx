@@ -6,6 +6,7 @@ import {FaRegTrashAlt,FaRegThumbsUp,FaRegEye,FaRegEdit} from 'react-icons/fa'
 import { getCurrentUserRecipes } from '../../../Axios/Services/UserServices';
 import EditRecipeModal from '../Recipe/EditRecipeModal';
 import DeleteRecipeModal from '../Recipe/DeleteRecipeModal'
+import useAxios from '../../../Axios/Instances/useAxios';
 const YourRecipes = () => {
   const token=useSelector(state=>state.UserReducer.accessToken)
   const navigate=useNavigate()
@@ -17,13 +18,13 @@ const YourRecipes = () => {
   const [recipe_name,setRecipe_name] = useState('')
   const [id,setId] = useState('')
 
-  
+  const api=useAxios()
 
   useEffect(()=>{
    
         const userCurrentRecipes= async()=>{
           try{
-            const response = await getCurrentUserRecipes(token)
+            const response = await getCurrentUserRecipes(api)
             setCurrentRecipes(response?.payload)
         
         

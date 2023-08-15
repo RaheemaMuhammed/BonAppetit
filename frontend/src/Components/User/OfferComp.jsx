@@ -5,17 +5,19 @@ import { useNavigate } from 'react-router-dom'
 import { toast} from 'react-toastify'
 import { UserPremium  } from '../../Redux/UserSlice'
 import { useDispatch } from 'react-redux'
+import useAxios from '../../Axios/Instances/useAxios'
 const OfferComp = () => {
     const dispatch =useDispatch()
     const token = useSelector(state=>state.UserReducer.accessToken)
     const user = useSelector(state=>state.UserReducer.user)
     const navigate= useNavigate()
+    const api=useAxios()
     // this will be called after that razorpay page
     const handlePaymentSuccess = async (response)=>{
         try{
             const data= {"response":JSON.stringify(response)}
             
-            const values= await premiumPaymentSuccess(token,data)
+            const values= await premiumPaymentSuccess(api,data)
             console.log(values);
             if(values?.status===200){
                 dispatch(UserPremium())
@@ -43,7 +45,7 @@ const OfferComp = () => {
     const res = await loadScript();
     
             
-        const response= await premiumPayment(token)
+        const response= await premiumPayment(api)
         toast.success(response?.message)
     
      // in data we will receive an object from the backend with the information about the payment

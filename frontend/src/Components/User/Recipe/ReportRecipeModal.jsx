@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
+import useAxios from '../../../Axios/Instances/useAxios'
 
 
 const ReportRecipeModal = ({setreportModal,setRefresh,id,Refresh,reported_item,recipe_name}) => {
@@ -12,7 +13,7 @@ const ReportRecipeModal = ({setreportModal,setRefresh,id,Refresh,reported_item,r
     const [open,setOpen] = useState(true)
     const token = useSelector(state=>state.UserReducer.accessToken)
     const navigate=useNavigate()
-   
+   const api=useAxios()
     const cat = [
         { id: 'inappropriate', name: 'Inappropriate' },
         { id: 'spam', name: 'Spam' },
@@ -31,7 +32,7 @@ const ReportRecipeModal = ({setreportModal,setRefresh,id,Refresh,reported_item,r
        
         try{
             
-            const response = await reportingRecipe(token,form)
+            const response = await reportingRecipe(api,form)
             if(response.status===200){
                 setreportModal(false)
                 setRefresh(!Refresh)

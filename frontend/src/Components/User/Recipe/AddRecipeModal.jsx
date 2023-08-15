@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { addRecipe, getCategories } from '../../../Axios/Services/UserServices'
 import { AddRecipeSchema } from '../../../Validations/recipeValidation'
 import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../Axios/Instances/useAxios'
 const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
     const navigate=useNavigate()
     const cancelButtonRef = useRef(null)
@@ -17,13 +18,14 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
     const username=useSelector(state=>state.UserReducer.user.username)
     const [isPrivate, setIsPrivate] = useState(false);
     const premium= useSelector(state=>state.UserReducer.premium)
+    const api =useAxios()
 
     useEffect(()=>{
         
         
             const fetchCategories =async ()=>{
                 try{
-                const response = await getCategories(token)
+                const response = await getCategories(api)
                 if(response){
                     setCat(response?.payload)
                 }
@@ -51,7 +53,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
        
         try{
            
-            const response = await addRecipe(token,form)
+            const response = await addRecipe(api,form)
             if(response.status===200){
                 setAddModal(false)
                 setRefresh(!Refresh)

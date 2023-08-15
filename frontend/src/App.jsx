@@ -7,6 +7,7 @@ import UserRoutes from "./Routes/UserRoutes";
 import AdminRoute from "./Routes/AdminRoute";
 import { setNotifs,clearNotifs } from "./Redux/WebSocketSlice";
 const App = () => {
+
   const user = useSelector(state => state.UserReducer.user)
   const admin = useSelector(state => state.AdminReducer.admin)
   const token = useSelector(state=>state.UserReducer.accessToken)

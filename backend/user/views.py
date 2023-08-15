@@ -116,6 +116,7 @@ class LikeRecipe(APIView):
       permission_classes = [IsAuthenticated]
 
       def get(self,request):
+           print(request.user)
            try:
                 user=request.user.id
                 liked_recipes=Recipe.objects.filter(like__user_id=user)

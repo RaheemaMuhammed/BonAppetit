@@ -7,6 +7,7 @@ import { getNotificactions,handleNotiStatus } from '../Axios/Services/UserServic
 import AddRecipeModal from './User/Recipe/AddRecipeModal';
 import { toast } from 'react-toastify';
 import { handleStatus } from '../Redux/WebSocketSlice';
+import useAxios from '../Axios/Instances/useAxios';
 const Header = () => {
    const [notificationList,setNotificationList]= useState(false)
     const [navbar, setNavbar] = useState(false);
@@ -26,15 +27,15 @@ const dispatch=useDispatch()
         adminT: tokenA,
       };
     const data = useSelector(state=>state.WebSocketReducer.notifs)
-    
+    const api = useAxios()
       useEffect(() => {
        
         if(user || admin){
 
             try{
                 const userNotifications= async()=>{
-                    const response = await getNotificactions(tokens[user ? 'userT' : 'adminT'])
-                    console.log(response);
+                    const response = await getNotificactions(api)
+                console.log(response?.payload);
                     setNotifications(response?.payload)
         
                 }
@@ -51,23 +52,31 @@ const dispatch=useDispatch()
  useEffect(() => {
      if(user || admin){
         setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]); 
-        console.log(data);   
+        
         
         if (data) {
-            const unreadNotifications = data.filter((noti) => !noti.is_read);
-            setNotiCount(unreadNotifications.length);
-          }    
-          
+            const unreadNotifications = data?.filter((noti) => !noti.is_read)
+            
+            console.log(unreadNotifications);
+            setNotiCount(unreadNotifications?.length);
+        }    
+        
     }
     
- }, [data,user,admin])
+}, [data])
 
+useEffect(() => {
+    const unreadNotifications = notifications?.filter((noti) => !noti.is_read).filter((noti) => Array.isArray(noti) && noti.length > 0);
+    console.log(unreadNotifications,'[[[[');
+    const wooww=unreadNotifications?.filter((noti)=>noti!=[])
+    setNotiCount(wooww?.length);
+}, [notifications])
 
 
 async function handleRead() {
   
         try {
-            const response =await handleNotiStatus(tokens[user? 'userT' : 'adminT'])
+            const response =await handleNotiStatus(api)
             
             if(response?.status===200){
 
@@ -219,7 +228,7 @@ async function handleRead() {
 {notificationList && <> 
 <div  className="fixed top-0 right-[-500px] z-50 w-[500px] h-fit rounded-xl p-4 overflow-y-auto transition-transform ease-linear -translate-x-full bg-newPeach " >
     <p className="text-center font-base text-gray-500 uppercase text-xl">Your Notifications</p>
-    <button type="button" onClick={()=>{setNotificationList(!notificationList);console.log(notificationList);}} className="text-black bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+    <button type="button" onClick={()=>{setNotificationList(!notificationList);}} className="text-black bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
         <span className="sr-only" >Close menu</span>
     </button>

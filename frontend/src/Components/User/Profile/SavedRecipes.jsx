@@ -4,7 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import {  FaRegBookmark,FaBookmark } from 'react-icons/fa';
 import { axiosInstance } from '../../../Axios/Instances/Instance';
 import { getSavedRecipes,handleSaveStatus } from '../../../Axios/Services/UserServices';
+import useAxios from '../../../Axios/Instances/useAxios';
  const SavedRecipes = () => {
+    const api = useAxios()
     const token=useSelector(state=>state.UserReducer.accessToken)
     const navigate=useNavigate()
     const premium= useSelector(state=>state.UserReducer.premium)
@@ -17,7 +19,7 @@ import { getSavedRecipes,handleSaveStatus } from '../../../Axios/Services/UserSe
       
             const userSavedRecipes= async()=>{
                 try{
-                const response = await getSavedRecipes(token)
+                const response = await getSavedRecipes(api)
                 setSavedRecipes(response?.payload)
 
             
@@ -37,8 +39,8 @@ import { getSavedRecipes,handleSaveStatus } from '../../../Axios/Services/UserSe
             const data= {
                 recipe_id:recipe_id
             }
-            if(token){
-                const response = await handleSaveStatus(token,data)
+            if(user){
+                const response = await handleSaveStatus(api,data)
                 setRefresh(!refresh)
                 
     

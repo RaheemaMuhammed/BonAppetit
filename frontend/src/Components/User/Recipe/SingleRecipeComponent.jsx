@@ -9,11 +9,13 @@ import { axiosInstance } from '../../../Axios/Instances/Instance'
 import {RxDotFilled} from 'react-icons/rx'
 import { useSelector } from 'react-redux'
 import ReportRecipeModal from './ReportRecipeModal'
+import useAxios from '../../../Axios/Instances/useAxios'
 const SingleRecipeComponent = () => {
    const [recipe,setRecipe] =useState({})
    const {recipe_name}= useParams()
    const [ingredients,setIngredients] = useState([])
    const token=useSelector(state=>state.UserReducer.accessToken)
+   const api=useAxios()
    const user=useSelector(state=>state.UserReducer.user)
    const navigate=useNavigate()
    const [likedRecipes,setLikedRecipes] = useState([])
@@ -61,7 +63,7 @@ useEffect(() => {
             "recipe_id" :recipeId
         }
         const updateViewCount= async()=>{
-            const response = await handleView(token,data)
+            const response = await handleView(api,data)
             setSavedRecipes(response?.payload)
 
         }
@@ -79,7 +81,7 @@ useEffect(() => {
 
             try{
                 const userSavedRecipes= async()=>{
-                    const response = await getSavedRecipes(token)
+                    const response = await getSavedRecipes(api)
                     setSavedRecipes(response?.payload)
     
                 }
@@ -88,14 +90,14 @@ useEffect(() => {
                 navigate('/expired/')
             }
         }
-    },[refresh])
+    },[refresh,user])
     // to show liked recipes
     useEffect(()=>{
         if(user){
 
             try{
                 const userLikedRecipes= async()=>{
-                    const response = await getLikedRecipes(token)
+                    const response = await getLikedRecipes(api)
                     setLikedRecipes(response?.payload)
     
                 }
@@ -104,7 +106,7 @@ useEffect(() => {
                 navigate('/expired/')
             }
         }
-    },[refresh])
+    },[refresh,user])
     // for like and unlike
     const handleLike = async (recipe_id)=>{
         try{
@@ -112,7 +114,7 @@ useEffect(() => {
                 recipe_id:recipe_id
             }
             if(token){
-                const response = await handleLikeStatus(token,data)
+                const response = await handleLikeStatus(api,data)
                 setRefresh(!refresh)
                 
     
@@ -122,7 +124,7 @@ useEffect(() => {
             
         }
         catch(error){
-            navigate('/expired/')
+            // navigate('/expired/')
         }
     }
    
@@ -133,7 +135,7 @@ useEffect(() => {
                 recipe_id:recipe_id
             }
             if(token){
-                const response = await handleSaveStatus(token,data)
+                const response = await handleSaveStatus(api,data)
                 setRefresh(!refresh)
                 
     
@@ -144,7 +146,7 @@ useEffect(() => {
             
         }
         catch(error){
-            navigate('/expired/')
+            // navigate('/expired/')
         }
 
     }

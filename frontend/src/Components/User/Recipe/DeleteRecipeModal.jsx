@@ -4,19 +4,20 @@ import { deleteRecipe } from '../../../Axios/Services/UserServices'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../Axios/Instances/useAxios'
 
 
 const DeleteRecipeModal = ({setDeletemodal,setRefresh,id,Refresh}) => {
     const cancelButtonRef=useRef(null)
     const [open,setOpen] = useState(true)
     const token = useSelector(state=>state.UserReducer.accessToken)
-
+const api=useAxios()
     const navigate=useNavigate()
     const deleteThisRecipe = async(id)=>{
        
         try{
             
-            const response= await deleteRecipe(token,id)
+            const response= await deleteRecipe(api,id)
             setRefresh(!Refresh)
 
             toast.success(response?.message)

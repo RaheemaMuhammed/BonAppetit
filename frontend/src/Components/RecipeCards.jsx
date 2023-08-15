@@ -8,18 +8,19 @@ import { axiosInstance } from '../Axios/Instances/Instance';
 import { useRecipeAPI } from '../CustomHooks/Recipe/useRecipeAPI';
 import { BsStars } from 'react-icons/bs';
 import RecipeCard from './RecipeCard';
+import useAxios from '../Axios/Instances/useAxios';
  const RecipeCards = ({filter,setFilter}) => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)
     const navigate=useNavigate()
     const premium= useSelector(state=>state.UserReducer.premium)
     const user = useSelector(state=>state.UserReducer.user)
-   
+   const api=useAxios()
     const [ refresh,setRefresh] =useState(false)
     const [filterList,setFilterList] =useState(false)
     const [category,setCategory] = useState('')
     const [categories, setCategories] = useState([])
-    const { likedRecipes,savedRecipes }= user ?useRecipeAPI(token) : []
+    const { likedRecipes,savedRecipes }= user ?useRecipeAPI(api) : []
 
     // for fetching recipes
     useEffect(()=>{

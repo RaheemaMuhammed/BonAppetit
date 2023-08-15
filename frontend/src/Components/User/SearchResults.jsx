@@ -4,22 +4,23 @@ import { getSearchResults } from '../../Axios/Services/UserServices'
 import { useParams } from 'react-router-dom'
 import { useRecipeAPI } from '../../CustomHooks/Recipe/useRecipeAPI'
 import RecipeCard from '../RecipeCard'
+import useAxios from '../../Axios/Instances/useAxios'
 const SearchResults = () => {
     
     const {query}= useParams()
    const token=useSelector(state=>state.UserReducer.accessToken)
    const user = useSelector(state=>state.UserReducer.user)
-
+const api =useAxios()
    const [recipes,setRecipes] =useState([])
    const premium= useSelector(state=>state.UserReducer.premium)
 
-   const { likedRecipes,savedRecipes} =useRecipeAPI(token)
+   const { likedRecipes,savedRecipes} =useRecipeAPI(api)
 
     useEffect(() => {
        
       const fetchResults=async()=>{
         try {
-            const response = await getSearchResults(token,query)
+            const response = await getSearchResults(api,query)
             if(response?.status===200){
                 setRecipes(response?.payload);
             }else if(response?.status===400){

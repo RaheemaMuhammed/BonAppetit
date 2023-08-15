@@ -2,15 +2,16 @@ import {Fragment,useEffect,useRef,useState} from 'react'
 import { Dialog,Transition } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
-import { axiosInstance } from '../../../Axios/Instances/Instance'
 import { toast } from 'react-toastify'
 import { UPISchema } from '../../../Validations/upiValidation'
 import { UserPaymentRequest } from '../../../Redux/UserSlice'
 import { requestPayment } from '../../../Axios/Services/UserServices'
-import { getSingleRecipes} from '../../../Axios/Services/UserServices'
-import { AddRecipeSchema } from '../../../Validations/recipeValidation'
+
+
 import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../Axios/Instances/useAxios'
 const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount,requestSent,setRequestSent}) => {
+    const api=useAxios()
     const cancelButtonRef = useRef(null)
     const [upi_id,setUPIID] = useState('')
     const [open,setOpen] =useState(true)
@@ -26,7 +27,7 @@ const PayRequestModal = ({setRModal,Refresh,setRefresh,user,amount,requestSent,s
        
        console.log(form);
         try{
-            const response = await requestPayment(token,form)
+            const response = await requestPayment(api,form)
             if(response.status===200){
                 setRModal(false)
                 setRefresh(!Refresh)

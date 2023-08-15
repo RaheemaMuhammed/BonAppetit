@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import PayRequestModal from './PayRequestModal'
+import useAxios from '../../../Axios/Instances/useAxios'
 const Wallet = () => {
   
 const [balance,setBalance] = useState('')
@@ -19,11 +20,11 @@ const [requestSent, setRequestSent] = useState(false);
 const requested = useSelector(state=>state.UserReducer.requested)
 const navigate=useNavigate()
   const token =useSelector(state=>state.UserReducer.accessToken)
-  
+  const api =useAxios()
   useEffect(()=>{
     const getBalance = async ()=>{
       try{
-        const response = await getProfile(token)
+        const response = await getProfile(api)
 setBalance(response?.payload?.wallet)
 setUser(response?.payload?.id)
 setRHistory(response?.payload?.transaction_history)

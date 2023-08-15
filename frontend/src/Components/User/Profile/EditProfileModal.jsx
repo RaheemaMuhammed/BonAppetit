@@ -5,11 +5,12 @@ import { useFormik } from 'formik'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
 import { updateUserProfile } from '../../../Axios/Services/UserServices'
 import { toast } from 'react-toastify'
+import useAxios from '../../../Axios/Instances/useAxios'
 
 
 
 const EditProfileModal = ({setEditModal,Refresh,setRefresh,username,email,phone,profile_pic}) => {
-
+const api=useAxios()
     const [open,setOpen] =useState(true)
     const cancelButtonRef = useRef(null)
     const token = useSelector(state=>state.UserReducer.accessToken)
@@ -29,7 +30,7 @@ const EditProfileModal = ({setEditModal,Refresh,setRefresh,username,email,phone,
             form.append('profile_pic', values.profile_pic);
         }
         try {
-            const response = await updateUserProfile(token,form)
+            const response = await updateUserProfile(api,form)
             console.log(response);
             if(response.status===200){
                 setEditModal(false)

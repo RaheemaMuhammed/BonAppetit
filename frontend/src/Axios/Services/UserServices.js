@@ -1,163 +1,101 @@
-import { axiosUserInstance } from '../Instances/Instance';
 
-// getting recipes
-export const getRecipes = async (token) =>{
-    try{
-        const config = {
-            headers:{
-                "Content-type" : "application/json",
-                Authorization : `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.get('user/recipes/',config)
-        return response.data
-    }catch (error){
-        throw error
-    }
-}
 
 // get single recipes
-export const getSingleRecipes = async (token,recipe_name)=>{
+export const getSingleRecipes = async (api,recipe_name)=>{
     try{
         const config = {
-            headers:{
-                "Content-type":"application/json",
-                Authorization : `Bearer ${token}`,
-            },
+           
             params:{
                 recipe_name:recipe_name
             },
         }
-        const response = await axiosUserInstance.get('user/single_recipe/',config)
+        const response = await api.get('user/single_recipe/',config)
         return response.data
-
+        
     }
     catch (error){
         console.log(error.message)
     }
-
+    
 }
 
 
 // add a recipe
-export const addRecipe = async (token,values) =>{
-    for (var key of values.entries()) {
-        console.log(key[0] + ', ' + key[1]);
-    }
+export const addRecipe = async (api,values) =>{
+    
     try{
-        const config = {
-            headers:{
-                "Content-type" : "multipart/form-data",
-                Authorization : `Bearer ${token}`,
-            }
+       
+            const response = await api.post('user/recipes/',values)
+            return response.data
+        }catch (error){
+            throw error;
         }
+    }
+    // get categories while upoading a recipe
+export const getCategories=async (api)=>{
         
-        const response = await axiosUserInstance.post('user/recipes/',values,config)
-        return response.data
-    }catch (error){
-        throw error;
-    }
-}
-// get categories while upoading a recipe
-export const getCategories=async (token)=>{
-
-    try{
-        const config = {
-            headers:{
-                "Content-type" : "application/json",
-                Authorization : `Bearer ${token}`,
-            }
+        try{
+            const response = await api.get('user/categories/')
+            return response.data
+        }catch (error){
+            throw error;
         }
-        const response = await axiosUserInstance.get('user/categories/',config)
-        return response.data
-    }catch (error){
-        throw error;
-    }
-}
-
-// Liking and disliking
-
-export const handleLikeStatus=async (token,values)=>{
-    try {
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.patch('user/like/',values,config)
-        return response.data
-    }
-    catch (error){
-        throw error;
-    }
-}
-// get liked recipes
-
-export const getLikedRecipes = async (token)=>{
-    try{
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.get('user/like/',config)
-        return response.data
-    }catch(error){
-        throw error;
     }
     
-}
-// saving and unsaving
-export const handleSaveStatus=async (token,values)=>{
-    try {
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
+    // Liking and disliking
+    
+    export const handleLikeStatus=async (api,values)=>{
+        try {
             
-        }
-        const response = await axiosUserInstance.patch('user/saved_recipe/',values,config)
-        return response.data
-    }
-    catch (error){
-        throw error;
-    }
-}
-// get saved recipes
-export const getSavedRecipes = async (token)=>{
-    try{
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
             
+                const response = await api.patch('user/like/',values)
+                return response.data
+            }
+            catch (error){
+                throw error;
+            }
         }
-        const response = await axiosUserInstance.get('user/saved_recipe/',config)
-        return response.data
-    }catch(error){
+        // get liked recipes
         
-        throw error;
-    }
+        export const getLikedRecipes = async (api)=>{
+            
+            try{
+                
+                    const response = await api.get('user/like/')
+                    return response.data
+                }catch(error){
+                    throw error;
+                }
+                
+            }
+            // saving and unsaving
+            export const handleSaveStatus=async (api,values)=>{
+                try {
+                   
+                        const response = await api.patch('user/saved_recipe/',values)
+                        return response.data
+                    }
+                    catch (error){
+                        throw error;
+                    }
+                }
+                // get saved recipes
+        export const getSavedRecipes = async (api)=>{
+            try{
+                
+                const response = await api.get('user/saved_recipe/')
+                return response.data
+            }catch(error){
+                
+                throw error;
+            }
     
 }
 // get current user's recipes
 
-export const getCurrentUserRecipes = async (token)=>{
+export const getCurrentUserRecipes = async (api)=>{
     try{
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.get('user/user_recipe/',config)
+        const response = await api.get('user/user_recipe/')
         return response.data
     }catch(error){
         throw error;
@@ -165,19 +103,11 @@ export const getCurrentUserRecipes = async (token)=>{
     
 }
 // editing a recipe 
-export const handleRecipeStatus=async (token,values)=>{
-    for (var key of values.entries()) {
-        console.log(key[0] + ', ' + key[1]);
-    }
+export const handleRecipeStatus=async (api,values)=>{
+    
     try {
-        const config = {
-            headers :{
-                "Content-type" : "multipart/form-data",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.patch('user/user_recipe/',values,config)
+        
+        const response = await api.patch('user/user_recipe/',values)
         return response.data
     }
     catch (error){
@@ -185,48 +115,36 @@ export const handleRecipeStatus=async (token,values)=>{
     }
 }
 //Deleting a recipe
-export const deleteRecipe = async (token,id) =>{
+export const deleteRecipe = async (api,id) =>{
     try {
         const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            },params: {
+           
+            params: {
                 id: id,
             },
         }
-        const response = await axiosUserInstance.delete('user/user_recipe/',config)
+        const response = await api.delete('user/user_recipe/',config)
         return response.data
     }catch(error){
         throw error;
     }
 }
 // premium success
-export const premiumPaymentSuccess = async(token,values)=>{
+export const premiumPaymentSuccess = async(api,values)=>{
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.post('payment/payment_success/',values,config)
-        console.log(response);
+       
+        const response = await api.post('payment/payment_success/',values)
+       
         return response.data
     }catch(error){
         throw error;
     }
 }
 // start premium 
-export const premiumPayment = async(token,values)=>{
+export const premiumPayment = async(api,values)=>{
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.post('payment/payment_start/',values,config)
+     
+        const response = await api.post('payment/payment_start/',values)
         return response.data
     }catch(error){
         throw error;
@@ -234,16 +152,9 @@ export const premiumPayment = async(token,values)=>{
 }
 // get user profile details
 
-export const getProfile = async (token)=>{
+export const getProfile = async (api)=>{
     try{
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.get('user/user_profile/',config)
+        const response = await api.get('user/user_profile/')
         return response.data
     }catch(error){
         throw error;
@@ -251,16 +162,10 @@ export const getProfile = async (token)=>{
     
 }
 // edit user profile
-export const updateUserProfile=async (token,values)=>{
+export const updateUserProfile=async (api,values)=>{
     try {
-        const config = {
-            headers :{
-                "Content-type" : "multipart/form-data",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.patch('user/user_profile/',values,config)
+      
+        const response = await api.patch('user/user_profile/',values)
         return response.data
     }
     catch (error){
@@ -268,49 +173,36 @@ export const updateUserProfile=async (token,values)=>{
     }
 }
 // payment request
-export const requestPayment = async(token,values)=>{
+export const requestPayment = async(api,values)=>{
     console.log(values);
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.post('payment/payment_request/',values,config)
+        
+        const response = await api.post('payment/payment_request/',values)
         return response.data
     }catch(error){
         throw error;
     }
 }
 // post a comment
-export const postingComment = async(token,values)=>{
-    console.log(values);
+export const postingComment = async(api,values)=>{
+    
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.post('user/comments/',values,config)
+        
+        const response = await api.post('user/comments/',values)
         return response.data
     }catch(error){
         throw error;
     }
 }
 // delete a commnt
-export const deleteComment = async (token,id) =>{
+export const deleteComment = async (api,id) =>{
     try {
         const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            },params: {
+           params: {
                 id: id,
             },
         }
-        const response = await axiosUserInstance.delete('user/comments/',config)
+        const response = await api.delete('user/comments/',config)
         return response.data
     }catch(error){
         throw error;
@@ -318,33 +210,21 @@ export const deleteComment = async (token,id) =>{
 }
 // get user notifoications
 
-export const getNotificactions = async (token)=>{
+export const getNotificactions = async (api)=>{
     try{
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.get('user/notification/',config)
+        
+        const response = await api.get('user/notification/')
         return response.data
     }catch(error){
-        console.log(error); 
+       throw error; 
     }
     
 }
 // notificatio staTUES read or not
-export const handleNotiStatus=async (token,values)=>{
+export const handleNotiStatus=async (api,values)=>{
     try {
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            },
-            
-        }
-        const response = await axiosUserInstance.patch('user/notification/',values,config)
+       
+        const response = await api.patch('user/notification/',values)
         return response.data
     }
     catch (error){
@@ -352,76 +232,60 @@ export const handleNotiStatus=async (token,values)=>{
     }
 }
 // handle report status
-export const reportingRecipe = async(token,values)=>{
+export const reportingRecipe = async(api,values)=>{
     console.log(values);
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.post('user/report/',values,config)
+       
+        const response = await api.post('user/report/',values)
         return response.data
     }catch(error){
         throw error;
     }
 }
 // to track recipe view
-export const handleView = async(token,values)=>{
+export const handleView = async(api,values)=>{
    
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosUserInstance.post('user/track_view/',values,config)
+       
+        const response = await api.post('user/track_view/',values)
         return response.data
     }catch(error){
         throw error;
     }
 }
 
-export const getSearchSuggestions = async (token,term)=>{
+export const getSearchSuggestions = async (api,term)=>{
     try{
         const config = {
-            headers:{
-                "Content-type":"application/json",
-                Authorization : `Bearer ${token}`,
-            },
+           
             params:{
                 term:term
             },
         }
-        const response = await axiosUserInstance.get('user/suggestions/',config)
+        const response = await api.get('user/suggestions/',config)
         return response.data
 
     }
     catch (error){
-        console.log(error.message)
+        throw error
     }
 
 }
 
-export const getSearchResults = async (token,query)=>{
+export const getSearchResults = async (api,query)=>{
     try{
         const config = {
-            headers:{
-                "Content-type":"application/json",
-                Authorization : `Bearer ${token}`,
-            },
+            
             params:{
                 query:query
             },
         }
-        const response = await axiosUserInstance.get('user/search/',config)
+        const response = await api.get('user/search/',config)
         return response.data
 
     }
     catch (error){
-        console.log(error.message)
+        throw error
     }
 
 }
