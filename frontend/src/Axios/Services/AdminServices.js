@@ -3,7 +3,7 @@
 export const getUsersList = async (api) => {
     try {
 
-        const response = await api.get('users/', config)
+        const response = await api.get('users/' )
         return response.data
     } catch (error) {
 
@@ -16,7 +16,7 @@ export const getUsersList = async (api) => {
 export const getSingleUser = async (api,id) => {
     try {
         
-        const response = await api.get(`users/${id}/`, config)
+        const response = await api.get(`users/${id}/`)
         return response.data
     } catch (error) {
 
@@ -62,7 +62,6 @@ export const addCategories = async (api,values)=>{
     try{
         
         const response = await api.post('categories/',values)
-        console.log(response);
         return response.data
     }catch(error){
         throw error;

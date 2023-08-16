@@ -16,7 +16,7 @@ const UserList = () => {
   }, [])
   return (
     <div>
-      { loader ? <Loader/> : <><Header/>
+      { loader ? <Loader/> : <>
       <div className='block md:flex justify-normal'>
   <div className='md:w-[20%] w-[100%]'>
     <Sidebar />
@@ -26,7 +26,6 @@ const UserList = () => {
   </div>
 </div>
 
-<Footer/>
       </>}
 
 

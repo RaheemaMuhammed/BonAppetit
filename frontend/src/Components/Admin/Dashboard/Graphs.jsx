@@ -5,14 +5,14 @@ import { Doughnut } from 'react-chartjs-2'
 import 'chart.js/auto'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
-import useAxios from '../../../Axios/Instances/useAxios'
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios'
 const Graphs = () => {
   const token =useSelector(state=>state.AdminReducer.accessToken)
   const [data,setData] = useState([])
   const [doughdata,setDoughdata] =useState({})
   const [bardata,setbardata]=useState({})
   const [linedata,setlinedata] =useState({})
-const api=useAxios()
+const api=useAdminAxios()
 
   useEffect(() => {
    

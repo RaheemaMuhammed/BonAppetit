@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import RequestStatus from './RequestStatus';
 import { getPaymentRequests } from '../../../Axios/Services/AdminServices'
 import { toast } from 'react-toastify';
-import useAxios from '../../../Axios/Instances/useAxios';
-
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios';
 const SubTable = () => {
   const token =useSelector(state => state.AdminReducer.accessToken)
   const [Data,setData] =useState([])
@@ -14,7 +13,7 @@ const SubTable = () => {
   const [user,setUser] = useState('')
   const [amount,setAmount] =useState('')
   const [status,setStatus] = useState('')
-const api=useAxios()
+    const api=useAdminAxios()
 
  useEffect(()=>{
   const fetchPayments = async () =>{

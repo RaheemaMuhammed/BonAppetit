@@ -6,14 +6,14 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handlePaymentRequests } from "../../../Axios/Services/AdminServices";
-import useAxios from "../../../Axios/Instances/useAxios";
+import useAdminAxios from "../../../Axios/Instances/useAdminAxios";
 
 const RequestStatus = ({setSModal,Refresh,setRefresh, user,  id, amount,status}) => {
     const cancelButtonRef = useRef(null)
     const [ open,setOpen] = useState(true)
     const token=useSelector(state=>state.AdminReducer.accessToken)
     const navigate= useNavigate()
-    const api=useAxios()
+    const api=useAdminAxios()
     const onSubmit = async() =>{
         const form =new FormData()
         form.append('user',user)

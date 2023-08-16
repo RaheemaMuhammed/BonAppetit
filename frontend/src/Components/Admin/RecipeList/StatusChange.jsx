@@ -4,14 +4,14 @@ import { changeRecipeStatus } from '../../../Axios/Services/AdminServices'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import useAxios from '../../../Axios/Instances/useAxios'
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios'
 const StatusChange = ({setBRModal,name,status,id,setRefresh,Refresh}) => {
     const navigate=useNavigate()
     const cancelButtonRef=useRef(null)
     const [open,setOpen] = useState(true)
 
     const token = useSelector(state=>state.AdminReducer.accessToken)
-const api=useAxios()
+const api=useAdminAxios()
     const BlockAndUnblock = async(id,status)=>{
         try{
             const data = {

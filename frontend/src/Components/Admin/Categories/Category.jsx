@@ -4,7 +4,7 @@ import { getCategories } from '../../../Axios/Services/AdminServices'
 import DeleteCat from './DeleteCat'
 import AddCategory from './AddCategory'
 import { useNavigate } from 'react-router-dom'
-import useAxios from '../../../Axios/Instances/useAxios'
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios'
 const Category = () => {
     const token=useSelector(state=>state.AdminReducer.accessToken)
     const [data,setData]=useState([])
@@ -17,7 +17,7 @@ const Category = () => {
     const [name,setName] = useState('')
     const [status,setStatus] = useState('')
     const [id,setId]=useState('')
-    const api=useAxios()
+    const api=useAdminAxios()
 
      useEffect(()=>{
         try{

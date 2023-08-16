@@ -69,7 +69,7 @@ const navigate = useNavigate()
                 }
         }
         
-     }, [token,tokenA,user,admin])
+     }, [token,tokenA])
     
 // to show all notiiffcations of the user,taken from backend
     useEffect(() => {
@@ -89,7 +89,7 @@ const navigate = useNavigate()
         }
         
         
-    }, [Refresh,admin,user,token,tokenA])
+    }, [Refresh,token,tokenA])
 
     useEffect(() => {
         console.log('called');

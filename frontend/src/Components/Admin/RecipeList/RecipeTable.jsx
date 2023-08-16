@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getAllRecipes } from '../../../Axios/Services/AdminServices'
 import { axiosInstance } from '../../../Axios/Instances/Instance'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import StatusChange from './StatusChange'
-import useAxios from '../../../Axios/Instances/useAxios'
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios'
 const RecipeTable = () => {
   const [BRModal,setBRModal] = useState(false)
   const [id,setId]=useState('')
   const [Refresh,setRefresh]=useState(false)
   const [status,setStatus] = useState('')
   const [name,setname] = useState('')
-   const api=useAxios()
+   const api=useAdminAxios()
   const token=useSelector(state=>state.AdminReducer.accessToken)
   const [recipes,setRecipes]=useState([])
+  const navigate=useNavigate()
   useEffect(()=>{
     const fetchRecipes = async()=>{
       try {
@@ -23,7 +24,8 @@ const RecipeTable = () => {
           setRecipes(response?.payload)
         }
       } catch (error) {
-        navigate('/admin/expired/');
+        console.log(error);
+        // navigate('/admin/expired/');
         
       }
     }

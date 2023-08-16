@@ -1,26 +1,27 @@
 import axios from 'axios';
 import jwt_decode from "jwt-decode"
 import dayjs from 'dayjs'
-import { TokenRefreshing } from '../../Redux/UserSlice';
+import { AdminTokenRefreshing } from '../../Redux/AdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { axiosInstance,baseURLUser } from './Instance';
+import { axiosInstance,baseURLAdmin } from './Instance';
 
 
-const useAxios = ()=>{
+const useAdminAxios = ()=>{
     const dispatch=useDispatch();
     
-    const accessToken =useSelector(state=>state.UserReducer.accessToken)
-    const refreshToken =useSelector(state=>state.UserReducer.refreshToken)
+  
+    const accessToken =useSelector(state=>state.AdminReducer.accessToken);
+    const refreshToken =useSelector(state=>state.AdminReducer.refreshToken);
+    let isRefreshing = false; // Flag to track ongoing token refresh
     const refreshQueue = []; //to store pending requests
-    let isRefreshing = false; 
-     const baseURL = baseURLUser 
-     const axiosUserInstance=axios.create({
+     const baseURL = baseURLAdmin
+     const axiosAdminInstance=axios.create({
         baseURL,
         headers:{Authorization:`Bearer ${accessToken}`}
     });
     // console.log(accessToken,refreshToken,baseURL);
     // interceptor
-    axiosUserInstance.interceptors.request.use(async req =>{
+    axiosAdminInstance.interceptors.request.use(async req =>{
  
         // know expiry
         const user = jwt_decode(accessToken);
@@ -59,9 +60,10 @@ const useAxios = ()=>{
              
             //  refreshQueue.forEach((resolve) => resolve(access));
              refreshQueue.length = 0; // Clear the queue
-            
-            dispatch(TokenRefreshing({accessToken: access, refreshToken: refresh}));
-              
+             
+            dispatch(AdminTokenRefreshing({accessToken: access, refreshToken: refresh}));
+
+          
         }catch (error) {
             console.log(error,'am i printinggg');
         }finally{
@@ -80,7 +82,7 @@ const useAxios = ()=>{
         }
     }
 
-    return axiosUserInstance
+    return axiosAdminInstance
 }
 
-export default useAxios;
+export default useAdminAxios;

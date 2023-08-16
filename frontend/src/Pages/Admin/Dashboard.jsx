@@ -17,13 +17,13 @@ const Dashboard = () => {
   return (
     <div>
       { loader ? <Loader/> : 
-      <><Header/>
+      <>
       <div className='block  md:flex'>
       <Sidebar/>
       <Graphs/>
       </div>
       
-      <Footer/></>
+      </>
       }
 
 

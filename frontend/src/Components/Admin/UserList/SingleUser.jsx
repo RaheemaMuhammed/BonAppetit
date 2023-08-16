@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../Axios/Instances/Instance';
-import useAxios from '../../../Axios/Instances/useAxios';
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios';
 
 const SingleUser = ({user_id,setSingle,single}) => {
     const token =useSelector(state => state.AdminReducer.accessToken)
@@ -12,7 +12,7 @@ const SingleUser = ({user_id,setSingle,single}) => {
     const [recipes,setrecipes] = useState([])
     const [comments,setComments] = useState([])
     const [name,setName] =useState('')
-    const api=useAxios()
+    const api=useAdminAxios()
   const navigate=useNavigate()
     useEffect(() => {
         const fetchUser = async () => {
@@ -35,7 +35,7 @@ const SingleUser = ({user_id,setSingle,single}) => {
             }
           } catch (error) {
             console.log(error);
-            navigate('/admin/expired/');
+            // navigate('/admin/expired/');
           }
         };
       

@@ -20,7 +20,7 @@ const SubscriptionList = () => {
   return (
     <div>
       { loader ? <Loader/> : 
-      <><Header/>
+      <>
       <div className='block  md:flex'>
       <Sidebar/>
       <div className='justify-center '>
@@ -29,7 +29,7 @@ const SubscriptionList = () => {
       
 
       </div>
-      <Footer/></>
+      </>
       }
 
 

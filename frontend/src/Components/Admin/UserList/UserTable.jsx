@@ -4,7 +4,7 @@ import { getUsersList } from '../../../Axios/Services/AdminServices'
 import BlockUnblock from './BlockUnblock';
 import { useNavigate } from 'react-router-dom';
 import SingleUser from './SingleUser';
-import useAxios from '../../../Axios/Instances/useAxios';
+import useAdminAxios from '../../../Axios/Instances/useAdminAxios';
 const UserTable = () => {
 const navigate = useNavigate()
   const [Data,setData] =useState([])
@@ -19,7 +19,7 @@ const navigate = useNavigate()
     
    const [single,setSingle] =useState(false)
 
- const api=useAxios()
+ const api=useAdminAxios()
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -32,7 +32,7 @@ const navigate = useNavigate()
         }
       } catch (error) {
         console.log(error);
-        navigate('/admin/expired/');
+        // navigate('/admin/expired/');
       }
     };
   
@@ -83,7 +83,6 @@ const navigate = useNavigate()
             </tr>
           </thead>
           <tbody>{Data.map((item,index)=>{
-            console.log(item,index);
     const hasPremiumString = item.has_premium ? "Premium" : "Basic";
     const isActiveString = item.is_active ? "Active" : "Inactive";           
     

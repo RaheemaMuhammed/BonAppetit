@@ -19,7 +19,7 @@ const CateoryList = () => {
   return (
     <div>
       { loader ? <Loader/> : 
-      <><Header/>
+      <>
       <div className='block  md:flex'>
       <Sidebar/>
       <div className='justify-center '>
@@ -28,7 +28,8 @@ const CateoryList = () => {
       
 
       </div>
-      <Footer/></>
+    
+      </>
       }
 
 
