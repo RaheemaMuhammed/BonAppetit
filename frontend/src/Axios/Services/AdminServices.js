@@ -1,17 +1,9 @@
-import { axiosAdminInstance } from "../Instances/Instance";
 
 // get user list
-export const getUsersList = async (token) => {
+export const getUsersList = async (api) => {
     try {
-        const config = {
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
 
-            },
-
-        }
-        const response = await axiosAdminInstance.get('users/', config)
+        const response = await api.get('users/', config)
         return response.data
     } catch (error) {
 
@@ -21,16 +13,10 @@ export const getUsersList = async (token) => {
     }
 }
 // get user single
-export const getSingleUser = async (token,id) => {
+export const getSingleUser = async (api,id) => {
     try {
-        const config = {
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
-
-            }
-        }
-        const response = await axiosAdminInstance.get(`users/${id}/`, config)
+        
+        const response = await api.get(`users/${id}/`, config)
         return response.data
     } catch (error) {
 
@@ -40,15 +26,10 @@ export const getSingleUser = async (token,id) => {
     }
 }
 // Blocking and Unblocking users
-export const handleUserStatus=async (token,values)=>{
+export const handleUserStatus=async (api,values)=>{
     try {
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            }
-        }
-        const response = await axiosAdminInstance.patch('users/',values,config)
+       
+        const response = await api.patch('users/',values)
         return response.data
     }
     catch (error){
@@ -56,15 +37,10 @@ export const handleUserStatus=async (token,values)=>{
     }
 }
 // Listing categories
-export const getCategories = async (token) =>{
+export const getCategories = async (api) =>{
         try {
-            const config = {
-                headers:{
-                    "Content-type": "application/json",
-                     Authorization: `Bearer ${token}`,
-                },
-            }
-            const response = await axiosAdminInstance.get('categories/',config)
+            
+            const response = await api.get('categories/')
             return response.data
         }catch(error){
             throw error;
@@ -72,30 +48,20 @@ export const getCategories = async (token) =>{
 }
 
 // Deleting categories
-export const delCategories = async (token,values) =>{
+export const delCategories = async (api,values) =>{
     try {
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosAdminInstance.patch('categories/',values,config)
+       
+        const response = await api.patch('categories/',values)
         return response.data
     }catch(error){
         console.log(error);
     }
 }
 // Adding Categories
-export const addCategories = async (token,values)=>{
+export const addCategories = async (api,values)=>{
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosAdminInstance.post('categories/',values,config)
+        
+        const response = await api.post('categories/',values)
         console.log(response);
         return response.data
     }catch(error){
@@ -104,15 +70,10 @@ export const addCategories = async (token,values)=>{
 }
 // for getting payyment requests
 
-export const getPaymentRequests = async (token) =>{
+export const getPaymentRequests = async (api) =>{
     try {
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            },
-        }
-        const response = await axiosAdminInstance.get('payment_requests/',config)
+       
+        const response = await api.get('payment_requests/')
         return response.data
     }catch(error){
         throw error;
@@ -120,15 +81,10 @@ export const getPaymentRequests = async (token) =>{
 }
 //for handling payment status
 
-export const handlePaymentRequests = async (token,values)=>{
+export const handlePaymentRequests = async (api,values)=>{
     try{
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            }
-        }
-        const response = await axiosAdminInstance.post('payment_requests/',values,config)
+        
+        const response = await api.post('payment_requests/',values)
         console.log(response);
         return response.data
     }catch(error){
@@ -136,30 +92,20 @@ export const handlePaymentRequests = async (token,values)=>{
     }
 }
 // get all the recipes
-export const getAllRecipes = async (token) =>{
+export const getAllRecipes = async (api) =>{
     try {
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            },
-        }
-        const response = await axiosAdminInstance.get('recipes/',config)
+        
+        const response = await api.get('recipes/')
         return response.data
     }catch(error){
         throw error;
     }
 }
 // Blocking and Unblocking recipes
-export const changeRecipeStatus=async (token,values)=>{
+export const changeRecipeStatus=async (api,values)=>{
     try {
-        const config = {
-            headers :{
-                "Content-type" : "application/json",
-                Authorization:`Bearer ${token}`,
-            }
-        }
-        const response = await axiosAdminInstance.patch('recipes/',values,config)
+        
+        const response = await api.patch('recipes/',values)
         return response.data
     }
     catch (error){
@@ -167,15 +113,10 @@ export const changeRecipeStatus=async (token,values)=>{
     }
 }
 // for graph and analytisc
-export const getAnalytics = async (token) =>{
+export const getAnalytics = async (api) =>{
     try {
-        const config = {
-            headers:{
-                "Content-type": "application/json",
-                 Authorization: `Bearer ${token}`,
-            },
-        }
-        const response = await axiosAdminInstance.get('analytics/',config)
+        
+        const response = await api.get('analytics/')
         return response.data
     }catch(error){
         throw error;

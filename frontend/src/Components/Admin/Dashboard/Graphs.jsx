@@ -5,19 +5,20 @@ import { Doughnut } from 'react-chartjs-2'
 import 'chart.js/auto'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
+import useAxios from '../../../Axios/Instances/useAxios'
 const Graphs = () => {
   const token =useSelector(state=>state.AdminReducer.accessToken)
   const [data,setData] = useState([])
   const [doughdata,setDoughdata] =useState({})
   const [bardata,setbardata]=useState({})
   const [linedata,setlinedata] =useState({})
-
+const api=useAxios()
 
   useEffect(() => {
    
     const fetchGraphData = async ()=>{
       try {
-        const response = await getAnalytics(token)
+        const response = await getAnalytics(api)
         if(response.status==200){
           setDoughdata(response?.payload)
           console.log(response?.payload[0]);

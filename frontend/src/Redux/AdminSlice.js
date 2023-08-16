@@ -14,6 +14,10 @@ const AdminSlice = createSlice({
             state.accessToken = action.payload.accessToken
             state.admin = action.payload.admin
             },
+        AdminTokenRefreshing:(state,action)=>{
+                state.refreshToken=action.payload.refreshToken
+                state.accessToken=action.payload.accessToken  
+            },
         AdminLogout :(state,action) =>{
             state.refreshToken =  null
             state.accessToken = null
@@ -21,5 +25,5 @@ const AdminSlice = createSlice({
         }
     }
 })
-export const { AdminLogin, AdminLogout } = AdminSlice.actions
+export const { AdminLogin, AdminLogout,AdminTokenRefreshing } = AdminSlice.actions
 export default AdminSlice.reducer

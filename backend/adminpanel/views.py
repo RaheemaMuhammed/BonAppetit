@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from .serializers import *
+from datetime import timedelta
+
 from account.models import CustomUser
 import datetime
-from recipe.serializers import CategorySerializer
+from recipe.serializers import CategorySerializer,notificationAdminSerializer
 from decimal import Decimal
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
@@ -13,8 +15,7 @@ from rest_framework.permissions import IsAdminUser,IsAuthenticated
 from .models import Categories
 from payment.models import PaymentRequest
 from django.db.models.functions import Trunc
-
-from recipe.models import Recipe,Comment
+from recipe.models import Recipe,Notifications
 # Create your views here.
 
 
@@ -257,3 +258,32 @@ class Analytics(APIView):
 
         except Exception as e:
             return Response({'error':str(e)})
+# get latest notification
+class Notification(APIView):
+        authentication_classes = [JWTAuthentication]
+        permission_classes = [IsAdminUser] 
+        def get(self,request):
+             try:
+                  
+                    thirty_days_ago = timezone.now() - timedelta(days=30)
+                    notifs=Notifications.objects.filter(recipient=request.user ,timestamp__gte=thirty_days_ago).order_by('-timestamp')
+                   
+                    serializer=notificationAdminSerializer(notifs,many=True)
+                        
+                    
+                    
+                    return Response({'payload':serializer.data,'status':200})
+             except Exception as e:
+                    return Response({'error':str(e),'status':400})
+             
+        # mark as read
+        def patch(self,request):
+             try:
+                  notifs=Notifications.objects.filter(recipient=request.user ,is_read=False)
+                  for noti in notifs:
+                       noti.is_read=True
+                       noti.save()
+                  return Response({'status':200,'message':'Marked notifications as read'})
+             except Exception as e:
+                  return Response({'error':str(e),'status':400})
+             

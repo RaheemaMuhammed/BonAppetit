@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../../Axios/Instances/Instance';
+import useAxios from '../../../Axios/Instances/useAxios';
 
 const SingleUser = ({user_id,setSingle,single}) => {
     const token =useSelector(state => state.AdminReducer.accessToken)
@@ -11,11 +12,12 @@ const SingleUser = ({user_id,setSingle,single}) => {
     const [recipes,setrecipes] = useState([])
     const [comments,setComments] = useState([])
     const [name,setName] =useState('')
+    const api=useAxios()
   const navigate=useNavigate()
     useEffect(() => {
         const fetchUser = async () => {
           try {
-            const response = await getSingleUser(token,user_id);
+            const response = await getSingleUser(api,user_id);
             if (response.status==200) {
                 console.log(response?.payload);
                 setName(response?.payload?.username)

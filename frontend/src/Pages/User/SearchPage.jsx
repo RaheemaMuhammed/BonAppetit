@@ -18,10 +18,8 @@ const SearchPage = () => {
     <>
     {loader ? <Loader/> :
     <>
-    <Header/>
 <Search/>
     <SearchResults />
-<Footer/>
     
     </>
     }

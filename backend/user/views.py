@@ -116,7 +116,6 @@ class LikeRecipe(APIView):
       permission_classes = [IsAuthenticated]
 
       def get(self,request):
-           print(request.user)
            try:
                 user=request.user.id
                 liked_recipes=Recipe.objects.filter(like__user_id=user)
@@ -374,12 +373,9 @@ class Notification(APIView):
                   
                     thirty_days_ago = timezone.now() - timedelta(days=30)
                     notifs=Notifications.objects.filter(recipient=request.user ,timestamp__gte=thirty_days_ago).order_by('-timestamp')
-                    if request.user.is_staff:
-                         serializer=notificationAdminSerializer(notifs,many=True)
-                        
-                    else:
+                    
                          
-                         serializer=notificationSerializer(notifs,many=True)
+                    serializer=notificationSerializer(notifs,many=True)
                     
                     return Response({'payload':serializer.data,'status':200})
              except Exception as e:

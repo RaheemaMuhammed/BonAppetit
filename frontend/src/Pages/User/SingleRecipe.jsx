@@ -6,9 +6,8 @@ const SingleRecipe = () => {
 
   return (
     <>
-    <Header/>
+    
     <SingleRecipeComponent />
-<Footer/>
     </>
 
     

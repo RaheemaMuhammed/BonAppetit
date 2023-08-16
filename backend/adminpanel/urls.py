@@ -9,5 +9,6 @@ urlpatterns = [
     path('payment_requests/',ManageRequest.as_view()),
     path('recipes/',Recipes.as_view()),
     path('analytics/',Analytics.as_view()),
+    path('user/notification/',Notification.as_view()),
   
 ]

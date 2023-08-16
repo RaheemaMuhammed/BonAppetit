@@ -11,12 +11,10 @@ import { useNavigate } from 'react-router';
 const Profile = () => {
   return (
     <>
-    <Header/>
     <LinkDetail/>
 
 <Outlet/>
 
-    <Footer/>
     </>
   )
 }

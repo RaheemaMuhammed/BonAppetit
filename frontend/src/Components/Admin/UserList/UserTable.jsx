@@ -4,6 +4,7 @@ import { getUsersList } from '../../../Axios/Services/AdminServices'
 import BlockUnblock from './BlockUnblock';
 import { useNavigate } from 'react-router-dom';
 import SingleUser from './SingleUser';
+import useAxios from '../../../Axios/Instances/useAxios';
 const UserTable = () => {
 const navigate = useNavigate()
   const [Data,setData] =useState([])
@@ -18,11 +19,11 @@ const navigate = useNavigate()
     
    const [single,setSingle] =useState(false)
 
- 
+ const api=useAxios()
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await getUsersList(token);
+        const response = await getUsersList(api);
         if (response) {
           setData(response?.payload);
           

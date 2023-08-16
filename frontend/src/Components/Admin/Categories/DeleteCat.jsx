@@ -4,13 +4,14 @@ import { delCategories } from '../../../Axios/Services/AdminServices'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../Axios/Instances/useAxios'
 
 
 const DeleteCat = ({setBUModal,setRefresh,id,status,Refresh,name}) => {
     const cancelButtonRef=useRef(null)
     const [open,setOpen] = useState(true)
     const token = useSelector(state=>state.AdminReducer.accessToken)
-
+const api=useAxios()
     const navigate = useNavigate()
     const deleteCategory = async(id)=>{
        console.log(status);
@@ -20,7 +21,7 @@ const DeleteCat = ({setBUModal,setRefresh,id,status,Refresh,name}) => {
                 status:status
             }
             
-            const response= await delCategories(token,data)
+            const response= await delCategories(api,data)
             setRefresh(!Refresh)
 
             toast.success(response?.message)

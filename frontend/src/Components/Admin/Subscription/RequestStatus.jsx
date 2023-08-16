@@ -6,12 +6,14 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handlePaymentRequests } from "../../../Axios/Services/AdminServices";
+import useAxios from "../../../Axios/Instances/useAxios";
 
 const RequestStatus = ({setSModal,Refresh,setRefresh, user,  id, amount,status}) => {
     const cancelButtonRef = useRef(null)
     const [ open,setOpen] = useState(true)
     const token=useSelector(state=>state.AdminReducer.accessToken)
     const navigate= useNavigate()
+    const api=useAxios()
     const onSubmit = async() =>{
         const form =new FormData()
         form.append('user',user)
@@ -21,7 +23,7 @@ const RequestStatus = ({setSModal,Refresh,setRefresh, user,  id, amount,status})
 
         
         try{
-            const response =await handlePaymentRequests(token,form)
+            const response =await handlePaymentRequests(api,form)
             if(response.status === 200){
                 setSModal(false)
                 setRefresh(!Refresh)

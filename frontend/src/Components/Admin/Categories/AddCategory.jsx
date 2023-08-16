@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import useAxios from "../../../Axios/Instances/useAxios";
 
 
 const AddCategory = ({setAddModal,Refresh,setRefresh}) => {
@@ -13,12 +14,13 @@ const AddCategory = ({setAddModal,Refresh,setRefresh}) => {
     const [ open,setOpen] = useState(true)
     const token=useSelector(state=>state.AdminReducer.accessToken)
     const navigate= useNavigate()
+    const api=useAxios()
     const onSubmit = async() =>{
         const form =new FormData()
         form.append('name',values.name)
         
         try{
-            const response =await addCategories(token,form)
+            const response =await addCategories(api,form)
             if(response.status === 200){
                 setAddModal(false)
                 setRefresh(!Refresh)

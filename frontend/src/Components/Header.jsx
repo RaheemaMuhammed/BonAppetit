@@ -6,7 +6,6 @@ import './tailwind.css'
 import { getNotificactions,handleNotiStatus } from '../Axios/Services/UserServices'
 import AddRecipeModal from './User/Recipe/AddRecipeModal';
 import { toast } from 'react-toastify';
-import { handleStatus } from '../Redux/WebSocketSlice';
 import useAxios from '../Axios/Instances/useAxios';
 const Header = () => {
    const [notificationList,setNotificationList]= useState(false)
@@ -18,26 +17,70 @@ const Header = () => {
     const [addModal,setAddmodal] = useState(false)
     const [Refresh, setRefresh] = useState(false)
     const [recipe,setRecipe] =  useState('')
+  const [flyNoti,setFlyNoti] =useState('')
+
 const navigate = useNavigate()
-const dispatch=useDispatch()
     const [notiCount,setNotiCount] = useState(0)
     const [notifications,setNotifications] = useState([])
     const tokens = {
         userT: token,
         adminT: tokenA,
       };
-    const data = useSelector(state=>state.WebSocketReducer.notifs)
     const api = useAxios()
-      useEffect(() => {
+    useEffect(() => {
+        if(user || admin){
+                try {
+                //   open a new ws connection
+                const socket = new WebSocket(`ws://localhost:8000/ws/notifications/?token=${tokens[user ? 'userT' : 'adminT']}`);
+                
+                
+                socket.onopen=()=>{
+                    console.log('WebSocket connection opened.');
+                    
+                }
+                // on  notification recieving
+                socket.onmessage = (event) => {
+                
+                    const data = JSON.parse(event.data);
+                    
+                    console.log('Received notification:', data);
+                    //  to add new notifications to the list
+                    setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]);
+                    //  to show flying noti
+                    showNotification(data?.message)
+                
+                };
+                socket.onerror=(error)=>{
+                    
+                    console.log(error,'iam the error');
+                }
+
+                socket.onclose = () => {
+                
+                    console.log('WebSocket connection closed.');
+                    
+                };
+                
+                return () => {
+                    socket.close();
+                };
+                } catch (error) {
+                console.log(error);
+                }
+        }
+        
+     }, [token,tokenA,user,admin])
+    
+// to show all notiiffcations of the user,taken from backend
+    useEffect(() => {
        
         if(user || admin){
 
             try{
                 const userNotifications= async()=>{
                     const response = await getNotificactions(api)
-                console.log(response?.payload);
+                    console.log(response);
                     setNotifications(response?.payload)
-        
                 }
                 userNotifications()
             }catch(error){
@@ -46,33 +89,39 @@ const dispatch=useDispatch()
         }
         
         
-    }, [data,Refresh])
+    }, [Refresh,admin,user,token,tokenA])
 
+    useEffect(() => {
+        console.log('called');
+        const unreadNotifications = notifications?.filter(noti => !noti.is_read);
+      
+        setNotiCount(unreadNotifications?.length || 0);
+      }, [notifications]);
+//  useEffect(() => {
+//      if(user || admin){
+//         setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]); 
+        
+        
+//         if (data) {
+//             const unreadNotifications = data?.filter((noti) => !noti.is_read)
+//             console.log(unreadNotifications);
+//             setNotiCount(count=>count+=(unreadNotifications?.length));
+//         }    
+        
+//     }
     
- useEffect(() => {
-     if(user || admin){
-        setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]); 
-        
-        
-        if (data) {
-            const unreadNotifications = data?.filter((noti) => !noti.is_read)
-            
-            console.log(unreadNotifications);
-            setNotiCount(unreadNotifications?.length);
-        }    
-        
-    }
-    
-}, [data])
+// }, [data])
 
-useEffect(() => {
-    const unreadNotifications = notifications?.filter((noti) => !noti.is_read).filter((noti) => Array.isArray(noti) && noti.length > 0);
-    console.log(unreadNotifications,'[[[[');
-    const wooww=unreadNotifications?.filter((noti)=>noti!=[])
-    setNotiCount(wooww?.length);
-}, [notifications])
+// useEffect(() => {
+//     const unreadNotifications = notifications?.filter((noti) => !noti.is_read).filter((noti) => Array.isArray(noti) && noti.length > 0);
+//     const wooww=unreadNotifications?.filter((noti)=>noti!=[])
+//     console.log(wooww?.length);
+//     console.log(unreadNotifications,'from databse');
+//     setNotiCount((count)=>count+=(unreadNotifications?.length));
+//     console.log(notiCount);
+// }, [notifications])
 
-
+// to mark notis as read
 async function handleRead() {
   
         try {
@@ -81,7 +130,7 @@ async function handleRead() {
             if(response?.status===200){
 
                 setRefresh(!Refresh)
-                dispatch(handleStatus())
+              
                 setNotiCount(0)
             }else{
                 toast.error('Connection failed!!')
@@ -92,9 +141,19 @@ async function handleRead() {
    
    
 }
+// to show flying notification
+const showNotification = (message) => {
+    setFlyNoti(message);
+    setTimeout(() => {
+      setFlyNoti('');
+    }, 3000); 
+  };
+  
     return (
         <>
-       
+       {
+            flyNoti !== '' && <p className={`notification`}>{flyNoti}</p>
+        }
         
         <nav className="w-full bg-primary shadow">
                         {addModal ? <AddRecipeModal setAddModal={setAddmodal} Refresh={Refresh} setRefresh={setRefresh} /> : ''}
@@ -186,7 +245,7 @@ async function handleRead() {
 <div  className="fixed top-0 right-[-500px] z-50 w-[500px] h-fit rounded-xl p-4 overflow-y-auto transition-transform ease-linear -translate-x-full bg-newPeach " >
     <p className="text-center font-base text-gray-500 uppercase text-xl">Your Notifications</p>
     <button type="button" onClick={()=>setNotificationList(!notificationList)} className="text-black bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
-        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
         <span className="sr-only" >Close menu</span>
     </button>
   <div className="py-4 overflow-y-auto text-white">

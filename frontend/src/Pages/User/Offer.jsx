@@ -5,9 +5,7 @@ import OfferComp from '../../Components/User/OfferComp'
 const Offer = () => {
   return (
     <div>
-      <Header/>
       <OfferComp/>
-      <Footer/>
     </div>
   )
 }

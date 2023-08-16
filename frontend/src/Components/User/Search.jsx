@@ -42,7 +42,6 @@ const Search = () => {
     useEffect(() => {
       const delayInputTimeoutId = setTimeout(() => {
         if(!suggestionList.includes(value)){
-console.log(!suggestionList.includes(value))
             setDebouncedInputValue(value)
         }
       }, 500);

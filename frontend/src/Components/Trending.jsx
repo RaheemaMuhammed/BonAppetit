@@ -31,7 +31,6 @@ import useAxios from '../Axios/Instances/useAxios';
                 const response = await getTrending()
                 if(response){
                     setRecipes(response?.payload)
-                    console.log(response);
                 }
             }
             fetchRecipes()

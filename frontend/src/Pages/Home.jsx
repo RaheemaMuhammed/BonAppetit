@@ -22,7 +22,6 @@ const Home = () => {
   return (
    <>
    {loader ? <Loader/> : <>
-   <Header/>
    { user ? <Search setSearch={setSearch} search={search} /> :  <Banner/>}
     
    {user && filter ?<RecipeCards setFilter={setFilter} filter = {filter}/> :
@@ -33,7 +32,6 @@ const Home = () => {
    
    
    
-   <Footer/>
    </> }
    
    </>

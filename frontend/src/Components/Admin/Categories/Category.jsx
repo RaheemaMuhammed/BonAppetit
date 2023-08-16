@@ -4,6 +4,7 @@ import { getCategories } from '../../../Axios/Services/AdminServices'
 import DeleteCat from './DeleteCat'
 import AddCategory from './AddCategory'
 import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../Axios/Instances/useAxios'
 const Category = () => {
     const token=useSelector(state=>state.AdminReducer.accessToken)
     const [data,setData]=useState([])
@@ -16,12 +17,12 @@ const Category = () => {
     const [name,setName] = useState('')
     const [status,setStatus] = useState('')
     const [id,setId]=useState('')
-    
+    const api=useAxios()
 
      useEffect(()=>{
         try{
             const fetchCategories=async () =>{
-                const response= await getCategories(token)
+                const response= await getCategories(api)
                 if(response){
                     setData(response?.payload)
                     console.log(data);
