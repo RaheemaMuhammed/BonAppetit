@@ -7,6 +7,7 @@ import { getNotificactions,handleNotiStatus } from '../Axios/Services/UserServic
 import AddRecipeModal from './User/Recipe/AddRecipeModal';
 import { toast } from 'react-toastify';
 import useAxios from '../Axios/Instances/useAxios';
+import useAdminAxios from '../Axios/Instances/useAdminAxios';
 const Header = () => {
    const [notificationList,setNotificationList]= useState(false)
     const [navbar, setNavbar] = useState(false);
@@ -26,7 +27,12 @@ const navigate = useNavigate()
         userT: token,
         adminT: tokenA,
       };
-    const api = useAxios()
+      const userApi = useAxios()
+      const adminApi = useAdminAxios()
+      const apis = {
+        userApi: userApi,
+        adminApi: adminApi,
+      };
     useEffect(() => {
         if(user || admin){
                 try {
@@ -78,7 +84,7 @@ const navigate = useNavigate()
 
             try{
                 const userNotifications= async()=>{
-                    const response = await getNotificactions(api)
+                    const response = await getNotificactions(apis[user ? 'userApi' : 'adminApi'])
                     console.log(response);
                     setNotifications(response?.payload)
                 }
@@ -97,35 +103,15 @@ const navigate = useNavigate()
       
         setNotiCount(unreadNotifications?.length || 0);
       }, [notifications]);
-//  useEffect(() => {
-//      if(user || admin){
-//         setNotifications((prevNotifications) => [ data,...(prevNotifications || [])]); 
-        
-        
-//         if (data) {
-//             const unreadNotifications = data?.filter((noti) => !noti.is_read)
-//             console.log(unreadNotifications);
-//             setNotiCount(count=>count+=(unreadNotifications?.length));
-//         }    
-        
-//     }
-    
-// }, [data])
 
-// useEffect(() => {
-//     const unreadNotifications = notifications?.filter((noti) => !noti.is_read).filter((noti) => Array.isArray(noti) && noti.length > 0);
-//     const wooww=unreadNotifications?.filter((noti)=>noti!=[])
-//     console.log(wooww?.length);
-//     console.log(unreadNotifications,'from databse');
-//     setNotiCount((count)=>count+=(unreadNotifications?.length));
-//     console.log(notiCount);
-// }, [notifications])
+
+
 
 // to mark notis as read
 async function handleRead() {
   
         try {
-            const response =await handleNotiStatus(api)
+            const response =await handleNotiStatus(apis[user ? 'userApi' : 'adminApi'])
             
             if(response?.status===200){
 
@@ -251,19 +237,16 @@ const showNotification = (message) => {
   <div className="py-4 overflow-y-auto text-white">
     {notifications?.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
     <ul className="space-y-2 font-medium" >
-        {notifications?.map((noti)=>{
-        return noti.is_read ? (
+        {notifications?.map((noti)=> (
             <Link to={`/singleRecipe/${noti.recipe_name}`}>
             
-            <li className='font-light text-btnColor' onClick={handleRead}>{noti.message} </li>
+            <li className={`font-${noti.is_read ? 'light' : 'semibold'} text-btnColor`} onClick={handleRead}>{noti.message} </li>
             </Link>
-              ):(
-                <Link to={`/singleRecipe/${noti.recipe_name}`}>
-              <li className='font-semibold text-btnColor' onClick={handleRead}>{noti.message} </li>
-                </Link>
+              
+               
               )
             
-         } )}
+          )}
     
     
     
@@ -272,12 +255,8 @@ const showNotification = (message) => {
       
    </div>
 </div></> }
-
-
-
-                            </> :
-                            <>
-                            
+ </> : <>
+ 
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1">Welcome {admin.username}!!</li>
                             <li className="flex p-1 cursor-pointer" onClick={()=>{setNotificationList(!notificationList);}}>
 
@@ -294,16 +273,13 @@ const showNotification = (message) => {
   <div className="py-4 overflow-y-auto text-white">
     {notifications?.length ===0 ? <h1 className='text-center'>No Notifications</h1> :
     <ul className="space-y-2 font-medium" onClick={handleRead}>
-        {notifications?.map((noti)=>{
-
-        return noti.is_read ? (
-             <li className='font-light text-btnColor'>{noti.message} </li> ):(<li className='font-semibold text-btnColor'>{noti.message} </li>)
+        {notifications?.map((noti)=> (
+            <Link to='/admin/subscription'>
             
-
-        
-            
-            
-         } )}
+            <li key={noti.id} className={`font-${noti.is_read ? 'light' : 'semibold'} text-btnColor`}>{noti.message} </li> 
+            </Link>
+            )
+             )}
     
     
     

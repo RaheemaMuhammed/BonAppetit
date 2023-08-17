@@ -18,7 +18,7 @@ from adminpanel.serializers import UserSerializer
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from account.serializers import RegisterSerializer
-
+from django.db.models import Count
 # Create your views here.
 
 class RecipeList(APIView):
@@ -105,8 +105,10 @@ class CategoryListing(APIView):
         def get(self,request):
             try:
                 categories=Categories.objects.filter(is_disabled=False).order_by('-id')
+                filtered_categories=Categories.objects.filter(is_disabled=False).annotate(recipe_count=Count('recipe')).filter(recipe_count__gt=0).order_by('-id')
                 serializer=CategorySerializer(categories,many=True)
-                return Response({'payload':serializer.data,'message':'success'})
+                serializer_filtered=CategorySerializer(filtered_categories,many=True)
+                return Response({'payload':serializer.data,'message':'success','filtered_categories':serializer_filtered.data})
             except Exception as e:
                 return Response({'error':str(e)})
             
@@ -480,5 +482,18 @@ class Search(APIView):
             return Response({'error':str(e),'status':400})
          
          
+class Filter(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     
+    def get(self,request):
+         try:
+              
+            query=request.GET.get('query')
+            matching_recipes=Recipe.objects.filter(category__name=query)
+            # print(matching_recipes.recipe_name)
+            serializer=RecipeSerializer(matching_recipes,many=True)
+            return Response({'payload':serializer.data,'status':200})
+         except Exception as e:
+            return Response({'error':str(e),'status':400})
          

@@ -56,19 +56,19 @@ export const VerifyEmail = async (values) =>{
 }
 // Get recipes
 
-export const getRecipes = async ()=>{
+export const getRecipes = async (currentPage)=>{
     try{
         const config = {
             headers:{
                 "Content-type":"application/json"
             }
         }
-        const response = await axiosCommonInstance.get('common/recipes/',config)
+        const response = await axiosCommonInstance.get(`common/recipes/?page=${currentPage}`,config)
         return response.data
 
     }
     catch (error){
-        console.log(error.message)
+        throw error
     }
 
 }

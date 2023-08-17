@@ -4,16 +4,19 @@ from recipe.serializers import *
 from recipe.models import *
 from rest_framework.response import Response
 from decimal import Decimal
+from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 
-class RecipeList(APIView):
+class MyPageNumberPagination(PageNumberPagination):
+     page_size = 3  # Number of items per page
+
+class RecipeList(generics.ListAPIView):
     # Listing all the recipes
-    def get(self,request):
-            try:
-                recipes=Recipe.objects.filter(is_disabled=False).order_by('-id')
-                serializer=RecipeSerializer(recipes,many=True)
-                return Response({'payload':serializer.data,'message':'success'})
-            except Exception as e:
-                return Response({'error':str(e)})
+   
+            queryset=Recipe.objects.filter(is_disabled=False).order_by('-id')
+            serializer_class=RecipeSerializer
+            pagination_class=MyPageNumberPagination
+
             
   # Get single recipe
 

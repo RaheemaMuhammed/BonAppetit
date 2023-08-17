@@ -16,5 +16,6 @@ urlpatterns=[
     path('track_view/',TrackRecipeView.as_view()),
     path('suggestions/',Suggestions.as_view()),
     path('search/',Search.as_view()),
+    path('filter/',Filter.as_view()),
    
 ]

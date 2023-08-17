@@ -57,6 +57,7 @@ const SingleRecipeComponent = () => {
 
 //  to track view count
 useEffect(() => {
+
   if(user){
     try{
         const data={

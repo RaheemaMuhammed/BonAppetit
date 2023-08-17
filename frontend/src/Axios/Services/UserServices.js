@@ -289,3 +289,20 @@ export const getSearchResults = async (api,query)=>{
     }
 
 }
+export const getFilteredRecipes = async (api,query)=>{
+    try{
+        const config = {
+            
+            params:{
+                query:query
+            },
+        }
+        const response = await api.get('user/filter/',config)
+        return response.data
+
+    }
+    catch (error){
+        throw error
+    }
+
+}

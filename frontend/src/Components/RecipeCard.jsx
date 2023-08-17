@@ -4,7 +4,7 @@ import { FaThumbsUp, FaRegBookmark, FaRegThumbsUp, FaBookmark } from 'react-icon
 import { BsStars } from 'react-icons/bs';
 import { axiosInstance } from '../Axios/Instances/Instance';
 
-const RecipeCard = ({item,premium,isLiked,isSaved,user}) => {
+const RecipeCard = ({item,premium,isLiked,isSaved,user,imageWithUrl}) => {
     const navigate =useNavigate()
     const handleCardClick=()=>{
         if(premium){
@@ -26,8 +26,14 @@ const RecipeCard = ({item,premium,isLiked,isSaved,user}) => {
         <BsStars size={22} style={{fill:'gold',marginTop:'2px'}} className=' ' />
 
         </div>}
-    
-        <img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
+{imageWithUrl
+
+? 
+<img src={item.picture} alt="" className="w-full h-32 sm:h-48 object-cover "/>
+:
+
+<img src={`${axiosInstance}${item.picture}`} alt="" className="w-full h-32 sm:h-48 object-cover "/>
+}
         <div className="m-4">
             <span className='flex justify-between'>
 

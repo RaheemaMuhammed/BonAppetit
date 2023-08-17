@@ -24,10 +24,8 @@ const useAxios = ()=>{
  
         // know expiry
         const user = jwt_decode(accessToken);
-        console.log(user);
       // checking expired or not
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1 ;
-        console.log(isExpired,'expired');
         if(!isExpired){
             return req
         } 
