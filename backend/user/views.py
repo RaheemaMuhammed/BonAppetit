@@ -156,6 +156,7 @@ class LikeRecipe(APIView):
                             print(author.wallet,author.uername)
                         notification_message=f"{user.username} liked your recipe :{recipe.recipe_name}"
                         Notifications.objects.create(sender=user,recipient=recipe.author,post=recipe,message=notification_message,is_read=False)
+                        print('likedd')
 
                         channel_layer=get_channel_layer()
                         author_channel_name=f"user_{recipe.author.id}"
@@ -374,7 +375,7 @@ class Notification(APIView):
         def get(self,request):
              try:
                   
-                    thirty_days_ago = timezone.now() - timedelta(days=30)
+                    thirty_days_ago = timezone.now() - timedelta(days=5)
                     notifs=Notifications.objects.filter(recipient=request.user ,timestamp__gte=thirty_days_ago).order_by('-timestamp')
                     
                          
