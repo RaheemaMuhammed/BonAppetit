@@ -1,9 +1,9 @@
 
 // get user list
-export const getUsersList = async (api) => {
+export const getUsersList = async (api,page) => {
     try {
 
-        const response = await api.get('users/' )
+        const response = await api.get(`users/?page=${page}` )
         return response.data
     } catch (error) {
 
@@ -37,10 +37,10 @@ export const handleUserStatus=async (api,values)=>{
     }
 }
 // Listing categories
-export const getCategories = async (api) =>{
+export const getCategories = async (api,page) =>{
         try {
             
-            const response = await api.get('categories/')
+            const response = await api.get(`categories/?page=${page}`)
             return response.data
         }catch(error){
             throw error;
@@ -69,10 +69,10 @@ export const addCategories = async (api,values)=>{
 }
 // for getting payyment requests
 
-export const getPaymentRequests = async (api) =>{
+export const getPaymentRequests = async (api,page) =>{
     try {
        
-        const response = await api.get('payment_requests/')
+        const response = await api.get(`payment_requests/?page=${page}`)
         return response.data
     }catch(error){
         throw error;
@@ -91,10 +91,10 @@ export const handlePaymentRequests = async (api,values)=>{
     }
 }
 // get all the recipes
-export const getAllRecipes = async (api) =>{
+export const getAllRecipes = async (api,page) =>{
     try {
         
-        const response = await api.get('recipes/')
+        const response = await api.get(`recipes/?page=${page}`)
         return response.data
     }catch(error){
         throw error;

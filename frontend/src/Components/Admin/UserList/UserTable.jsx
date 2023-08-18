@@ -5,6 +5,8 @@ import BlockUnblock from './BlockUnblock';
 import { useNavigate } from 'react-router-dom';
 import SingleUser from './SingleUser';
 import useAdminAxios from '../../../Axios/Instances/useAdminAxios';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
+
 const UserTable = () => {
 const navigate = useNavigate()
   const [Data,setData] =useState([])
@@ -16,18 +18,21 @@ const navigate = useNavigate()
   const [id,setId]=useState('')
   const [userId,setUserId]=useState('')
   const [BUModal,setBUModal] = useState(false)
-    
+  const [page,setPage] =useState(1)
    const [single,setSingle] =useState(false)
+   const [count,setCount] = useState(0)
 
  const api=useAdminAxios()
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await getUsersList(api);
+        const response = await getUsersList(api,page);
         if (response) {
-          setData(response?.payload);
+          console.log(response);
+          setData(response?.results);
+          setCount(Math.ceil(response?.count/5))
           
-          setAllData(response?.payload);
+          setAllData(response?.results);
         
         }
       } catch (error) {
@@ -37,17 +42,31 @@ const navigate = useNavigate()
     };
   
     fetchUsers();
-  }, [Refresh]);
+  }, [Refresh,page]);
   
-
-
     function StatusChange(id,status,username){
       setUsername(username)
       setStatus(status)
       setId(id)
     }
 
-
+    const [active, setActive] = useState(1);
+    
+    
+ 
+    const nextPage =()=>{
+      if(active===count) return
+      setPage(()=>page+1)
+      setActive(()=>active+1)
+    }
+    const prevPage =()=>{
+      if(active ===1) return
+      setPage(()=>page-1)
+      setActive(()=>active-1)
+    }
+    
+   
+    
 
   return (
 <div className='h-full px-20 py-20'>
@@ -86,6 +105,7 @@ const navigate = useNavigate()
     const hasPremiumString = item.has_premium ? "Premium" : "Basic";
     const isActiveString = item.is_active ? "Active" : "Inactive";           
     
+   
     
     return(
       
@@ -129,10 +149,26 @@ const navigate = useNavigate()
   </div>
 }
   </div>
+  <div className="flex justify-evenly mt-3">
+  <button  className={`justify-start  p-1 rounded-md ${active===1 ? 'cursor-not-allowed text-gray-500' : 'hover:underline font-semibold'}`} onClick={prevPage} disabled={active===1}>
+
+  Previous
+  </button>
+ 
+   <p className='mt-1'>{active} out of {count}</p>
+      <button className={`justify-start  p-1 rounded-md ${active===count ? 'cursor-not-allowed text-gray-500' : 'hover:underline font-semibold'}`} onClick={nextPage} disabled={active===count} >
+      Next
+    
+
+      </button>
+     
+    </div>
 </> }
 
+
+
+</div>
  
-  </div>
   )
 }
 

@@ -16,31 +16,34 @@ from .models import Categories
 from payment.models import PaymentRequest
 from django.db.models.functions import Trunc
 from recipe.models import Recipe,Notifications
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
 
 # Listing all the users
+class MyPageNumberPagination(PageNumberPagination):
+     page_size = 5  # Number of items per page
 
-class UserList(APIView):
+class UserList(generics.ListAPIView):
     # verifies authenticated using jwt
     authentication_classes = [JWTAuthentication]
     # verifies user is adminuser
     permission_classes = [IsAdminUser] 
+    queryset=CustomUser.objects.filter(is_user=True).order_by('-id')
+    serializer_class=UserSerializer
+    pagination_class=MyPageNumberPagination
 
 
     # getting user list
     def get(self,request,user_id=None):
         try:
-            if user_id is None:
-
-                    users=CustomUser.objects.filter(is_user=True).order_by('-id')
-                    serializer=UserSerializer(users,many=True)
+            if user_id is not None:
+                    user =CustomUser.objects.get(pk=user_id)
+                    
+                    serializer=UserDetailSerializer(user)
                     return Response({'payload':serializer.data,'message':'success','status':200 })
             else:
-                user =CustomUser.objects.get(pk=user_id)
-                
-                serializer=UserDetailSerializer(user)
-                return Response({'payload':serializer.data,'message':'success','status':200 })
+                 return super().list(request)
         except CustomUser.DoesNotExist:
             return Response({'error':'User not found','status':404})
         except Exception as e:
@@ -63,29 +66,18 @@ class UserList(APIView):
                 return Response({'message':f'{username} is Blocked'})    
         except Exception as e:
             return Response({'error':e})
-class SingleUser(APIView):
-    authentication_classes = [JWTAuthentication]
-    # verifies user is adminuser
-    permission_classes = [IsAdminUser] 
 
-    def get(self,request):
-        pass
 
-class CategoryList(APIView):
+class CategoryList(generics.ListAPIView):
     # verifies authenticated using jwt
     authentication_classes = [JWTAuthentication]
     # verifies user is adminuser
     permission_classes = [IsAdminUser] 
 
+    queryset=Categories.objects.all().order_by('-id')
+    serializer_class=CategorySerializer
+    pagination_class=MyPageNumberPagination
 
-    # getting category list
-    def get(self,request):
-            try:
-                categories=Categories.objects.all().order_by('-id')
-                serializer=CategorySerializer(categories,many=True)
-                return Response({'payload':serializer.data,'message':'success'})
-            except Exception as e:
-                return Response({'error':e})
                   
     def post(self,request):
         try:
@@ -122,19 +114,16 @@ class CategoryList(APIView):
         except Exception as e:
             return({'error':e})
 
-class ManageRequest(APIView):
+class ManageRequest(generics.ListAPIView):
     # verifies authenticated using jwt
     authentication_classes = [JWTAuthentication]
     # verifies user is adminuser
-    permission_classes = [IsAdminUser] 
+    permission_classes = [IsAdminUser]
 
-    def get(self,request):
-        try:
-            requests= PaymentRequest.objects.all().order_by('-id')
-            serializer=PaymentSerializer(requests,many=True)
-            return Response({'payload':serializer.data,'message':'Success','status':200})
-        except Exception as e:
-            return Response({'error':str(e),'status':400})
+    queryset=PaymentRequest.objects.all().order_by('-id')
+    serializer_class=PaymentSerializer
+    pagination_class=MyPageNumberPagination
+
         
     def post(self,request):
         try:
@@ -171,19 +160,22 @@ class ManageRequest(APIView):
             return Response({'error':str(e),'status':400})
         
         
-class Recipes(APIView):
+class Recipes(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]  
+    queryset=Recipe.objects.all().order_by('-total_reports')
+    serializer_class=RecipeSerializer
+    pagination_class=MyPageNumberPagination
 
-    def get(self,request):
-        try:
-            recipes=Recipe.objects.all().order_by('-total_reports')
-            serializer=RecipeSerializer(recipes,many=True)
-            return Response({'payload':serializer.data,'message':'success' })
-        except Exception as e:
-            return Response({'error':e})
-    def delete(self,request):
-        pass
+    # def get(self,request):
+    #     try:
+    #         recipes=Recipe.objects.all().order_by('-total_reports')
+    #         serializer=RecipeSerializer(recipes,many=True)
+    #         return Response({'payload':serializer.data,'message':'success' })
+    #     except Exception as e:
+    #         return Response({'error':e})
+    # def delete(self,request):
+    #     pass
     # for blocking and unblocking
 
     def patch(self,request):

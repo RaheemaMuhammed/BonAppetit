@@ -44,7 +44,7 @@ import useAxios from '../Axios/Instances/useAxios';
   return (
     <div>
         <div className='flex justify-between'>
-        <h1 className='mx-16 md:mx-32 my-5 text-xl md:text-3xl  text-btnColor underline'>Trending Recipes</h1>
+        <h1 className='mx-10 md:mx-32 my-5 text-3xl  text-btnColor underline'>Trending Recipes</h1>
         
         {user && <h1 className='mr-14  mb-3 md:mr-32 mt-8 cursor-pointer text-xs md:text-2xl text-amber-900 font-semibold underline animate-pulse bg-primary pt-2 md:pt-0  rounded-full lg:px-2 ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
         </div>
@@ -53,7 +53,7 @@ import useAxios from '../Axios/Instances/useAxios';
     <>
     
 
-        {recipes?.length === 0 ? '' : 
+        {recipes?.length === 0 ? <p className='text-center font-semibold border p-4 border-newCoral'>No Recipes Available!!!</p> : 
         <>
 
         {recipes?.map(item=>{

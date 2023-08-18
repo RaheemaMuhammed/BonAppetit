@@ -13,14 +13,17 @@ const SubTable = () => {
   const [user,setUser] = useState('')
   const [amount,setAmount] =useState('')
   const [status,setStatus] = useState('')
+  const [page,setPage] =useState(1)
+   const [count,setCount] = useState(0)
     const api=useAdminAxios()
 
  useEffect(()=>{
   const fetchPayments = async () =>{
     try{
-      const response = await getPaymentRequests(api)
+      const response = await getPaymentRequests(api,page)
       if(response){
-        setData(response?.payload);
+        setData(response?.results);
+        setCount(Math.ceil(response?.count/5))
 
 console.log(response);
       }
@@ -29,7 +32,7 @@ console.log(response);
     }
   }
   fetchPayments()
- },[Refresh])
+ },[Refresh,page])
 
 function stateChange(id,user,amount,status) {
   setId(id)
@@ -38,6 +41,24 @@ function stateChange(id,user,amount,status) {
   setStatus(status)
   
 }
+
+const [active, setActive] = useState(1);
+    
+    
+ 
+    const nextPage =()=>{
+      if(active===count) return
+      setPage(()=>page+1)
+      setActive(()=>active+1)
+    }
+    const prevPage =()=>{
+      if(active ===1) return
+      setPage(()=>page-1)
+      setActive(()=>active-1)
+    }
+    
+   
+
   return (
     <div className='h-full px-20 py-20'>
       {SModal ? <RequestStatus setSModal={setSModal} user={user}  id={id} amount={amount}  status={status} setRefresh={setRefresh} Refresh={Refresh} /> : ''}
@@ -100,7 +121,20 @@ function stateChange(id,user,amount,status) {
           
     
       </div>
+      <div className="flex justify-evenly mt-3">
+  <button  className={`justify-start  p-1 rounded-md ${active===1 ? 'cursor-not-allowed text-gray-500' : 'hover:underline font-semibold'}`} onClick={prevPage} disabled={active===1}>
+
+  Previous
+  </button>
+ 
+   <p className='mt-1'>{active} out of {count}</p>
+      <button className={`justify-start  p-1 rounded-md ${active===count ? 'cursor-not-allowed text-gray-500' : 'hover:underline font-semibold'}`} onClick={nextPage} disabled={active===count} >
+      Next
+    
+
+      </button>
      
+    </div>
       </div>
   )
 }
