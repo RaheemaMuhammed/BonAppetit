@@ -65,8 +65,6 @@ useEffect(() => {
         }
         const updateViewCount= async()=>{
             const response = await handleView(api,data)
-            setSavedRecipes(response?.payload)
-
         }
         updateViewCount()
     }catch(error){
@@ -76,6 +74,8 @@ useEffect(() => {
 
   }
 }, [recipeId])
+
+
        // to show saved recipes
        useEffect(()=>{
         if(user){
@@ -91,7 +91,7 @@ useEffect(() => {
                 navigate('/expired/')
             }
         }
-    },[refresh,user])
+    },[refresh])
     // to show liked recipes
     useEffect(()=>{
         if(user){
@@ -107,7 +107,7 @@ useEffect(() => {
                 navigate('/expired/')
             }
         }
-    },[refresh,user])
+    },[refresh])
     // for like and unlike
     const handleLike = async (recipe_id)=>{
         try{
@@ -151,12 +151,12 @@ useEffect(() => {
         }
 
     }
-
-
-
-
+    
+    
+    
     const isLiked = likedRecipes?.some((likedRecipe) => likedRecipe.id === recipe.id);
     const isSaved= savedRecipes?.some((savedRecipe) => savedRecipe.id === recipe.id)
+    
 
   return (
     <div className=''>

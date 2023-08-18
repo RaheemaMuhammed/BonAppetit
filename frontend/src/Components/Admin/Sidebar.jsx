@@ -104,9 +104,9 @@ const Sidebar = () => {
         
     </li>
     <li className='flex cursor-pointer mx-3 my-3'>
-    <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 w-5 h-4 mr-1 mt-1 text-btnColor transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xml:space="preserve"  version="1.1" shapeRendering="geometricPrecision" textRendering="geometricPrecision" imageRendering="optimizeQuality" fillRule="evenodd" clipRule="evenodd"
+    <svg xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 w-5 h-4 mr-1 mt-1 text-btnColor transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlSpace="preserve"  version="1.1" shapeRendering="geometricPrecision" textRendering="geometricPrecision" imageRendering="optimizeQuality" fillRule="evenodd" clipRule="evenodd"
 viewBox="0 0 504 512.08"
- xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlnsXlink="http://www.w3.org/1999/xlink"
  xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
  <g id="Layer_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>

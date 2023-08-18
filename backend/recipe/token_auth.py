@@ -34,7 +34,7 @@ class JwtAuthMiddleware(BaseMiddleware):
 
         # Get the token
         token = parse_qs(scope["query_string"].decode("utf8"))["token"][0]
-
+        print(token)
         # Try to authenticate the user
         try:
             UntypedToken(token)

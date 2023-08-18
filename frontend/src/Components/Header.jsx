@@ -240,7 +240,7 @@ const showNotification = (message) => {
         {notifications?.map((noti)=> (
             <Link to={`/singleRecipe/${noti.recipe_name}`}>
             
-            <li className={`font-${noti.is_read ? 'light' : 'semibold'} text-btnColor`} onClick={handleRead}>{noti.message} </li>
+            <li className={`font-${noti.is_read ? 'light' : 'semibold'} text-btnColor my-1 hover:font-bold`} onClick={handleRead}>{noti.message} </li>
             </Link>
               
                
