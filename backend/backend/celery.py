@@ -18,8 +18,12 @@ app.conf.beat_schedule = {
     'delete-old-notifications': {
         'task': 'user.tasks.delete_old_notifications',
        
-         'schedule': crontab(hour=0, minute=0),  # Run daily at midnight
+         'schedule': crontab(hour=0, minute=0),  # Run at midnight
     },
+    'premium-expiry':{
+        'task' : 'user.tasks.premium_expiry_users',
+        'schedule' :crontab(hour=0, minute=0),
+    }
 }
 
 # Load task modules from all registered Django apps.

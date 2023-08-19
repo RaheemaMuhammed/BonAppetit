@@ -149,6 +149,7 @@ CHANNEL_LAYERS = {
 
 CELERY_BROKER_URL='redis://localhost:6379'
 CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_IMPORTS = ('user.tasks',)
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

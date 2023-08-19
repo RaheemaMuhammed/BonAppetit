@@ -40,8 +40,8 @@ useEffect(()=>{
             setCategories(response?.filtered_categories)
         }
     }catch(error){
-   
-    navigate('/expired/')
+   console.log(error);
+    // navigate('/expired/')
 }
 }
 fetchCategories()
@@ -175,7 +175,10 @@ useEffect(() => {
               />
         )
 
-    }) : recipes?.length === 0 ? '' : 
+    }) : recipes?.length === 0 ? <div className='flex justify-center   '>
+
+    <p className='text-center font-semibold p-4 border border-btnColor'>No Recipes Available!!!</p>
+</div> : 
         <>
 
         {recipes?.map(item=>{

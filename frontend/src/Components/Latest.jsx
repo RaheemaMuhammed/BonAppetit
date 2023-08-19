@@ -36,11 +36,15 @@ import useAxios from '../Axios/Instances/useAxios';
   return (
     <div>
         <h1 className='mx-10 md:mx-32 my-5 text-3xl text-btnColor underline'>Fresh from the Kitchen</h1>
+        {recipes?.length === 0 ? <div className='flex justify-center'>
+
+            <p className='text-center font-semibold  border p-4 border-newCoral'>No Recipes Available!!!</p> 
+        </div>
+            : 
 <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     
 
-        {recipes?.length === 0 ? <p className='text-center font-semibold  border p-4 border-newCoral'>No Recipes Available!!!</p> : 
         <>
 
         {recipes?.map(item=>{
@@ -64,9 +68,9 @@ import useAxios from '../Axios/Instances/useAxios';
     
     </>
     
-    }
 </>
     </div>
+    }
     </div>
     
   )

@@ -49,11 +49,15 @@ import useAxios from '../Axios/Instances/useAxios';
         {user && <h1 className='mr-14  mb-3 md:mr-32 mt-8 cursor-pointer text-xs md:text-2xl text-amber-900 font-semibold underline animate-pulse bg-primary pt-2 md:pt-0  rounded-full lg:px-2 ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
         </div>
         
+        {recipes?.length === 0 ? <div className='flex justify-center   '>
+
+            <p className='text-center font-semibold p-4 border border-btnColor'>No Recipes Available!!!</p>
+        </div>
+             : 
 <div className='mx-16 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     
 
-        {recipes?.length === 0 ? <p className='text-center font-semibold border p-4 border-newCoral'>No Recipes Available!!!</p> : 
         <>
 
         {recipes?.map(item=>{
@@ -75,9 +79,9 @@ import useAxios from '../Axios/Instances/useAxios';
  }
     </>
     
-    }
 </>
     </div>
+    }
     </div>
     
   )

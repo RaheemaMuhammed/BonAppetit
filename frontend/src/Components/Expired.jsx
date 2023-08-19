@@ -24,7 +24,6 @@ const Expired = () => {
 
   return (
     <>
-        <Header/>
         <div className='flex flex-col items-center justify-center h-screen'>
             <p className='text-center text-3xl font-semibold'>
                 Your Session has been Expired<br /> Please Login again
@@ -36,7 +35,6 @@ const Expired = () => {
             </Link>
             
         </div>
-    <Footer/>
     
     </>
 
