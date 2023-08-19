@@ -208,9 +208,8 @@ const showNotification = (message) => {
                                 user ? <>
                                 
                                  <li className="text-gray-800  hover:underline hover:decoration-btnColor p-1 ">
-                                 <NavLink to={'/register'}className={({ isActive, isPending }) =>
+                                 <NavLink to={'/aboutUs'}className={({ isActive, isPending }) =>
     isPending ? ' bg-newCoral ' : isActive ? 'decoration-btnColor ' : ''}>About Us</NavLink>
-                                    {/* <Link to={'/register'}>About Us</Link> */}
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 cursor-pointer" onClick={()=>setAddmodal(!addModal)}>
                                Add Recipe
