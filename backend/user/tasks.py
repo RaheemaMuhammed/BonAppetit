@@ -15,9 +15,10 @@ def delete_old_notifications():
 def premium_expiry_users():
     current_datetime = timezone.now()
     expired_users = CustomUser.objects.filter(premium_expiry__lt=current_datetime)
+    count = CustomUser.objects.filter(premium_expiry__lt=current_datetime).count()
     for user in expired_users:
             user.has_premium = False
             user.save()
 
-    return f"{len(expired_users)} subscriptions expired"
+    return f"{count} subscriptions expired"
 

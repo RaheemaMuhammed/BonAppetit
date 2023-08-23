@@ -142,12 +142,12 @@ CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("localhost", 6379)],
+                "hosts": [("redis", 6379)],
             },
         },
     }
 
-CELERY_BROKER_URL='redis://localhost:6379'
+CELERY_BROKER_URL='redis://redis:6379'
 CELERY_TIMEZONE = 'Asia/Kolkata'
 CELERY_IMPORTS = ('user.tasks',)
 
@@ -213,7 +213,8 @@ RAZOR_KEY_SECRET = os.getenv('RAZOR_KEY_SECRET')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/app/staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
