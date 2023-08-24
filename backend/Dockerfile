@@ -28,9 +28,7 @@ EXPOSE 8000
 RUN mkdir -p /vol/app/static && \
     mkdir -p /vol/app/media && \
     chown -R app:app /vol && \
-    chmod -R 755 /vol && \
-    chown -R app:app /app/db.sqlite3 && \
-    chmod -R 755 /app/db.sqlite3
+    chmod -R 755 /vol     
 RUN chmod +x /app/server-entrypoint.sh
 RUN chmod +x /app/worker-entrypoint.sh
 RUN chmod +x /app/beat-entrypoint.sh
