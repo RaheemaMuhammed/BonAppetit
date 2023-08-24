@@ -1,5 +1,6 @@
 services:
     nginx:
+        restart: always
         build:
           context: ./nginx/
           dockerfile: Dockerfile.nginx
@@ -8,15 +9,14 @@ services:
         depends_on:
           - backend
         volumes:
-          - static_volume:/app/django_static
+          - static_volume:/vol/static
     backend:
-        restart: unless-stopped
+        restart: always
         build: .
         entrypoint: /app/server-entrypoint.sh
         volumes:
-            - static_volume:/app/django_static
-            - ./db.sqlite3:/app/db.sqlite3
-            - ./media:/app/media 
+            - static_volume:/vol/web
+            - db_data:/app/db.sqlite3
         ports:
             - "8000:8000"
         env_file:
@@ -25,11 +25,11 @@ services:
             - redis
 
     worker:
-        restart: unless-stopped
+        restart: always
         build: . 
         entrypoint: /app/worker-entrypoint.sh
         volumes:
-            - static_volume:/app/django_static
+            - static_volume:/app/web
         environment:
             DEBUG: "True"
             CELERY_BROKER_URL: "redis://redis:6379/0"
@@ -37,11 +37,11 @@ services:
             - backend
             - redis
     beat:
-        restart: unless-stopped
+        restart: always
         build: . 
         entrypoint: /app/beat-entrypoint.sh
         volumes:
-            - static_volume:/app/django_static
+            - static_volume:/app/web
         environment:
             DEBUG: "True"
             CELERY_BROKER_URL: "redis://redis:6379/0"
@@ -49,7 +49,7 @@ services:
             - backend
             - redis
     redis:
-        restart: unless-stopped
+        restart: always
         image: redis:7.0.5-alpine 
         expose:
             - 6379
@@ -58,6 +58,7 @@ services:
     
     
 volumes:
-    static_volume: {}
+    static_volume:
+    db_data:
 
     

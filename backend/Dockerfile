@@ -23,7 +23,8 @@ RUN apt-get update && \
 
 COPY . /app
 EXPOSE 8000
-RUN mkdir /app/django_static
+RUN mkdir -p /vol/app/static && \
+    mkdir -p /vol/app/media
 RUN chmod +x /app/server-entrypoint.sh
 RUN chmod +x /app/worker-entrypoint.sh
 RUN chmod +x /app/beat-entrypoint.sh

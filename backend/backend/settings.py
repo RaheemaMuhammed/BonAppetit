@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -213,9 +213,8 @@ RAZOR_KEY_SECRET = os.getenv('RAZOR_KEY_SECRET')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = '/static/'
-
+STATIC_URL = '/static/static/'
+STATIC_ROOT = '/vol/app/static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -223,6 +222,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'account.CustomUser'
-MEDIA_URL = 'media/'
-MEDIA_ROOT='media/'
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT='/vol/app/media'
 CORS_ORIGIN_ALLOW_ALL = True
