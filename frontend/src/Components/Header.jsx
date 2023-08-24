@@ -37,7 +37,7 @@ const navigate = useNavigate()
         if(user || admin){
                 try {
                 //   open a new ws connection
-                const socket = new WebSocket(`ws://localhost:8000/ws/notifications/?token=${tokens[user ? 'userT' : 'adminT']}`);
+                const socket = new WebSocket(`ws://16.171.250.80/ws/notifications/?token=${tokens[user ? 'userT' : 'adminT']}`);
                 
                 
                 socket.onopen=()=>{
