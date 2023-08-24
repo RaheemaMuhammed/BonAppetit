@@ -10,4 +10,4 @@ export const axiosAdminInstance = axios.create({baseURL:'http://16.171.250.80/ad
 export const axiosInstance= 'http://16.171.250.80/'
 
 export const baseURLUser='http://16.171.250.80/';
-export const baseURLAdmin='http://16.171.250.80adminpanel/';
+export const baseURLAdmin='http://16.171.250.80/adminpanel/';
