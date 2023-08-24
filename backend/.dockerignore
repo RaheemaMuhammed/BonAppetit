@@ -1,9 +1,8 @@
 __pycache__/
 
 **/migrations
-src/media
-src/db.sqlite3
+./media
+./db.sqlite3
 Procfile
 .git
 env
-db.sqlite3
