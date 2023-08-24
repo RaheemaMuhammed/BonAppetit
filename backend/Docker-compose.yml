@@ -15,7 +15,7 @@ services:
         build: .
         entrypoint: /app/server-entrypoint.sh
         volumes:
-            - static_volume:/vol/web
+            - static_volume:/vol/app
             - db_data:/app/db.sqlite3
         ports:
             - "8000:8000"
@@ -29,7 +29,7 @@ services:
         build: . 
         entrypoint: /app/worker-entrypoint.sh
         volumes:
-            - static_volume:/app/web
+            - static_volume:/app/app
         environment:
             DEBUG: "True"
             CELERY_BROKER_URL: "redis://redis:6379/0"
@@ -41,7 +41,7 @@ services:
         build: . 
         entrypoint: /app/beat-entrypoint.sh
         volumes:
-            - static_volume:/app/web
+            - static_volume:/app/app
         environment:
             DEBUG: "True"
             CELERY_BROKER_URL: "redis://redis:6379/0"
