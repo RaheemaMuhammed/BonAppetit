@@ -1,8 +1,7 @@
 import React,{useEffect,useState} from 'react'
 
 import Loader from '../Components/Loader'
-import OtpForm from '../Components/otpForm'
-
+import VerifyOTPForm from '../Components/VerifyOTPForm'
 
 const VerifyOTP = () => {
     const [loader, setLoader] = useState(true)
@@ -15,7 +14,7 @@ const VerifyOTP = () => {
     <>
     {loader ? <Loader/> : 
     <>
-    <OtpForm/>
+    <VerifyOTPForm/>
     
     </> }
     </>
