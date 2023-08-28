@@ -248,6 +248,7 @@ export const handleView = async(api,values)=>{
     try{
        
         const response = await api.post('user/track_view/',values)
+        console.log(values);
         return response.data
     }catch(error){
         throw error;

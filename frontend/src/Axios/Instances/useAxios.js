@@ -31,9 +31,7 @@ const useAxios = ()=>{
         } 
             
        // to ensure that multiple request not send to api/refresh end point
-       console.log(isRefreshing,'####################################33');
         if (isRefreshing) {
-            console.log('am i working o r=r mirnw12222@@@@@@@@@@@@@@@@@@@@@@@');
             return new Promise((resolve) => {
                 refreshQueue.push(resolve);
             });
@@ -41,12 +39,10 @@ const useAxios = ()=>{
         // refreshing token
         try {
             isRefreshing=true ; 
-        console.log(isRefreshing,'anhii dekhoooooooooooooooooooooooo');
-        console.log(refreshToken);
+     
             const response = await axios.post(`${axiosInstance}/api/token/refresh/`,{
                 refresh:refreshToken
              });
-             console.log(response);
              const access=response?.data.access;
              const refresh =response?.data.refresh;
 
@@ -62,7 +58,7 @@ const useAxios = ()=>{
             dispatch(TokenRefreshing({accessToken: access, refreshToken: refresh}));
               
         }catch (error) {
-            console.log(error,'am i printinggg');
+            console.log(error,'error');
         }finally{
             isRefreshing=false
         }

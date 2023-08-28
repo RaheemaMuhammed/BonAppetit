@@ -14,7 +14,6 @@ export const Register = async (values) => {
         return response.data
     }catch (error){
         console.log(error)
-        console.log('some error occured')
     }
 }
 

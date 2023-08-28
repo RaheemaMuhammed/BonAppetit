@@ -59,12 +59,14 @@ const SingleRecipeComponent = () => {
 useEffect(() => {
 
   if(user){
+    console.log(recipeId,'iddd');
     try{
         const data={
             "recipe_id" :recipeId
         }
         const updateViewCount= async()=>{
             const response = await handleView(api,data)
+           
         }
         updateViewCount()
     }catch(error){
@@ -120,7 +122,7 @@ useEffect(() => {
                 
     
             }else{
-                navigate('login/')
+                navigate('/login/')
             }
             
         }
@@ -141,7 +143,7 @@ useEffect(() => {
                 
     
             }else{
-                navigate('login/')
+                navigate('/login/')
                 
             }
             

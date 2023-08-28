@@ -28,15 +28,12 @@ const useAdminAxios = ()=>{
         console.log(user);
       // checking expired or not
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1 ;
-        console.log(isExpired,'expired');
         if(!isExpired){
             return req
         } 
             
        // to ensure that multiple request not send to api/refresh end point
-       console.log(isRefreshing,'####################################33');
         if (isRefreshing) {
-            console.log('am i working o r=r mirnw12222@@@@@@@@@@@@@@@@@@@@@@@');
             return new Promise((resolve) => {
                 refreshQueue.push(resolve);
             });
@@ -44,11 +41,9 @@ const useAdminAxios = ()=>{
         // refreshing token
         try {
             isRefreshing=true ; 
-        console.log(isRefreshing,'anhii dekhoooooooooooooooooooooooo');
             const response = await axios.post(`${axiosInstance}/api/token/refresh/`,{
                 refresh:refreshToken
              });
-             console.log(response);
              const access=response?.data.access;
              const refresh =response?.data.refresh;
 
@@ -76,7 +71,6 @@ const useAdminAxios = ()=>{
         while (refreshQueue.length>0) {
             const resolve = refreshQueue.shift();
             const value = await resolve(newAccess);
-            console.log(value);
            
             
         }
