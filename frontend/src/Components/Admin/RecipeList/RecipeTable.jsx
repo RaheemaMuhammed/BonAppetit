@@ -28,8 +28,8 @@ const RecipeTable = () => {
 
         }
       } catch (error) {
-        console.log(error);
-        // navigate('/admin/expired/');
+       
+       navigate('/admin/expired/');
         
       }
     }

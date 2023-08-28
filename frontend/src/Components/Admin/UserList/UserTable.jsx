@@ -28,7 +28,7 @@ const navigate = useNavigate()
       try {
         const response = await getUsersList(api,page);
         if (response) {
-          console.log(response);
+          
           setData(response?.results);
           setCount(Math.ceil(response?.count/5))
           
@@ -36,8 +36,8 @@ const navigate = useNavigate()
         
         }
       } catch (error) {
-        console.log(error);
-        // navigate('/admin/expired/');
+        
+         navigate('/admin/expired/');
       }
     };
   
@@ -73,11 +73,6 @@ const navigate = useNavigate()
 {single ? <SingleUser user_id={userId} setSingle={setSingle} single={single} /> : <>
 {BUModal ? <BlockUnblock setBUModal={setBUModal} username={username} status={status} id={id} setRefresh={setRefresh} Refresh={Refresh} /> : ''}
 <p className='text-center font-serif font-semibold text-2xl text-black'>Users</p>
-      {/* {allData?.length !== 0 ?
-        <div className='mb-3'>
-          <SearchBar search={searchClients} />
-        </div>
-        : ''} */}
 
 
 

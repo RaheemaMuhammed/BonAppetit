@@ -14,7 +14,7 @@ const DeleteCat = ({setBUModal,setRefresh,id,status,Refresh,name}) => {
 const api=useAdminAxios()
     const navigate = useNavigate()
     const deleteCategory = async(id)=>{
-       console.log(status);
+     
         try{
             const data = {
                 id:id,

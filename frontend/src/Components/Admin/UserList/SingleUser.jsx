@@ -19,7 +19,7 @@ const SingleUser = ({user_id,setSingle,single}) => {
           try {
             const response = await getSingleUser(api,user_id);
             if (response.status==200) {
-                console.log(response?.payload);
+                
                 setName(response?.payload?.username)
               setData(response?.payload);
               setrecipes(response?.payload?.recipes)
@@ -34,8 +34,8 @@ const SingleUser = ({user_id,setSingle,single}) => {
                 toast.error(response.error)
             }
           } catch (error) {
-            console.log(error);
-            // navigate('/admin/expired/');
+            
+            navigate('/admin/expired/');
           }
         };
       

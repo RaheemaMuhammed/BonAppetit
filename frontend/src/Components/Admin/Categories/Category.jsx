@@ -25,11 +25,11 @@ const Category = () => {
         try{
             const fetchCategories=async () =>{
                 const response= await getCategories(api,page)
-                console.log(response);
+               
                 if(response){
                     setData(response?.results)
                     setCount(Math.ceil(response?.count/5))
-                    console.log(data);
+                
                 }
             }
             fetchCategories()

@@ -23,7 +23,7 @@ const api=useAdminAxios()
             toast.success(response?.message)
         }
         catch(error){
-            console.log(error);
+          
             navigate('/admin/expired/');
         }
     }

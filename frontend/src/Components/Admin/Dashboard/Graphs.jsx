@@ -21,11 +21,7 @@ const api=useAdminAxios()
         const response = await getAnalytics(api)
         if(response.status==200){
           setDoughdata(response?.payload)
-          console.log(response?.payload[0]);
-          console.log(response?.payload);
           setData(response?.payload)
-          console.log(data);
-          console.log(doughdata,'///');
         }
       } catch (error) {
         console.log(error);

@@ -25,7 +25,6 @@ const SubTable = () => {
         setData(response?.results);
         setCount(Math.ceil(response?.count/5))
 
-console.log(response);
       }
     }catch(error){
       console.log(error);
