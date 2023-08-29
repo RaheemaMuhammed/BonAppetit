@@ -46,7 +46,7 @@ const api=useAxios()
       {editModal ? <EditProfileModal setEditModal={setEditmodal} Refresh={refresh} setRefresh={setRefresh} username={profile.username} email={profile.email} phone={profile.phone} profile_pic={profile.profile_pic} /> : ''}
 
 <div className='flex justify-center items-center'>
-{profile?.profile_pic ?    <img className="mr-4  w-16 h-12 rounded-full" src={`${axiosInstance}${profile.profile_pic}`} alt=""/>
+{profile?.profile_pic ?    <img className="mr-4  w-20 h-20 rounded-full" src={`${axiosInstance}${profile.profile_pic}`} alt=""/>
  : 
 <div className="relative w-10 h-10 overflow-hidden mr-2 bg-gray-100 rounded-full dark:bg-gray-600">
     <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
