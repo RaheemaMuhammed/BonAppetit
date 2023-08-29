@@ -11,6 +11,7 @@ import RecipeCard from './RecipeCard';
 import useAxios from '../Axios/Instances/useAxios';
 import Loader from './Loader';
 import { getCategories, getFilteredRecipes } from '../Axios/Services/UserServices';
+import LoadingCard from './LoadingCard';
  const RecipeCards = ({filter,setFilter}) => {
     const [recipes,setRecipes] = useState([])
     const [recipesFiltered,setRecipesFiltered] = useState([])
@@ -175,10 +176,7 @@ useEffect(() => {
               />
         )
 
-    }) : recipes?.length === 0 ? <div className='flex justify-center   '>
-
-    <p className='text-center font-semibold p-4 border border-btnColor'>No Recipes Available!!!</p>
-</div> : 
+    }) : recipes?.length === 0 ? <><LoadingCard/><LoadingCard/> <LoadingCard/><LoadingCard/></>: 
         <>
 
         {recipes?.map(item=>{
