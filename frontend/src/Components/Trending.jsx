@@ -44,19 +44,19 @@ import useAxios from '../Axios/Instances/useAxios';
   return (
     <div>
         <div className='flex justify-between'>
-        <h1 className='mx-10 md:mx-32 my-5 text-3xl  text-btnColor underline'>Trending Recipes</h1>
+        <h1 className='mx-4 md:mx-32 my-5 text-3xl  text-btnColor underline'>Trending Recipes</h1>
         
-        {user && <h1 className='mr-14  mb-3 md:mr-32 mt-8 cursor-pointer text-xs md:text-2xl text-amber-900 font-semibold underline animate-pulse bg-primary pt-2 md:pt-0  rounded-full lg:px-2 ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
+        {user && <h1 className='mr-3 mb-3 md:mr-32 mt-8 cursor-pointer text-xs md:text-2xl text-amber-900 font-semibold underline animate-pulse bg-primary pt-2 md:pt-0  rounded-full lg:px-2 ' onClick={()=>setFilter(!filter)}>Explore More</h1>}
         </div>
         
         {recipes?.length === 0 ? <>
         
-<div className='mx-16 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
+<div className='mx-4 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
         <LoadingCard/><LoadingCard/> <LoadingCard/><LoadingCard/>
         </div>
         </>
              : 
-<div className='mx-16 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
+<div className='mx-4 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     
 

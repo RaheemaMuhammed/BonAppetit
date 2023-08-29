@@ -128,7 +128,7 @@ useEffect(() => {
     <div>
 <div className='flex mx-3 md:mx-16 mt-3 justify-between'>
     
-    <h1 className='ml-10 md:ml-16 cursor-pointer text-lg text-primary font-medium flex font-serif my-2 bg-btnColor  px-1 rounded-sm' onClick={()=>setFilterList(!filterList)}>filter
+    <h1 className='ml-2 md:ml-16 cursor-pointer text-lg text-primary font-medium flex font-serif my-2 bg-btnColor  px-1 rounded-sm' onClick={()=>setFilterList(!filterList)}>filter
      <svg className="w-4 h-4  mt-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -138,7 +138,7 @@ useEffect(() => {
     </h1>
     
 
-    <h1 className=' mx-10 md:mx-14 cursor-pointer text-base md:text-2xl text-amber-900 font-semibold underline animate-pulse my-2 bg-primary rounded-full px-1 md:px-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
+    <h1 className=' mx-4 md:mx-14 cursor-pointer text-base md:text-2xl text-amber-900 font-semibold underline animate-pulse my-2 bg-primary rounded-full px-1 md:px-2' onClick={()=>setFilter(!filter)}>Explore Trending</h1>
 
 </div>
 
@@ -157,7 +157,7 @@ useEffect(() => {
         
         </div>
         </> }
-    <div className='relative mx-14 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
+    <div className='relative mx-4 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
     {category ? recipesFiltered?.map(item=>{
     // Check if the recipe is liked by the logged-in user
