@@ -63,7 +63,7 @@ const api =useAxios()
                         toast.success(response?.message)
             
                     }else{
-                        navigate('login/')
+                        navigate('/login/')
                     }
                     
                 } catch (error) {
