@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { useRecipeAPI } from '../CustomHooks/Recipe/useRecipeAPI';
 import RecipeCard from './RecipeCard';
 import useAxios from '../Axios/Instances/useAxios';
+import LoadingCard from './LoadingCard';
+
  const Latest = () => {
     const [recipes,setRecipes] = useState([])
     const token=useSelector(state=>state.UserReducer.accessToken)

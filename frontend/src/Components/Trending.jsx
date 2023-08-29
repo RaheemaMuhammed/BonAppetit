@@ -4,7 +4,7 @@ import { getTrending } from '../Axios/Services/CommonServices'
 import { useSelector } from "react-redux";
 import {  useNavigate } from "react-router-dom";
 import { useRecipeAPI } from '../CustomHooks/Recipe/useRecipeAPI';
-
+import LoadingCard from './LoadingCard';
 import RecipeCard from './RecipeCard';
 import useAxios from '../Axios/Instances/useAxios';
  const Trending = ({filter,setFilter}) => {
