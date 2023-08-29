@@ -38,7 +38,9 @@ import LoadingCard from './LoadingCard';
   return (
     <div>
         <h1 className='mx-10 md:mx-32 my-5 text-3xl text-btnColor underline'>Fresh from the Kitchen</h1>
-        {recipes?.length === 0 ? <><LoadingCard/><LoadingCard/> <LoadingCard/><LoadingCard/></>
+        {recipes?.length === 0 ? <><div className='mx-16 md:mx-32 my-1 md:my-3 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
+        <LoadingCard/><LoadingCard/> <LoadingCard/><LoadingCard/>
+        </div></>
             : 
 <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
     <>
