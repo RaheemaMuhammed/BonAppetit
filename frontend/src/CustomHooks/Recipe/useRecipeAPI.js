@@ -12,21 +12,21 @@ export function useRecipeAPI(api) {
       
       async function fetchLikedRecipes() {
        
-        try {
-            const response = await getLikedRecipes(api);
-        setLikedRecipes(response?.payload);
-        } catch (error) {
-            console.log(error);
-        }
+            try {
+                const response = await getLikedRecipes(api);
+            setLikedRecipes(response?.payload);
+            } catch (error) {
+                console.log(error);
+            }
         
       }
       async function fetchSavedRecipes() {
-        try {
-            const response = await getSavedRecipes(api);
-        setSavedRecipes(response?.payload);
-        } catch (error) {
-            console.log(error,'][[[[[');
-        }
+            try {
+                const response = await getSavedRecipes(api);
+            setSavedRecipes(response?.payload);
+            } catch (error) {
+                console.log(error,'][[[[[');
+            }
         
       }
       fetchLikedRecipes()

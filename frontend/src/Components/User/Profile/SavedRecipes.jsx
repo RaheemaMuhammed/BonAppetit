@@ -59,11 +59,14 @@ import useAxios from '../../../Axios/Instances/useAxios';
  
   return (
     <div className='mt-20'>
- <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
-    <>
+   
     
 
-        {savedRecipes?.length === 0 ? '' : 
+        {savedRecipes?.length === 0 ?  <div className=' mx-6 p-4 border border-btnColor justify-center align-middle'>
+<p className='text-xl font-semibold text-brown text-center' >Nothing to show !!!</p>
+</div> : 
+ <div className='mx-16 md:mx-32 my-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 grid-cols-1 gap-3 justify-evenly'>
+
         <>
 
         {savedRecipes.map(item=>{
@@ -170,9 +173,11 @@ import useAxios from '../../../Axios/Instances/useAxios';
     
     </>
     
-    }
-</>
     </div>
+}
+
+
+
     </div>
     
    

@@ -34,11 +34,11 @@ const UserRoutes = () => {
             <Route path='/expired' element={<Expired/>} />
             <Route path='/aboutUs' element={<AboutUs/>} />
             <Route path="/profile" element={isUAuth ? <Profile/> :   <Navigate to="/login"/>} >
-          <Route path='' element={isUAuth ? <UserDetails/> :   <Navigate to="/login"/>}/>
-              <Route path='your_plan' element={isUAuth ? <YourPlan/> :   <Navigate to="/login"/>}/>
-              <Route path='your_recipes' element={isUAuth ? <YourRecipes/> :   <Navigate to="/login"/>}/>
-              <Route path='wallet' element={isUAuth ? <Wallet/> :   <Navigate to="/login"/>}/>
-              <Route path='saved_recipes' element={isUAuth ? <SavedRecipes/> :   <Navigate to="/login"/>}/>
+                <Route path='' element={isUAuth ? <UserDetails/> :   <Navigate to="/login"/>}/>
+                <Route path='your_plan' element={isUAuth ? <YourPlan/> :   <Navigate to="/login"/>}/>
+                <Route path='your_recipes' element={isUAuth ? <YourRecipes/> :   <Navigate to="/login"/>}/>
+                <Route path='wallet' element={isUAuth ? <Wallet/> :   <Navigate to="/login"/>}/>
+                <Route path='saved_recipes' element={isUAuth ? <SavedRecipes/> :   <Navigate to="/login"/>}/>
             </Route>
             </Routes>
 

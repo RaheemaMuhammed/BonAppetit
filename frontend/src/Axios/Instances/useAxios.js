@@ -22,7 +22,7 @@ const useAxios = ()=>{
     // interceptor
     axiosUserInstance.interceptors.request.use(async req =>{
  
-        // know expiry
+        //to know expiry
         const user = jwt_decode(accessToken);
       // checking expired or not
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1 ;

@@ -47,7 +47,9 @@ const YourRecipes = () => {
     
     
 
-        {currentRecipes?.length === 0 ? '' : 
+        {currentRecipes?.length === 0 ? <div className=' mx-6 p-4 border border-btnColor justify-center align-middle'>
+<p className='text-xl font-semibold text-brown text-center' >Nothing to show !!!</p>
+</div>  : 
 
         < >
         {currentRecipes?.map(item=>{
