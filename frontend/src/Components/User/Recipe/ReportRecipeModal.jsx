@@ -33,6 +33,7 @@ const ReportRecipeModal = ({setreportModal,setRefresh,id,Refresh,reported_item,r
         try{
             
             const response = await reportingRecipe(api,form)
+            console.log(response);
             if(response.status===200){
                 setreportModal(false)
                 setRefresh(!Refresh)

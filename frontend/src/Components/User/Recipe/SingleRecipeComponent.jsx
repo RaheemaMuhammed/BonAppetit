@@ -118,6 +118,7 @@ useEffect(() => {
             }
             if(token){
                 const response = await handleLikeStatus(api,data)
+              
                 setRefresh(!refresh)
                 
     
@@ -139,6 +140,7 @@ useEffect(() => {
             }
             if(token){
                 const response = await handleSaveStatus(api,data)
+             
                 setRefresh(!refresh)
                 
     
@@ -182,7 +184,8 @@ useEffect(() => {
 
                     }
                       <div>
-                          <a href="#" rel="author" className="text-xl font-normal text-gray-700 dark:text-white">{recipe?.author}</a>
+                        <p className="text-xl font-normal text-gray-700">{recipe?.author}</p>
+                           
                           <p className="text-base font-light text-gray-500 dark:text-gray-400">{formatted_date}</p>
                       </div>
                       </div>

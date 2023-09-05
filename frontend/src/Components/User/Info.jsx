@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const Info = () => {
-
+  const premium= useSelector(state=>state.UserReducer.premium)
   
   return (
     <div className=" py-12">
@@ -19,6 +20,12 @@ const Info = () => {
             title="Plenty of Recipes"
             description="Explore a wide variety of recipes ranging from classic dishes to innovative creations."
           />
+          { premium ?<FeatureCard
+            title="Premium Membership"
+            description="Unlock exclusive premium content, advanced features, and personalized recipe recommendations."
+          />:
+
+
           <Link to='/offer'>
           
           <FeatureCard
@@ -26,6 +33,7 @@ const Info = () => {
             description="Unlock exclusive premium content, advanced features, and personalized recipe recommendations."
           />
           </Link>
+          }
           <FeatureCard
             title="Private Recipe Adding"
             description="Create and save your private recipes, accessible only to you. Share them with friends and family when you're ready."

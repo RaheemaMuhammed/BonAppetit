@@ -18,6 +18,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
     const username=useSelector(state=>state.UserReducer.user.username)
     const [isPrivate, setIsPrivate] = useState(false);
     const premium= useSelector(state=>state.UserReducer.premium)
+    const [submitted,setSubmitted] = useState(false)
     const api =useAxios()
 
     useEffect(()=>{
@@ -41,6 +42,12 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
 
 
     const onSubmit= async()=>{
+        if(!submitted){
+            setSubmitted(true)
+
+
+
+        
         const form =new FormData()
         
         form.append('recipe_name',values.recipe_name)
@@ -67,6 +74,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
             console.log(error);
         }
     }
+}
     const handleCheckboxChange = () => {
         setIsPrivate(!isPrivate);
        
@@ -220,7 +228,7 @@ const AddRecipeModal = ({setAddModal,Refresh,setRefresh}) => {
                                             </div>
                                         
 
-                                            <button onClick={()=>console.log(values.recipe_name,values.author,values.category)} type="submit" className="w-full text-black bg-btnColor hover:bg-newCoral focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Add</button>
+                                            <button type="submit" className="w-full text-black bg-btnColor hover:bg-newCoral focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Add</button>
 
                                             <div className="flex items-center justify-between">
 

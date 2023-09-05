@@ -17,15 +17,17 @@ import UserDetails from '../Components/User/Profile/UserDetails';
 import Expired from '../Components/Expired'
 import SearchPage from '../Pages/User/SearchPage';
 import AboutUs from '../Pages/User/AboutUs';
+import PageNotFound from '../Pages/PageNotFound';
 const UserRoutes = () => {
     const isAuth = useSelector(state=>state.AdminReducer.accessToken)
     const isUAuth = useSelector(state=>state.UserReducer.accessToken)
+    const premium= useSelector(state=>state.UserReducer.premium)
 
   return (
             <>
             <Routes>
             <Route path="/" element={ isAuth ? <Dashboard/> : <Home/>}/>
-            <Route path="/offer" element={ isAuth ? <Dashboard/> :( isUAuth ? <Offer/> :<Navigate to="/login"/> )}/>
+            <Route path="/offer" element={ isAuth ? <Dashboard/> :( isUAuth ?(premium ?<Navigate to="/"/> :<Offer/> ):<Navigate to="/login"/> )}/>
             <Route path="/singleRecipe/:recipe_name" element={  <SingleRecipe/>}/>
             <Route path='search/:query' element={<SearchPage/>}/>
             <Route path='/login' element={ isAuth ? <Dashboard/> : <LogIn/> } />
@@ -40,6 +42,7 @@ const UserRoutes = () => {
                 <Route path='wallet' element={isUAuth ? <Wallet/> :   <Navigate to="/login"/>}/>
                 <Route path='saved_recipes' element={isUAuth ? <SavedRecipes/> :   <Navigate to="/login"/>}/>
             </Route>
+            <Route path="*" element={<PageNotFound />} />
             </Routes>
 
             </> 

@@ -6,6 +6,7 @@ import { axiosInstance } from '../../../Axios/Instances/Instance'
 import { updateUserProfile } from '../../../Axios/Services/UserServices'
 import { toast } from 'react-toastify'
 import useAxios from '../../../Axios/Instances/useAxios'
+import { editProfileSchema } from '../../../Validations/editProfileValidation'
 
 
 
@@ -25,7 +26,7 @@ const api=useAxios()
         form.append('username',values.username)
         form.append('phone',values.phone)
         form.append('email',values.email)
-        console.log();
+       
         if (values.profile_pic instanceof File) {
             form.append('profile_pic', values.profile_pic);
         }
@@ -61,7 +62,7 @@ const api=useAxios()
         email:email,
         profile_pic:profile_pic
     },
-   
+   validationSchema: editProfileSchema,
     onSubmit,
 })
   return (
@@ -105,11 +106,11 @@ const api=useAxios()
                                     <span className="sr-only">Close modal</span>
                                 </button>
                                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                                    <p className='font-extrabold text-2xl'>Add New recipe</p>
+                                    <p className='font-extrabold text-2xl'>Edit Profile</p>
                                         <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}  encType="multipart/form-data">
             
                                             <div>
-                                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-black ">Enter Recipe name</label>
+                                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-black ">Name</label>
                                                 <input type="text" name="username"  
                                                 value={values.username}
                                                 onChange={handleChange}
