@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const PageNotFound = () => {
+    const navigate=useNavigate()
   return (
     <section className="bg-white  ">
     <div className="container flex items-center h-screen px-6 py-12 mx-auto">
@@ -16,7 +18,7 @@ const PageNotFound = () => {
             <div className="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
                 
 
-                <button className="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-btnColor rounded-lg shrink-0 sm:w-auto hover:bg-newPeach ">
+                <button className="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-btnColor rounded-lg shrink-0 sm:w-auto hover:bg-newPeach " onClick={()=>navigate('/')}>
                     Go To Home 
                 </button>
             </div>
