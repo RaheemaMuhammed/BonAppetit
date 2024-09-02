@@ -8,7 +8,7 @@ import { axiosInstance,baseURLUser } from './Instance';
 
 const useAxios = ()=>{
     const dispatch=useDispatch();
-    
+     
     const accessToken =useSelector(state=>state.UserReducer.accessToken)
     const refreshToken =useSelector(state=>state.UserReducer.refreshToken)
     const refreshQueue = []; //to store pending requests
@@ -30,7 +30,7 @@ const useAxios = ()=>{
             return req
         } 
             
-       // to ensure that multiple request not send to api/refresh end point
+       // to ensure that multiple request not send to /api/refresh end point
         if (isRefreshing) {
             return new Promise((resolve) => {
                 refreshQueue.push(resolve);
@@ -69,7 +69,6 @@ const useAxios = ()=>{
         while (refreshQueue.length>0) {
             const resolve = refreshQueue.shift();
             const value = await resolve(newAccess);
-            console.log(value);
            
             
         }

@@ -11,7 +11,8 @@ module.exports = {
         dimBlue: "rgba(9, 151, 124, 0.1)",
         newPeach:"#e4b7a0",
         btnColor:"#a45c40",
-        newCoral:"#c38370"
+        newCoral:"#c38370",
+        
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
@@ -29,3 +30,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+// <a href="https://storyset.com/online">Online illustrations by Storyset</a>

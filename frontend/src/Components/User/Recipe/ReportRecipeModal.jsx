@@ -8,7 +8,7 @@ import { useFormik } from 'formik'
 import useAxios from '../../../Axios/Instances/useAxios'
 
 
-const ReportRecipeModal = ({setreportModal,setRefresh,id,Refresh,reported_item,recipe_name}) => {
+const  ReportRecipeModal = ({setreportModal,setRefresh,id,Refresh,reported_item,recipe_name}) => {
     const cancelButtonRef=useRef(null)
     const [open,setOpen] = useState(true)
     const token = useSelector(state=>state.UserReducer.accessToken)

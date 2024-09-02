@@ -14,7 +14,7 @@ const CommentComponent = ({recipe_id,author}) => {
     const user=useSelector(state=>state.UserReducer.user?.username)
     const token=useSelector(state=>state.UserReducer.accessToken)
     const commentTextFieldRef = useRef(null);
-const api =useAxios()
+    const api =useAxios()
     const [postComment,setPostComment]=useState('')
     const [ refresh,setRefresh] =useState(false)
     const [comments,setComments] = useState([])
@@ -22,27 +22,20 @@ const api =useAxios()
         try {
             const fetchComments = async()=>{
                 const response = await getSingleRecipeComents(recipe_id)
-                if(response){
-                   
+                if(response){           
                     setComments(response?.payload)
-                    
                 }
             }
             fetchComments()
         } catch (error) {
             console.log(error);
         }
-      
-    
-      
     }, [recipe_id,refresh])
 
 
     // adding a comment
         const handleCommentPost =async()=>{
-            
                 try {
-                    
                         const data = {
                             recipe_id:recipe_id,
                             comment:postComment,
@@ -196,7 +189,7 @@ const api =useAxios()
       </>}
       <hr />
       <form className="my-6">
-          <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border border-gray-200 ">
               <label htmlFor="comment" className="sr-only">Your comment</label>
               <textarea ref={commentTextFieldRef} id="comment" rows="6"
               value={postComment}

@@ -38,7 +38,8 @@ const navigate = useNavigate()
                 try {
                 //   open a new ws connection
                  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-                const socket = new WebSocket(`${ws_scheme}://bonappetit.website/ws/notifications/?token=${tokens[user ? 'userT' : 'adminT']}`);
+                // const socket = new WebSocket(`${ws_scheme}://bonappetit.website/ws/notifications/?token=${tokens[user ? 'userT' : 'adminT']}`);
+                const socket = new WebSocket(`${ws_scheme}://127.0.0.1:8000/ws/notifications/?token=${tokens[user ? 'userT' : 'adminT']}`);
                 
                 
                 socket.onopen=()=>{
@@ -209,7 +210,7 @@ const showNotification = (message) => {
                                 user ? <>
                                 
                                  <li className="text-gray-800  hover:underline hover:decoration-btnColor p-1 ">
-                                 <NavLink to={'/aboutUs'}className={({ isActive, isPending }) =>
+                                 <NavLink to={'/aboutUs'} className={({ isActive, isPending }) =>
     isPending ? ' bg-newCoral ' : isActive ? 'decoration-btnColor ' : ''}>About Us</NavLink>
                             </li>
                             <li className="text-gray-800 hover:underline hover:decoration-btnColor p-1 cursor-pointer" onClick={()=>setAddmodal(!addModal)}>

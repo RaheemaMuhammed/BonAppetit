@@ -12,7 +12,7 @@ from .emails import send_otp_via_email
 from payment.models import PaymentRequest
 # to handle registration
 
-
+from rest_framework import viewsets
 class Register(APIView):
     def post(self,request):
         try:
@@ -33,7 +33,6 @@ class Register(APIView):
                              'error':serializer.errors
                              
                              })
-
         except Exception as e:
             return Response(
                 {

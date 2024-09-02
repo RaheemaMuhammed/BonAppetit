@@ -69,7 +69,7 @@ const SingleUser = ({user_id,setSingle,single}) => {
       
     </div>
     <div className="flex flex-col items-center pb-10">
-    {data?.profile_pic ?    <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={`${axiosInstance}${data.profile_pic}`} alt=""/>
+    {data?.profile_pic ?    <img className="w-2 h-24 mb-3 rounded-full shadow-lg" src={`${axiosInstance}${data.profile_pic}`} alt=""/>
  : 
 <div className="relative w-10 h-10 overflow-hidden mr-2 bg-gray-100 rounded-full dark:bg-gray-600">
     <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>

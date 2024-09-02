@@ -150,7 +150,7 @@ const navigate = useNavigate()
   Previous
   </button>
  
-   <p className='mt-1'>{active} out of {count}</p>
+      <p className='mt-1'>{active} out of {count}</p>
       <button className={`justify-start  p-1 rounded-md ${active===count ? 'cursor-not-allowed text-gray-500' : 'hover:underline font-semibold'}`} onClick={nextPage} disabled={active===count} >
       Next
     

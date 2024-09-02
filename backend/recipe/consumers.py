@@ -18,7 +18,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             )
 
     async def disconnect(self, close_code):
-        # Remove the user from the channel group on disconnect
+       
         user = self.scope["user"]
         if not user.is_anonymous:
             await self.channel_layer.group_discard(

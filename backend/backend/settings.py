@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -142,7 +142,7 @@ CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("redis", 6379)],
+                "hosts": [("127.0.0.1", 6379)],
             },
         },
     }
@@ -223,5 +223,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.CustomUser'
 MEDIA_URL = '/media/'
-MEDIA_ROOT='/vol/app/media'
+MEDIA_ROOT=BASE_DIR /'media'
+
+# MEDIA_ROOT='/media/'
 CORS_ORIGIN_ALLOW_ALL = True

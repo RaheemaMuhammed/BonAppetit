@@ -145,6 +145,7 @@ class LikeRecipe(APIView):
                         author.save()
                         print(author.wallet,author.uername)
                 except Like.DoesNotExist:
+                        print("hellooo")
                         Like.objects.create(user_id=user,recipe_id=recipe)
                         recipe.total_likes+=1
                         author_id=recipe.author.id
@@ -153,14 +154,13 @@ class LikeRecipe(APIView):
                             author=CustomUser.objects.get(pk=author_id)
                             author.wallet=Decimal(author.wallet)+Decimal('0.05')
                             author.save()
-                            print(author.wallet,author.uername)
                         notification_message=f"{user.username} liked your recipe :{recipe.recipe_name}"
                         Notifications.objects.create(sender=user,recipient=recipe.author,post=recipe,message=notification_message,is_read=False)
                         print('likedd')
 
                         channel_layer=get_channel_layer()
                         author_channel_name=f"user_{recipe.author.id}"
-                        print(author_channel_name)
+                        print(author_channel_name,"_________________")
                         
                     
                         async_to_sync(channel_layer.group_send)(
@@ -173,6 +173,7 @@ class LikeRecipe(APIView):
                                   },
                              },
                         )
+                        print("jjjjjjjjjjjjj")
                        
 
 
